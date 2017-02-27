@@ -78,11 +78,12 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 USB_OBJ usbObj;
 
-volatile uint32_t transmits = 0;
+volatile int transmits = 0;
 volatile long double debounceTime = 0;
-volatile long double timeStamp = 0;
-volatile char writeDataBuffer1[BUFFERSIZE]; //"000000.000000\t000000000000\n"
-volatile char writeDataBuffer2[BUFFERSIZE];
+volatile uint32_t n = 0;
+volatile uint32_t writeDataBuffer1[BUFFERSIZE][1]; //"000000.000000\t000000000000\n"
+volatile uint32_t writeDataBuffer2[BUFFERSIZE][1];
+volatile int bufferindex = 0;
 volatile int currInBuff = 1;
 volatile int currOutBuff = 2;
 volatile bool currentlyPressed = false;
@@ -126,6 +127,7 @@ void APP_Initialize ( void )
     usbObj.deviceIsConnected = false;
     
     initTimer3();
+    initTimer4();
     initOnBoardSwitch();
 }
 
@@ -164,22 +166,30 @@ void addDebounceTime(){
     debounceTime += .005;
 }
 void incTimeStamp(){
-    timeStamp += .00005555;
+    n++;
 }
 void addSample(){
-    char sampStr[27] = "";
-    sprintf(sampStr, "%026f", timeStamp);
-    strcat(sampStr, "\n");
     if(currInBuff == 1 && currOutBuff == 2){
-        strcat((char*)writeDataBuffer1, sampStr);
+        writeDataBuffer1[bufferindex][0] = n;
+        bufferindex++;
     }
     else if(currInBuff == 2 && currOutBuff == 1){
-        strcat((char*)writeDataBuffer2, sampStr);
+        writeDataBuffer2[bufferindex][0] = n;
+        bufferindex++;
     }
     else{ usbObj.state = STATE_ERROR; }
 }
 void togglePress(){
     currentlyPressed = !currentlyPressed;
+}
+void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1]){
+    char temp[27] = "";
+    int row = 0;
+    for(row = 0; row < BUFFERSIZE; row++){
+        sprintf(temp, "%026d", buffer2Conv[row][0]);
+        strcat(temp, "\n");
+        strcat(usbCharBuff, temp);
+    }
 }
 /******************************************************************************
   Function:
@@ -190,6 +200,7 @@ void togglePress(){
  */
 void APP_Tasks ( void )
 {
+    char textBuff[USBBYTES] = "";
     switch(usbObj.state)
     {
         case STATE_BUS_ENABLE:
@@ -255,30 +266,29 @@ void APP_Tasks ( void )
             if(debounceTime >= .005 && !currentlyPressed){ //for debouncing the switch
                 usbObj.state = STATE_IDLE_TESTING;
                 debounceTime = 0;
-                BSP_LEDOn( BSP_RGB_LED_BLUE );
                 BSP_LEDOff( BSP_RGB_LED_RED );
             }
             break;
             
         case STATE_IDLE_TESTING:
-            timer4ON();
             if(debounceTime >= .005 && !currentlyPressed){
                 timer4OFF();
                 usbObj.state = STATE_CLOSE_FILE;
                 debounceTime = 0;
             }
             else{
+                timer4ON();
                 if(currInBuff == 1 && currOutBuff == 2){
-                    if(strlen((char*)writeDataBuffer1) != BUFFERSIZE){
+                    if(bufferindex == BUFFERSIZE){
                         currInBuff = 2; currOutBuff = 1;
-                        memset((char*)writeDataBuffer2, 0, BUFFERSIZE);
+                        bufferindex = 0;
                         usbObj.state = STATE_WRITE_TO_FILE;
                     }
                 }
                 else if(currInBuff == 2 && currOutBuff == 1){
-                    if(strlen((char*)writeDataBuffer2) != BUFFERSIZE){
+                    if(bufferindex == BUFFERSIZE){
                         currInBuff = 1; currOutBuff = 2;
-                        memset((char*)writeDataBuffer1, 0, BUFFERSIZE);
+                        bufferindex = 0;
                         usbObj.state = STATE_WRITE_TO_FILE;
                     }
                 }
@@ -288,12 +298,14 @@ void APP_Tasks ( void )
             
         case STATE_WRITE_TO_FILE:
             if(currInBuff == 1 && currOutBuff == 2){
-                if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) writeDataBuffer2, 3240) == -1){ usbObj.state = STATE_ERROR; }
+                convertValues(textBuff, writeDataBuffer2);
+                if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) textBuff, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
                 else{ usbObj.state = STATE_IDLE_TESTING; }
             }
             else if(currInBuff == 2 && currOutBuff == 1){
-                if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) writeDataBuffer1, 3240) == -1){ usbObj.state = STATE_ERROR; }
-                else{ usbObj.state = STATE_CLOSE_FILE; }
+                convertValues(textBuff, writeDataBuffer1);
+                if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) textBuff, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
+                else{ usbObj.state = STATE_IDLE_TESTING; }
             }
             else{ usbObj.state = STATE_ERROR; }
             break;

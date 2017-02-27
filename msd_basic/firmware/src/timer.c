@@ -3,7 +3,7 @@
 void initTimer3(){ //5msec timer
     T3CONbits.TON = 0;
     TMR3 = 0x0000;
-    PR3 = 62499;    
+    PR3 = 62499;
     T3CONbits.TCKPS = 0b011; //divide 100Mhz -> 12.5MHz
     IFS0bits.T3IF = 0;
     IEC0bits.T3IE = 1; //enable interrupt
@@ -14,11 +14,11 @@ void initTimer3(){ //5msec timer
     LATEbits.LATE1 = 0;
 }
 
-void initTimer4(){ //sampling period timer (for test): 55.55us
+void initTimer4(){ //msec
     T4CONbits.TON = 0;
-    TMR3 = 0x0000;
-    PR3 = 5555;
-    T4CONbits.TCKPS = 0; //100 MHz
+    TMR4 = 0x0000;
+    PR4 = 49999;
+    T4CONbits.TCKPS = 1; //100 MHz -> 50 MHz
     IFS0bits.T4IF = 0;
     IEC0bits.T4IE = 1; //enable interrupt
     /*Interrupt Priorities and Subpriorities for this interrupt vector are set within system_init.c*/

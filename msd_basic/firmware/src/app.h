@@ -70,7 +70,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define FILENAME "/mnt/myDrive1/test.txt"
 #define FILEHEADER "Timestamp\t\tRadarData\n"
 
-#define BUFFERSIZE 3240
+#define BUFFERSIZE 120
+#define USBBYTES (BUFFERSIZE*27)
 // *****************************************************************************
 /* Application States
 
@@ -190,6 +191,7 @@ void addDebounceTime();
 void incTimeStamp();
 void addSample();
 void togglePress();
+void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1]);
 /*******************************************************************************
   Function:
     void APP_Tasks ( void )

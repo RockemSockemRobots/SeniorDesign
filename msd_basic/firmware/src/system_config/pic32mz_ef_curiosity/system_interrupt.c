@@ -86,7 +86,7 @@ void __ISR ( _USB_DMA_VECTOR, IPL4AUTO)  _IntHandlerUSBInstance0_USBDMA ( void )
     DRV_USBHS_Tasks_ISR_USBDMA(sysObj.drvUSBObject);
 }
 
-void __ISR( _TIMER_3_VECTOR, IPL4AUTO) _IntHandlerDebounceTimer(void) { //debouncetimer
+void __ISR( _TIMER_3_VECTOR, IPL6AUTO) _IntHandlerDebounceTimer(void) { //debouncetimer
     IFS0bits.T3IF = 0;
     timer3OFF();
     addDebounceTime();
@@ -94,12 +94,12 @@ void __ISR( _TIMER_3_VECTOR, IPL4AUTO) _IntHandlerDebounceTimer(void) { //deboun
     TMR3 = 0x0000;
 }
 
-void __ISR(_CHANGE_NOTICE_G_VECTOR, IPL4AUTO) _CNInterrupt(void) {
+void __ISR(_CHANGE_NOTICE_G_VECTOR, IPL7AUTO) _CNInterrupt(void) {
     IFS3bits.CNGIF = 0;
     timer3ON(); //delay for debounce
 }
 
-void __ISR( _TIMER_4_VECTOR, IPL4AUTO) _IntHandlerTmr4(void) {
+void __ISR( _TIMER_4_VECTOR, IPL3AUTO) _IntHandlerTmr4(void) {
     IFS0bits.T4IF = 0;
     incTimeStamp();
     addSample();
@@ -109,4 +109,3 @@ void __ISR( _TIMER_4_VECTOR, IPL4AUTO) _IntHandlerTmr4(void) {
 /*******************************************************************************
  End of File
 */
-
