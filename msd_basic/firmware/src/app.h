@@ -70,7 +70,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define FILENAME "/mnt/myDrive1/test.txt"
 #define FILEHEADER "Timestamp\t\tRadarData\n"
 
-#define BUFFERSIZE 120
+#define BUFFERSIZE 128
 #define USBBYTES (BUFFERSIZE*27)
 // *****************************************************************************
 /* Application States
