@@ -81,8 +81,8 @@ USB_OBJ usbObj;
 volatile int transmits = 0;
 volatile long double debounceTime = 0;
 volatile uint32_t n = 0;
-volatile uint32_t writeDataBuffer1[BUFFERSIZE][1]; //"000000.000000\t000000000000\n"
-volatile uint32_t writeDataBuffer2[BUFFERSIZE][1];
+volatile uint32_t radarDataBuffer1[BUFFERSIZE][3]; //"000000.000000\t000000000000\n"
+volatile uint32_t radarDataBuffer2[BUFFERSIZE][3];
 volatile int bufferindex = 0;
 volatile int currInBuff = 1;
 volatile int currOutBuff = 2;
@@ -102,9 +102,35 @@ volatile bool currentlyPressed = false;
 // *****************************************************************************
 // *****************************************************************************
 
-/* TODO:  Add any necessary local functions.
-*/
-
+void addDebounceTime(){
+    debounceTime += .005;
+}
+void incTimeStamp(){
+    n++;
+}
+void addSample(){
+    if(currInBuff == 1 && currOutBuff == 2){
+        radarDataBuffer1[bufferindex][0] = n;
+        bufferindex++;
+    }
+    else if(currInBuff == 2 && currOutBuff == 1){
+        radarDataBuffer2[bufferindex][0] = n;
+        bufferindex++;
+    }
+    else{ usbObj.state = STATE_ERROR; }
+}
+void togglePress(){
+    currentlyPressed = !currentlyPressed;
+}
+void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1]){
+    char temp[27] = "";
+    int row = 0;
+    for(row = 0; row < BUFFERSIZE; row++){
+        sprintf(temp, "%026d", buffer2Conv[row][0]);
+        strcat(temp, "\n");
+        strcat(usbCharBuff, temp);
+    }
+}
 
 // *****************************************************************************
 // *****************************************************************************
@@ -162,35 +188,6 @@ void APP_SYSFSEventHandler(SYS_FS_EVENT event, void * eventData, uintptr_t conte
     }
 }
 
-void addDebounceTime(){
-    debounceTime += .005;
-}
-void incTimeStamp(){
-    n++;
-}
-void addSample(){
-    if(currInBuff == 1 && currOutBuff == 2){
-        writeDataBuffer1[bufferindex][0] = n;
-        bufferindex++;
-    }
-    else if(currInBuff == 2 && currOutBuff == 1){
-        writeDataBuffer2[bufferindex][0] = n;
-        bufferindex++;
-    }
-    else{ usbObj.state = STATE_ERROR; }
-}
-void togglePress(){
-    currentlyPressed = !currentlyPressed;
-}
-void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1]){
-    char temp[27] = "";
-    int row = 0;
-    for(row = 0; row < BUFFERSIZE; row++){
-        sprintf(temp, "%026d", buffer2Conv[row][0]);
-        strcat(temp, "\n");
-        strcat(usbCharBuff, temp);
-    }
-}
 /******************************************************************************
   Function:
     void APP_Tasks ( void )
@@ -298,12 +295,12 @@ void APP_Tasks ( void )
             
         case STATE_WRITE_TO_FILE:
             if(currInBuff == 1 && currOutBuff == 2){
-                convertValues(textBuff, writeDataBuffer2);
+                convertValues(textBuff, radarDataBuffer2);
                 if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) textBuff, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
                 else{ usbObj.state = STATE_IDLE_TESTING; }
             }
             else if(currInBuff == 2 && currOutBuff == 1){
-                convertValues(textBuff, writeDataBuffer1);
+                convertValues(textBuff, radarDataBuffer1);
                 if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) textBuff, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
                 else{ usbObj.state = STATE_IDLE_TESTING; }
             }
