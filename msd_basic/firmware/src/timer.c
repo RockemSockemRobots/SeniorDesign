@@ -24,18 +24,31 @@ void initTimer4(){ //msec
     /*Interrupt Priorities and Subpriorities for this interrupt vector are set within system_init.c*/
 }
 
+void initTimer5(){ //ADC trigger timer (sample timer): 55.55us
+    T5CONbits.TON = 0;
+    TMR5 = 0x0000;
+    PR5 = 5554;
+    T5CONbits.TCKPS = 0; //100 MHz
+    IFS0bits.T5IF = 0;
+}
+
 void timer3ON(){
     T3CONbits.TON = 1;
 }
 void timer3OFF(){
     T3CONbits.TON = 0;
 }
-
 void timer4ON(){
     T4CONbits.TON = 1;
 }
 void timer4OFF(){
     T4CONbits.TON = 0;
+}
+void timer5ON(){
+    T5CONbits.TON = 1;
+}
+void timer5OFF(){
+    T5CONbits.TON = 0;
 }
 
 void delay5ms(){

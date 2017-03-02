@@ -1,6 +1,14 @@
 #include "adc.h"
 
 void configureADCs(){
+    /* Copying values per datasheet spec */
+    ADC0CFG = DEVADC0;
+    ADC1CFG = DEVADC1;
+    ADC2CFG = DEVADC2;
+    ADC3CFG = DEVADC3;
+    ADC4CFG = DEVADC4;
+    ADC7CFG = DEVADC7;
+    
     /* Configure ADCCON1 */
     ADCCON1 = 0; // No ADCCON1 features are enabled including: Stop-in-Idle, turbo,
                 // CVD mode, Fractional mode and scan trigger source.
@@ -83,14 +91,16 @@ void configureADCs(){
     ADCTRGSNSbits.LVL0 = 0; // Edge trigger
     ADCTRGSNSbits.LVL1 = 0; // Edge trigger
     ADCTRGSNSbits.LVL2 = 0; // Edge trigger
-    ADCTRG1bits.TRGSRC0 = 1; // Set AN0 to trigger from software.
-    ADCTRG1bits.TRGSRC1 = 1; // Set AN1 to trigger from software.
-    ADCTRG1bits.TRGSRC2 = 1; // Set AN2 to trigger from software.
+    //ADCTRG1bits.TRGSRC0 = 0b00111; // Set AN0 to trigger from Timer5.
+    ADCTRG1bits.TRGSRC1 = 0b00111; // Set AN1 to trigger from Timer5. //this gonna work?
+    ADCTRG1bits.TRGSRC2 = 0b00111; // Set AN2 to trigger from Timer5.
+    ADCTRG1bits.TRGSRC3 = 0b00111; // Set AN3 to trigger from Timer5.
+    ADCTRG2bits.TRGSRC4 = 0b00111; // Set AN4 to trigger from Timer5.
     
     /* Early interrupt */
     ADCEIEN1 = 0; // No early interrupt
     ADCEIEN2 = 0;
-    ADCCON2bits.ADCEIOVR = 1; // Override early interrupt
+//    ADCCON2bits.ADCEIOVR = 1; // Override early interrupt
     
     /* Turn the ADC on */
     ADCCON1bits.ON = 1;
@@ -106,9 +116,11 @@ void configureADCs(){
     while(!ADCANCONbits.WKRDY1); // Wait until ADC1 is ready
     while(!ADCANCONbits.WKRDY2); // Wait until ADC2 is ready
     /* Enable the ADC module */
-    ADCCON3bits.DIGEN0 = 1; // Enable ADC0
+//    ADCCON3bits.DIGEN0 = 1; // Enable ADC0
     ADCCON3bits.DIGEN1 = 1; // Enable ADC1
     ADCCON3bits.DIGEN2 = 1; // Enable ADC2
+    ADCCON3bits.DIGEN3 = 1; // Enable ADC3
+    ADCCON3bits.DIGEN4 = 1; // Enable ADC4
     /* Trigger a conversion */
-    ADCCON3bits.GSWTRG = 1;
+//    ADCCON3bits.GSWTRG = 1;
 }
