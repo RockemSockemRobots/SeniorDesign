@@ -10,12 +10,15 @@ void configureADCs(){
     ADC7CFG = DEVADC7;
     
     /* Configure ADCCON1 */
-    ADCCON1 = 0; // No ADCCON1 features are enabled including: Stop-in-Idle, turbo,
-                // CVD mode, Fractional mode and scan trigger source.
+    ADCCON1 = 0;
+    ADCCON1bits.SELRES = 0b11; //12-bit resolution
+    ADCCON1bits.STRGSRC = 0b00111; //Timer5 trigger source
+    ADCCON1bits.STRGLVL = 0;
     
     /* Configure ADCCON2 */
-    ADCCON2 = 0; // Since, we are using only the Class 1 inputs, no setting is
-                // required for ADCDIV
+    ADCCON2 = 0;
+    ADCCON2bits.EOSIEN = 1; //Interrupt when scan finished -> what does this do exactly?
+    ADCCON2bits.SAMC = 5; //ADC7 sampling time = 5 * TAD7 (does this need to be 18kHz??)
     
     /* Initialize warm up time register */
     ADCANCON = 0;
@@ -23,28 +26,39 @@ void configureADCs(){
     
     /* Clock setting */
     ADCCON3 = 0;
-    ADCCON3bits.ADCSEL = 0; // Select input clock source
-    ADCCON3bits.CONCLKDIV = 1; // Control clock frequency is half of input clock
+    ADCCON3bits.ADCSEL = 1; // T_CLK = 1/PBCLK3 (1/100M) -> 10ns
+    ADCCON3bits.CONCLKDIV = (5-1); // T_Q = 5*T_CLK -> 50ns
+    ADCCON2bits.ADCDIV = 1; //2*T_Q = T_AD7 -> 100ns
     ADCCON3bits.VREFSEL = 0; // Select AVDD and AVSS as reference source
     
+    
     /* Select ADC sample time and conversion clock */
-    ADC0TIMEbits.ADCDIV = 1; // ADC0 clock frequency is half of control clock = TAD0
-    ADC0TIMEbits.SAMC = 5; // ADC0 sampling time = 5 * TAD0
-    ADC0TIMEbits.SELRES = 3; // ADC0 resolution is 12 bits
-    ADC1TIMEbits.ADCDIV = 1; // ADC1 clock frequency is half of control clock = TAD1
+//    ADC0TIMEbits.ADCDIV = 1; // ADC0 clock frequency is half of control clock = TAD0
+//    ADC0TIMEbits.SAMC = 5; // ADC0 sampling time = 5 * TAD0
+//    ADC0TIMEbits.SELRES = 3; // ADC0 resolution is 12 bits
+    ADC1TIMEbits.ADCDIV = 1; // ADC1 clock frequency is half of control clock = TAD1 -> 100ns
     ADC1TIMEbits.SAMC = 5; // ADC1 sampling time = 5 * TAD1
     ADC1TIMEbits.SELRES = 3; // ADC1 resolution is 12 bits
-    ADC2TIMEbits.ADCDIV = 1; // ADC2 clock frequency is half of control clock = TAD2
+    ADC2TIMEbits.ADCDIV = 1; // ADC2 clock frequency is half of control clock = TAD2 -> 100ns
     ADC2TIMEbits.SAMC = 5; // ADC2 sampling time = 5 * TAD2
     ADC2TIMEbits.SELRES = 3; // ADC2 resolution is 12 bits
+    ADC3TIMEbits.ADCDIV = 1; // ADC3 clock frequency is half of control clock = TAD3 -> 100ns
+    ADC3TIMEbits.SAMC = 5; // ADC3 sampling time = 5 * TAD3
+    ADC3TIMEbits.SELRES = 3; // ADC3 resolution is 12 bits
+    ADC4TIMEbits.ADCDIV = 1; // ADC4 clock frequency is half of control clock = TAD4 -> 100ns
+    ADC4TIMEbits.SAMC = 5; // ADC4 sampling time = 5 * TAD4
+    ADC4TIMEbits.SELRES = 3; // ADC4 resolution is 12 bits
     
     /* Select analog input for ADC modules, no presync trigger, not sync sampling */
     //ADCTRGMODEbits.SH0ALT = 0; // ADC0 = AN0 NOT AVAILABLE! on this dev board
-    ADCTRGMODEbits.SH1ALT = 1; // ADC1 = AN46
+    ADCTRGMODEbits.SH1ALT = 1; // ADC1 = AN46   
     ADCTRGMODEbits.SH2ALT = 0; // ADC2 = AN2
     ADCTRGMODEbits.SH3ALT = 0; // ADC3 = AN3
     ADCTRGMODEbits.SH4ALT = 0; // ADC4 = AN4
-    
+    ADCTRGMODEbits.STRGEN1 = 1; //presync triggers
+    ADCTRGMODEbits.STRGEN2 = 1;
+    ADCTRGMODEbits.STRGEN3 = 1;
+    ADCTRGMODEbits.STRGEN4 = 1;
     
     /* Select ADC input mode */
     ADCIMCON1bits.SIGN1 = 0; // unsigned data format
@@ -55,6 +69,8 @@ void configureADCs(){
     ADCIMCON1bits.DIFF3 = 0; // Single ended mode
     ADCIMCON1bits.SIGN4 = 0; // unsigned data format
     ADCIMCON1bits.DIFF4 = 0; // Single ended mode
+    ADCIMCON1bits.SIGN10 = 0; // unsigned data format
+    ADCIMCON1bits.DIFF10 = 0; // Single ended mode
     
     /* Configure ADCGIRQENx */
     ADCGIRQEN1 = 0;
@@ -68,8 +84,9 @@ void configureADCs(){
     //ADCCON1bits.IRQVS = 0; // No left shift of address
     
     /* Configure ADCCSSx */
-    ADCCSS1 = 0; // No scanning is used
+    ADCCSS1 = 0;
     ADCCSS2 = 0;
+    ADCCSS1bits.CSS10 = 1; //get AN10 (RB15)
     
     /* Configure ADCCMPCONx */
     ADCCMPCON1 = 0; // No digital comparators are used. Setting the ADCCMPCONx
@@ -88,19 +105,23 @@ void configureADCs(){
     ADCFLTR6 = 0;
     
     /* Set up the trigger sources */
-    ADCTRGSNSbits.LVL0 = 0; // Edge trigger
+//    ADCTRGSNSbits.LVL0 = 0; // Edge trigger
     ADCTRGSNSbits.LVL1 = 0; // Edge trigger
     ADCTRGSNSbits.LVL2 = 0; // Edge trigger
+    ADCTRGSNSbits.LVL3 = 0;
+    ADCTRGSNSbits.LVL4 = 0;
+    ADCTRGSNSbits.LVL10 = 0;
     //ADCTRG1bits.TRGSRC0 = 0b00111; // Set AN0 to trigger from Timer5.
-    ADCTRG1bits.TRGSRC1 = 0b00111; // Set AN1 to trigger from Timer5. //this gonna work?
+    ADCTRG1bits.TRGSRC1 = 0b00111; // Set AN1 to trigger from Timer5.
     ADCTRG1bits.TRGSRC2 = 0b00111; // Set AN2 to trigger from Timer5.
     ADCTRG1bits.TRGSRC3 = 0b00111; // Set AN3 to trigger from Timer5.
     ADCTRG2bits.TRGSRC4 = 0b00111; // Set AN4 to trigger from Timer5.
+    ADCTRG2bits.TRGSRC7 = 0b00111; // Set AN10 to trigger from Timer5.
     
     /* Early interrupt */
     ADCEIEN1 = 0; // No early interrupt
     ADCEIEN2 = 0;
-//    ADCCON2bits.ADCEIOVR = 1; // Override early interrupt
+    ADCCON2bits.ADCEIOVR = 1; // Override early interrupt //do we need this line? -> what is this doing exactly?
     
     /* Turn the ADC on */
     ADCCON1bits.ON = 1;
@@ -108,19 +129,26 @@ void configureADCs(){
     while(!ADCCON2bits.BGVRRDY); // Wait until the reference voltage is ready
     while(ADCCON2bits.REFFLT); // Wait if there is a fault with the reference voltage
     /* Enable clock to analog circuit */
-    ADCANCONbits.ANEN0 = 1; // Enable the clock to analog bias and digital control
+//    ADCANCONbits.ANEN0 = 1; // Enable the clock to analog bias and digital control
     ADCANCONbits.ANEN1 = 1; // Enable the clock to analog bias and digital control
     ADCANCONbits.ANEN2 = 1; // Enable the clock to analog bias and digital control
+    ADCANCONbits.ANEN3 = 1; // Enable the clock to analog bias and digital control
+    ADCANCONbits.ANEN4 = 1; // Enable the clock to analog bias and digital control
+    ADCANCONbits.ANEN7 = 1; // Enable the clock to analog bias and digital control
     /* Wait for ADC to be ready */
-    while(!ADCANCONbits.WKRDY0); // Wait until ADC0 is ready
+//    while(!ADCANCONbits.WKRDY0); // Wait until ADC0 is ready
     while(!ADCANCONbits.WKRDY1); // Wait until ADC1 is ready
     while(!ADCANCONbits.WKRDY2); // Wait until ADC2 is ready
+    while(!ADCANCONbits.WKRDY3); // Wait until ADC3 is ready
+    while(!ADCANCONbits.WKRDY4); // Wait until ADC4 is ready
+    while(!ADCANCONbits.WKRDY7); // Wait until ADC7 is ready
     /* Enable the ADC module */
 //    ADCCON3bits.DIGEN0 = 1; // Enable ADC0
     ADCCON3bits.DIGEN1 = 1; // Enable ADC1
     ADCCON3bits.DIGEN2 = 1; // Enable ADC2
     ADCCON3bits.DIGEN3 = 1; // Enable ADC3
     ADCCON3bits.DIGEN4 = 1; // Enable ADC4
+    ADCCON3bits.DIGEN7 = 1; // Enable ADC7 (shared adc)
     /* Trigger a conversion */
 //    ADCCON3bits.GSWTRG = 1;
 }

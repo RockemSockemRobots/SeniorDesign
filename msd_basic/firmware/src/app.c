@@ -154,6 +154,7 @@ void APP_Initialize ( void )
     
     initTimer3();
     initTimer4();
+    initTimer5();
     initOnBoardSwitch();
 }
 
