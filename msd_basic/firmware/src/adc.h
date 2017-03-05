@@ -15,6 +15,7 @@ extern "C" {
 #endif
 
     void configureADCs();
+    void testADCs();
 
 
 #ifdef	__cplusplus

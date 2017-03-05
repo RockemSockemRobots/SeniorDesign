@@ -30,6 +30,7 @@ void initTimer5(){ //ADC trigger timer (sample timer): 55.55us
     PR5 = 5554;
     T5CONbits.TCKPS = 0; //100 MHz
     IFS0bits.T5IF = 0;
+    IEC0bits.T5IE = 0;
 }
 
 void timer3ON(){

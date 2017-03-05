@@ -82,9 +82,11 @@ int main ( void )
     {
         //testTimer3();
         /* Maintain state machines of all polled MPLAB Harmony modules. */
-        SYS_Tasks ( );
+        //SYS_Tasks ( );
         /* Maintain the application's state machine. */
-        APP_Tasks();
+        //APP_Tasks();
+        testADCs();
+        while(1){}
     }
 
     /* Execution should not come here during normal operation */

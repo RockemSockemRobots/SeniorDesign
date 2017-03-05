@@ -1,4 +1,5 @@
 #include "adc.h"
+#include "bsp.h"
 
 void configureADCs(){
     /* Copying values per datasheet spec */
@@ -12,13 +13,13 @@ void configureADCs(){
     /* Configure ADCCON1 */
     ADCCON1 = 0;
     ADCCON1bits.SELRES = 0b11; //12-bit resolution
-    ADCCON1bits.STRGSRC = 0b00111; //Timer5 trigger source
+    ADCCON1bits.STRGSRC = 1; //ADC7 triggered in software (edge)
     ADCCON1bits.STRGLVL = 0;
     
     /* Configure ADCCON2 */
     ADCCON2 = 0;
     ADCCON2bits.EOSIEN = 1; //Interrupt when scan finished -> what does this do exactly?
-    ADCCON2bits.SAMC = 5; //ADC7 sampling time = 5 * TAD7 (does this need to be 18kHz??)
+    ADCCON2bits.SAMC = 5; //ADC7 sampling time = 5 * TAD7 -> 500ns
     
     /* Initialize warm up time register */
     ADCANCON = 0;
@@ -37,16 +38,16 @@ void configureADCs(){
 //    ADC0TIMEbits.SAMC = 5; // ADC0 sampling time = 5 * TAD0
 //    ADC0TIMEbits.SELRES = 3; // ADC0 resolution is 12 bits
     ADC1TIMEbits.ADCDIV = 1; // ADC1 clock frequency is half of control clock = TAD1 -> 100ns
-    ADC1TIMEbits.SAMC = 5; // ADC1 sampling time = 5 * TAD1
+    ADC1TIMEbits.SAMC = 555; // ADC1 sampling time = 555 * TAD1 -> 55.5us
     ADC1TIMEbits.SELRES = 3; // ADC1 resolution is 12 bits
     ADC2TIMEbits.ADCDIV = 1; // ADC2 clock frequency is half of control clock = TAD2 -> 100ns
-    ADC2TIMEbits.SAMC = 5; // ADC2 sampling time = 5 * TAD2
+    ADC2TIMEbits.SAMC = 555; // ADC2 sampling time = 555 * TAD2 -> 55.5us
     ADC2TIMEbits.SELRES = 3; // ADC2 resolution is 12 bits
     ADC3TIMEbits.ADCDIV = 1; // ADC3 clock frequency is half of control clock = TAD3 -> 100ns
-    ADC3TIMEbits.SAMC = 5; // ADC3 sampling time = 5 * TAD3
+    ADC3TIMEbits.SAMC = 555; // ADC3 sampling time = 555 * TAD3 -> 55.5us
     ADC3TIMEbits.SELRES = 3; // ADC3 resolution is 12 bits
     ADC4TIMEbits.ADCDIV = 1; // ADC4 clock frequency is half of control clock = TAD4 -> 100ns
-    ADC4TIMEbits.SAMC = 5; // ADC4 sampling time = 5 * TAD4
+    ADC4TIMEbits.SAMC = 555; // ADC4 sampling time = 555 * TAD4 -> 55.5us
     ADC4TIMEbits.SELRES = 3; // ADC4 resolution is 12 bits
     
     /* Select analog input for ADC modules, no presync trigger, not sync sampling */
@@ -116,7 +117,7 @@ void configureADCs(){
     ADCTRG1bits.TRGSRC2 = 0b00111; // Set AN2 to trigger from Timer5.
     ADCTRG1bits.TRGSRC3 = 0b00111; // Set AN3 to trigger from Timer5.
     ADCTRG2bits.TRGSRC4 = 0b00111; // Set AN4 to trigger from Timer5.
-    ADCTRG2bits.TRGSRC7 = 0b00111; // Set AN10 to trigger from Timer5.
+    ADCTRG2bits.TRGSRC7 = 1; // Set AN10 to triggered in software. (Do I need to set this again?)
     
     /* Early interrupt */
     ADCEIEN1 = 0; // No early interrupt
@@ -149,6 +150,14 @@ void configureADCs(){
     ADCCON3bits.DIGEN3 = 1; // Enable ADC3
     ADCCON3bits.DIGEN4 = 1; // Enable ADC4
     ADCCON3bits.DIGEN7 = 1; // Enable ADC7 (shared adc)
+}
+
+void testADCs(){
     /* Trigger a conversion */
-//    ADCCON3bits.GSWTRG = 1;
+    ADCCON3bits.GSWTRG = 1;
+    
+    while(!ADCDSTAT1bits.ARDY10){}
+    if(ADCDATA10 > 0){
+        BSP_LEDOn( BSP_RGB_LED_GREEN );
+    }
 }

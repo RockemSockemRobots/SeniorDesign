@@ -81,8 +81,8 @@ USB_OBJ usbObj;
 volatile int transmits = 0;
 volatile long double debounceTime = 0;
 volatile uint32_t n = 0;
-volatile uint32_t radarDataBuffer1[BUFFERSIZE][3]; //"000000.000000\t000000000000\n"
-volatile uint32_t radarDataBuffer2[BUFFERSIZE][3];
+volatile uint32_t radarDataBuffer1[BUFFERSIZE][1+(NUM_RX_CHANNELS*2)]; //"000000.000000\t000000000000\n"
+volatile uint32_t radarDataBuffer2[BUFFERSIZE][1+(NUM_RX_CHANNELS*2)];
 volatile int bufferindex = 0;
 volatile int currInBuff = 1;
 volatile int currOutBuff = 2;
@@ -122,12 +122,11 @@ void addSample(){
 void togglePress(){
     currentlyPressed = !currentlyPressed;
 }
-void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1]){
+void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_CHANNELS*2)]){
     char temp[27] = "";
     int row = 0;
     for(row = 0; row < BUFFERSIZE; row++){
-        sprintf(temp, "%026d", buffer2Conv[row][0]);
-        strcat(temp, "\n");
+        sprintf(temp, "%026d\n", buffer2Conv[row][0]);
         strcat(usbCharBuff, temp);
     }
 }
@@ -155,6 +154,7 @@ void APP_Initialize ( void )
     initTimer3();
     initTimer4();
     initTimer5();
+    configureADCs();
     initOnBoardSwitch();
 }
 

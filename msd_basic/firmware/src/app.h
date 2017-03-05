@@ -72,6 +72,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 #define BUFFERSIZE 128
 #define USBBYTES (BUFFERSIZE*27)
+#define NUM_RX_CHANNELS 2
 // *****************************************************************************
 /* Application States
 
@@ -191,7 +192,7 @@ void addDebounceTime();
 void incTimeStamp();
 void addSample();
 void togglePress();
-void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1]);
+void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_CHANNELS*2)]);
 /*******************************************************************************
   Function:
     void APP_Tasks ( void )
