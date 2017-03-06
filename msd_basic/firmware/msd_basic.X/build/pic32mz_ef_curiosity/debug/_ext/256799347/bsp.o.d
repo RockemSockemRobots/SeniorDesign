@@ -1,7 +1,6 @@
-build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o:  \
-../src/adc.c  \
- ../src/adc.h  \
-../src/system_config/pic32mz_ef_curiosity/bsp/bsp.h  \
+build/pic32mz_ef_curiosity/debug/_ext/256799347/bsp.o:  \
+ ../src/system_config/pic32mz_ef_curiosity/bsp/bsp.c  \
+ ../src/system_config/pic32mz_ef_curiosity/bsp/bsp.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/plib_ports.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/processor/ports_processor.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/processor/ports_p32xxxx.h  \
@@ -32,5 +31,4 @@ build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o:  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/processor/../templates/ports_ChannelChangeNoticeMethod_Default.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/processor/../templates/ports_ChangeNoticeEdgeControl_Default.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/processor/../templates/ports_ChangeNoticeEdgeStatus_Default.h  \
- ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/plib_ports_compatibility.h  \
- ../src/system_config/pic32mz_ef_curiosity/system_config.h 
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/plib_ports_compatibility.h 

@@ -1,7 +1,9 @@
-build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o:  \
-../src/adc.c  \
- ../src/adc.h  \
-../src/system_config/pic32mz_ef_curiosity/bsp/bsp.h  \
+build/pic32mz_ef_curiosity/debug/_ext/106150384/diskio.o:  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/system/fs/diskio.c  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/system/fs/fat_fs/src/hardware_access/diskio.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/system/fs/fat_fs/src/file_system/ff.h  \
+ ../src/system_config/pic32mz_ef_curiosity/system_config.h  \
+ ../src/system_config/pic32mz_ef_curiosity/bsp/bsp.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/plib_ports.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/processor/ports_processor.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/processor/ports_p32xxxx.h  \
@@ -33,4 +35,9 @@ build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o:  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/processor/../templates/ports_ChangeNoticeEdgeControl_Default.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/processor/../templates/ports_ChangeNoticeEdgeStatus_Default.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/plib_ports_compatibility.h  \
- ../src/system_config/pic32mz_ef_curiosity/system_config.h 
+ ../src/system_config/pic32mz_ef_curiosity/framework/system/fs/fat_fs/src/file_system/ffconf.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/system/fs/sys_fs.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/system/fs/sys_fs_media_manager.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/driver/driver_common.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/system/common/sys_module.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/system/common/sys_common.h 

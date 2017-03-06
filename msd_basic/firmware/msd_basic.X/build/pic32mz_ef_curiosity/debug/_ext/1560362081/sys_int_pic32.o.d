@@ -1,7 +1,8 @@
-build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o:  \
-../src/adc.c  \
- ../src/adc.h  \
-../src/system_config/pic32mz_ef_curiosity/bsp/bsp.h  \
+build/pic32mz_ef_curiosity/debug/_ext/1560362081/sys_int_pic32.o:  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/system/int/src/sys_int_pic32.c  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/system/int/sys_int.h  \
+ ../src/system_config/pic32mz_ef_curiosity/system_config.h  \
+ ../src/system_config/pic32mz_ef_curiosity/bsp/bsp.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/plib_ports.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/processor/ports_processor.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/processor/ports_p32xxxx.h  \
@@ -33,4 +34,26 @@ build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o:  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/processor/../templates/ports_ChangeNoticeEdgeControl_Default.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/processor/../templates/ports_ChangeNoticeEdgeStatus_Default.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/ports/plib_ports_compatibility.h  \
- ../src/system_config/pic32mz_ef_curiosity/system_config.h 
+ ../src/system_config/pic32mz_ef_curiosity/framework/system/common/sys_common.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/system/common/sys_module.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/plib_int.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/int_processor.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/int_p32xxxx.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/plib_int_private_pic32.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/int_p32mz2048efm100.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_SingleVectorShadowSet_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_VectorSelect_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_ProximityTimerEnable_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_ProximityTimerControl_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_ExternalINTEdgeSelect_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_INTCPUPriority_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_INTCPUVector_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_SourceFlag_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_SourceControl_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_VectorPriority_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_CPUCurrentPriorityLevel_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_EnableControl_PIC32.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_ShadowRegisterAssign_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_VariableOffset_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/../templates/int_SoftwareNMI_Default.h  \
+ ../src/system_config/pic32mz_ef_curiosity/framework/system/int/sys_int_mapping.h 

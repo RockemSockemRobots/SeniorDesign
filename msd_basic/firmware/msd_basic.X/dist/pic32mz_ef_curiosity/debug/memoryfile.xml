@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <project>                                  
-  <executable name="dist/pic32mz_ef_curiosity/production/msd_basic.X.production.elf">                 
+  <executable name="dist/pic32mz_ef_curiosity/debug/msd_basic.X.debug.elf">                 
     <memory name="program">                 
       <units>bytes</units>                 
       <length>2098304</length>                 
-      <used>65320</used>                     
-      <free>2032984</free>                     
+      <used>64808</used>                     
+      <free>2033496</free>                     
     </memory>                              
     <memory name="data">              
       <units>bytes</units>                 
-      <length>524288</length>                 
-      <used>15196</used>                     
-      <free>509092</free>                     
+      <length>525184</length>                 
+      <used>16988</used>                     
+      <free>508196</free>                     
     </memory>                              
   </executable>                            
 </project>                                 

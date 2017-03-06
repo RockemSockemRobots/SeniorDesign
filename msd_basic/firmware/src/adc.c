@@ -1,7 +1,9 @@
 #include "adc.h"
-#include "bsp.h"
 
 void configureADCs(){
+    TRISBbits.TRISB15 = 1;
+    CNPUBbits.CNPUB15 = 0;
+    ANSELBbits.ANSB15 = 1;
     /* Copying values per datasheet spec */
     ADC0CFG = DEVADC0;
     ADC1CFG = DEVADC1;
@@ -12,14 +14,15 @@ void configureADCs(){
     
     /* Configure ADCCON1 */
     ADCCON1 = 0;
-    ADCCON1bits.SELRES = 0b11; //12-bit resolution
-    ADCCON1bits.STRGSRC = 1; //ADC7 triggered in software (edge)
-    ADCCON1bits.STRGLVL = 0;
+    ADCCON1bits.SELRES = 3; //12-bit resolution
+    ADCCON1bits.STRGSRC = 0;
+    //ADCCON1bits.STRGLVL = 0;
     
     /* Configure ADCCON2 */
     ADCCON2 = 0;
-    ADCCON2bits.EOSIEN = 1; //Interrupt when scan finished -> what does this do exactly?
+    //ADCCON2bits.EOSIEN = 1; //Interrupt when scan finished -> what does this do exactly?
     ADCCON2bits.SAMC = 5; //ADC7 sampling time = 5 * TAD7 -> 500ns
+    ADCCON2bits.ADCDIV = 1; //2*T_Q = T_AD7 -> 100ns
     
     /* Initialize warm up time register */
     ADCANCON = 0;
@@ -29,7 +32,6 @@ void configureADCs(){
     ADCCON3 = 0;
     ADCCON3bits.ADCSEL = 1; // T_CLK = 1/PBCLK3 (1/100M) -> 10ns
     ADCCON3bits.CONCLKDIV = (5-1); // T_Q = 5*T_CLK -> 50ns
-    ADCCON2bits.ADCDIV = 1; //2*T_Q = T_AD7 -> 100ns
     ADCCON3bits.VREFSEL = 0; // Select AVDD and AVSS as reference source
     
     
@@ -77,8 +79,10 @@ void configureADCs(){
     ADCGIRQEN1 = 0;
     ADCGIRQEN2 = 0;
 //    ADCGIRQEN1bits.AGIEN0 = 1; // Enable data ready interrupt for AN0
-//    ADCGIRQEN1bits.AGIEN1 = 1; // Enable data ready interrupt for AN1
-//    ADCGIRQEN1bits.AGIEN2 = 1; // Enable data ready interrupt for AN2
+    ADCGIRQEN1bits.AGIEN1 = 1; // Enable data ready interrupt for AN1
+    ADCGIRQEN1bits.AGIEN2 = 1; // Enable data ready interrupt for AN2
+    ADCGIRQEN1bits.AGIEN3 = 1; // Enable data ready interrupt for AN3
+    ADCGIRQEN1bits.AGIEN4 = 1; // Enable data ready interrupt for AN4
     
     /* Configure ADBASE */
     //ADCBASE = (int)(&jumpTable[0]); // Initialize ADCBASE with starting address of jump table
@@ -87,7 +91,6 @@ void configureADCs(){
     /* Configure ADCCSSx */
     ADCCSS1 = 0;
     ADCCSS2 = 0;
-    ADCCSS1bits.CSS10 = 1; //get AN10 (RB15)
     
     /* Configure ADCCMPCONx */
     ADCCMPCON1 = 0; // No digital comparators are used. Setting the ADCCMPCONx
@@ -117,12 +120,12 @@ void configureADCs(){
     ADCTRG1bits.TRGSRC2 = 0b00111; // Set AN2 to trigger from Timer5.
     ADCTRG1bits.TRGSRC3 = 0b00111; // Set AN3 to trigger from Timer5.
     ADCTRG2bits.TRGSRC4 = 0b00111; // Set AN4 to trigger from Timer5.
-    ADCTRG2bits.TRGSRC7 = 1; // Set AN10 to triggered in software. (Do I need to set this again?)
+    ADCTRG3bits.TRGSRC10 = 1; // Set AN10 to triggered in software.
     
     /* Early interrupt */
     ADCEIEN1 = 0; // No early interrupt
     ADCEIEN2 = 0;
-    ADCCON2bits.ADCEIOVR = 1; // Override early interrupt //do we need this line? -> what is this doing exactly?
+//    ADCCON2bits.ADCEIOVR = 1; // Override early interrupt //do we need this line? -> what is this doing exactly?
     
     /* Turn the ADC on */
     ADCCON1bits.ON = 1;
@@ -149,15 +152,5 @@ void configureADCs(){
     ADCCON3bits.DIGEN2 = 1; // Enable ADC2
     ADCCON3bits.DIGEN3 = 1; // Enable ADC3
     ADCCON3bits.DIGEN4 = 1; // Enable ADC4
-    ADCCON3bits.DIGEN7 = 1; // Enable ADC7 (shared adc)
-}
-
-void testADCs(){
-    /* Trigger a conversion */
-    ADCCON3bits.GSWTRG = 1;
-    
-    while(!ADCDSTAT1bits.ARDY10){}
-    if(ADCDATA10 > 0){
-        BSP_LEDOn( BSP_RGB_LED_GREEN );
-    }
+    ADCCON3bits.DIGEN7 = 1; // Enable ADC7
 }

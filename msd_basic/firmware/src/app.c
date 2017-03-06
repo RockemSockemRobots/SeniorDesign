@@ -111,6 +111,7 @@ void incTimeStamp(){
 void addSample(){
     if(currInBuff == 1 && currOutBuff == 2){
         radarDataBuffer1[bufferindex][0] = n;
+        //radarDataBuffer1[bufferindex][1] = 
         bufferindex++;
     }
     else if(currInBuff == 2 && currOutBuff == 1){

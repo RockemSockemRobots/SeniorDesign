@@ -99,13 +99,16 @@ void __ISR(_CHANGE_NOTICE_G_VECTOR, IPL7AUTO) _CNInterrupt(void) {
     timer3ON(); //delay for debounce
 }
 
-void __ISR( _TIMER_4_VECTOR, IPL3AUTO) _IntHandlerTmr4(void) {
+void __ISR( _TIMER_4_VECTOR, IPL3AUTO) _IntHandlerTmr4(void) { //older test
     IFS0bits.T4IF = 0;
-    incTimeStamp();
-    addSample();
+    //incTimeStamp(); 
+    //addSample();
     TMR4 = 0x0000;
 }
- 
+
+void __ISR( _ADC_VECTOR, IPL3AUTO) _IntHandlerADCDataReady(void){
+    addSample();
+}
 /*******************************************************************************
  End of File
 */
