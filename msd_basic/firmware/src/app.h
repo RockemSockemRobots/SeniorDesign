@@ -193,6 +193,7 @@ void incTimeStamp();
 void addSample();
 void togglePress();
 void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_CHANNELS*2)]);
+void error();
 /*******************************************************************************
   Function:
     void APP_Tasks ( void )

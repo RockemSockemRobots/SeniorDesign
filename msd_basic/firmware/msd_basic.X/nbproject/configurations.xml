@@ -88,6 +88,7 @@
                     <itemPath>../src/system_config/pic32mz_ef_curiosity/framework/peripheral/adchs/templates/adchs_ScanEnable_Unsupported.h</itemPath>
                   </logicalFolder>
                   <itemPath>../src/system_config/pic32mz_ef_curiosity/framework/peripheral/adchs/plib_adchs.h</itemPath>
+                  <itemPath>../src/system_config/pic32mz_ef_curiosity/framework/peripheral/adchs/drv_adc_static.h</itemPath>
                 </logicalFolder>
                 <logicalFolder name="f3" displayName="adcp" projectFiles="true">
                   <logicalFolder name="f1" displayName="processor" projectFiles="true">
@@ -1261,6 +1262,9 @@
                     </logicalFolder>
                   </logicalFolder>
                 </logicalFolder>
+              </logicalFolder>
+              <logicalFolder name="f4" displayName="peripheral" projectFiles="true">
+                <itemPath>../src/system_config/pic32mz_ef_curiosity/framework/peripheral/adchs/drv_adc_static.c</itemPath>
               </logicalFolder>
               <logicalFolder name="f1" displayName="system" projectFiles="true">
                 <logicalFolder name="f1" displayName="clk" projectFiles="true">

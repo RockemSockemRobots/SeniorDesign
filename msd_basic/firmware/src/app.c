@@ -105,17 +105,23 @@ volatile bool currentlyPressed = false;
 void addDebounceTime(){
     debounceTime += .005;
 }
-void incTimeStamp(){
-    n++;
-}
 void addSample(){
+    BSP_LEDOn( APP_USB_LED_1 );
+    n++;
     if(currInBuff == 1 && currOutBuff == 2){
         radarDataBuffer1[bufferindex][0] = n;
-        //radarDataBuffer1[bufferindex][1] = 
+        radarDataBuffer1[bufferindex][1] = ADCDATA1; //ADCDATA1bits.DATA; <- what is this BS??
+        radarDataBuffer1[bufferindex][2] = ADCDATA2;
+        radarDataBuffer1[bufferindex][3] = ADCDATA3;
+        radarDataBuffer1[bufferindex][4] = ADCDATA4;
         bufferindex++;
     }
     else if(currInBuff == 2 && currOutBuff == 1){
         radarDataBuffer2[bufferindex][0] = n;
+        radarDataBuffer2[bufferindex][1] = ADCDATA1;
+        radarDataBuffer2[bufferindex][2] = ADCDATA2;
+        radarDataBuffer2[bufferindex][3] = ADCDATA3;
+        radarDataBuffer2[bufferindex][4] = ADCDATA4;
         bufferindex++;
     }
     else{ usbObj.state = STATE_ERROR; }
@@ -127,11 +133,13 @@ void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_
     char temp[27] = "";
     int row = 0;
     for(row = 0; row < BUFFERSIZE; row++){
-        sprintf(temp, "%026d\n", buffer2Conv[row][0]);
+        sprintf(temp, "%06d\t%04d\t%04d\t%04d\t%04d\n", buffer2Conv[row][0], buffer2Conv[row][1], buffer2Conv[row][2], buffer2Conv[row][3], buffer2Conv[row][4]);
         strcat(usbCharBuff, temp);
     }
 }
-
+void error(){
+    usbObj.state = STATE_ERROR;
+}
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Initialization and State Machine Functions
@@ -155,7 +163,7 @@ void APP_Initialize ( void )
     initTimer3();
     initTimer4();
     initTimer5();
-    configureADCs();
+    //configureADCs();
     initOnBoardSwitch();
 }
 
@@ -271,12 +279,12 @@ void APP_Tasks ( void )
             
         case STATE_IDLE_TESTING:
             if(debounceTime >= .005 && !currentlyPressed){
-                timer4OFF();
+                timer5OFF();
                 usbObj.state = STATE_CLOSE_FILE;
                 debounceTime = 0;
             }
             else{
-                timer4ON();
+                timer5ON();
                 if(currInBuff == 1 && currOutBuff == 2){
                     if(bufferindex == BUFFERSIZE){
                         currInBuff = 2; currOutBuff = 1;

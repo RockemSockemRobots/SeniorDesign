@@ -1,6 +1,16 @@
 #include "adc.h"
 
 void configureADCs(){
+    IFS1bits.ADCIF = 0;
+    IPC11bits.ADCIP = 7;
+    IPC11bits.ADCIS = 0;
+    IEC1bits.ADCIE = 1;
+    
+//    jumpTable[0] = &ADC0Handler; // Set up jump table
+//    jumpTable[2] = &ADC1Handler;
+//    jumpTable[4] = &ADC2Handler;
+    
+    ADCANCON = 0;
     TRISBbits.TRISB15 = 1;
     CNPUBbits.CNPUB15 = 0;
     ANSELBbits.ANSB15 = 1;
@@ -84,7 +94,7 @@ void configureADCs(){
     ADCGIRQEN1bits.AGIEN3 = 1; // Enable data ready interrupt for AN3
     ADCGIRQEN1bits.AGIEN4 = 1; // Enable data ready interrupt for AN4
     
-    /* Configure ADBASE */
+    /* Configure ADBASE */ //need to look into this
     //ADCBASE = (int)(&jumpTable[0]); // Initialize ADCBASE with starting address of jump table
     //ADCCON1bits.IRQVS = 0; // No left shift of address
     
@@ -120,12 +130,12 @@ void configureADCs(){
     ADCTRG1bits.TRGSRC2 = 0b00111; // Set AN2 to trigger from Timer5.
     ADCTRG1bits.TRGSRC3 = 0b00111; // Set AN3 to trigger from Timer5.
     ADCTRG2bits.TRGSRC4 = 0b00111; // Set AN4 to trigger from Timer5.
-    ADCTRG3bits.TRGSRC10 = 1; // Set AN10 to triggered in software.
+    ADCTRG3bits.TRGSRC10 = 1; // Set AN10 to trigger in software.
     
     /* Early interrupt */
     ADCEIEN1 = 0; // No early interrupt
     ADCEIEN2 = 0;
-//    ADCCON2bits.ADCEIOVR = 1; // Override early interrupt //do we need this line? -> what is this doing exactly?
+    //ADCCON2bits.ADCEIOVR = 1; // Override early interrupt //do we need this line? -> what is this doing exactly?
     
     /* Turn the ADC on */
     ADCCON1bits.ON = 1;

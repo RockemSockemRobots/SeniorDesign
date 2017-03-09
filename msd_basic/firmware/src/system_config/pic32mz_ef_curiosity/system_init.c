@@ -293,26 +293,35 @@ void SYS_Initialize ( void* data )
     /* Core Processor Initialization */
     SYS_CLK_Initialize( NULL );
     sysObj.sysDevcon = SYS_DEVCON_Initialize(SYS_DEVCON_INDEX_0, (SYS_MODULE_INIT*)&sysDevconInit);
-    SYS_DEVCON_PerformanceConfig(SYS_CLK_SystemFrequencyGet()); //200MHz <- what??
+    SYS_DEVCON_PerformanceConfig(SYS_CLK_SystemFrequencyGet()); //200MHz
     SYS_PORTS_Initialize();
     /* Board Support Package Initialization */
     BSP_Initialize();        
 
     /* Initialize Drivers */
+    
+    //DRV_ADC_Initialize();
+    configureADCs();
 
     sysObj.drvTmr0 = DRV_TMR_Initialize(DRV_TMR_INDEX_0, (SYS_MODULE_INIT *)&drvTmr0InitData);
 
     SYS_INT_VectorPrioritySet(INT_VECTOR_T2, INT_PRIORITY_LEVEL4);
     SYS_INT_VectorSubprioritySet(INT_VECTOR_T2, INT_SUBPRIORITY_LEVEL0);
     
-    SYS_INT_VectorPrioritySet(INT_VECTOR_CHANGE_NOTICE_G, INT_PRIORITY_LEVEL7);
+    SYS_INT_VectorPrioritySet(INT_VECTOR_CHANGE_NOTICE_G, INT_PRIORITY_LEVEL1);
     SYS_INT_VectorSubprioritySet(INT_VECTOR_CHANGE_NOTICE_G, INT_SUBPRIORITY_LEVEL0);
     
     SYS_INT_VectorPrioritySet(INT_VECTOR_T3, INT_PRIORITY_LEVEL6);
     SYS_INT_VectorSubprioritySet(INT_VECTOR_T3, INT_SUBPRIORITY_LEVEL0);
     
-    SYS_INT_VectorPrioritySet(INT_VECTOR_T4, INT_PRIORITY_LEVEL3);
+    SYS_INT_VectorPrioritySet(INT_VECTOR_T4, INT_PRIORITY_LEVEL1);
     SYS_INT_VectorSubprioritySet(INT_VECTOR_T4, INT_SUBPRIORITY_LEVEL0);
+    
+    //SYS_INT_VectorPrioritySet(INT_VECTOR_T5, INT_PRIORITY_LEVEL1);
+    //SYS_INT_VectorSubprioritySet(INT_VECTOR_T5, INT_SUBPRIORITY_LEVEL0);
+    
+    SYS_INT_VectorPrioritySet(INT_VECTOR_ADC1, INT_PRIORITY_LEVEL7);
+    SYS_INT_VectorSubprioritySet(INT_VECTOR_ADC1, INT_SUBPRIORITY_LEVEL0);
  
  
     /* Initialize System Services */

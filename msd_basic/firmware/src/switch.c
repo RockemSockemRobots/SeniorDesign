@@ -6,7 +6,7 @@ void initOnBoardSwitch(){
     
     CNCONGbits.ON = 1; //enable change notifications for Port G
     CNENGbits.CNIEG12 = 1; //Enables CN for RG12
-    IEC3bits.CNGIE = 1; //Enable Interrupts
     IFS3bits.CNGIF = 0; //Set flag to lowered
+    IEC3bits.CNGIE = 1; //Enable Interrupts
     /*Interrupt Priority and Subpriority for this interrupt vector is set within system_init.c*/
 }

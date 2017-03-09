@@ -7,14 +7,11 @@
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/app.c</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/system_init.c</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/app.h</file>
-            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/system/devcon/src/sys_devcon_pic32mz.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/main.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/peripheral/adchs/drv_adc_static.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/switch.c</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/adc.h</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/adc.c</file>
-            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/system/devcon/src/sys_devcon_cache_pic32mz.S</file>
-            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/bsp/bsp.c</file>
-            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/system/devcon/src/sys_devcon.c</file>
-            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/main.c</file>
-            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/system/devcon/src/sys_devcon_cache.h</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/system_interrupt.c</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/timer.h</file>
         </group>
