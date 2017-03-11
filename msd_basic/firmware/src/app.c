@@ -106,7 +106,7 @@ void addDebounceTime(){
     debounceTime += .005;
 }
 void addSample(){
-    BSP_LEDOn( APP_USB_LED_1 );
+    BSP_LEDToggle( APP_USB_LED_1 );
     n++;
     if(currInBuff == 1 && currOutBuff == 2){
         radarDataBuffer1[bufferindex][0] = n;
@@ -263,8 +263,11 @@ void APP_Tasks ( void )
 
         case STATE_WRITE_FILE_HEADER:
             /* write the file header */
-            if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) FILEHEADER, 21) == -1){ usbObj.state = STATE_ERROR; }
-            else{ usbObj.state = STATE_WAIT_FOR_TEST; }
+            //if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) FILEHEADER, 21) == -1){ usbObj.state = STATE_ERROR; }
+            //else{
+            //    SYS_FS_FileClose(usbObj.fileHandle);
+                usbObj.state = STATE_WAIT_FOR_TEST; 
+            //}
             BSP_LEDOn( BSP_RGB_LED_BLUE );
             BSP_LEDOn( BSP_RGB_LED_RED );
             break;
@@ -304,15 +307,28 @@ void APP_Tasks ( void )
             break;
             
         case STATE_WRITE_TO_FILE:
+            usbObj.fileHandle = SYS_FS_FileOpen(FILENAME, (SYS_FS_FILE_OPEN_APPEND_PLUS)); //reopen for datawrite
+            if(usbObj.fileHandle == SYS_FS_HANDLE_INVALID)
+            {
+                /* Could not open the file. Error out*/
+                usbObj.state = STATE_ERROR;
+                
+            }
             if(currInBuff == 1 && currOutBuff == 2){
                 convertValues(textBuff, radarDataBuffer2);
                 if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) textBuff, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
-                else{ usbObj.state = STATE_IDLE_TESTING; }
+                else{ 
+                    SYS_FS_FileClose(usbObj.fileHandle);
+                    usbObj.state = STATE_IDLE_TESTING; 
+                }
             }
             else if(currInBuff == 2 && currOutBuff == 1){
                 convertValues(textBuff, radarDataBuffer1);
                 if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) textBuff, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
-                else{ usbObj.state = STATE_IDLE_TESTING; }
+                else{ 
+                    SYS_FS_FileClose(usbObj.fileHandle);
+                    usbObj.state = STATE_IDLE_TESTING; 
+                }
             }
             else{ usbObj.state = STATE_ERROR; }
             break;
@@ -336,6 +352,8 @@ void APP_Tasks ( void )
                 usbObj.state = STATE_WAIT_FOR_DEVICE_ATTACH;
                 BSP_LEDOff(APP_USB_LED_2);
                 BSP_LEDOff(BSP_RGB_LED_GREEN);
+                BSP_LEDOff(BSP_RGB_LED_RED);
+                BSP_LEDOff(BSP_RGB_LED_BLUE);
             }
             break;
 
