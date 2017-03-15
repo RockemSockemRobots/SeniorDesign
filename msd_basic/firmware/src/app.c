@@ -106,7 +106,9 @@ void addDebounceTime(){
     debounceTime += .005;
 }
 void addSample(){
-    BSP_LEDToggle( APP_USB_LED_1 );
+    BSP_LEDOn( BSP_RGB_LED_RED );
+    BSP_LEDOff( BSP_RGB_LED_GREEN );
+    BSP_LEDOff( BSP_RGB_LED_BLUE );
     n++;
     if(currInBuff == 1 && currOutBuff == 2){
         radarDataBuffer1[bufferindex][0] = n;
@@ -241,35 +243,44 @@ void APP_Tasks ( void )
         case STATE_DEVICE_CONNECTED:
 
             /* Device was connected. We can try mounting the disk */
-            usbObj.state = STATE_OPEN_FILE;
+            usbObj.state = STATE_WRITE_FILE_HEADER;
             break;
 
-        case STATE_OPEN_FILE:
+//        case STATE_OPEN_FILE:
+//
+//            /* Try opening the file for append */
+//            usbObj.fileHandle = SYS_FS_FileOpen(FILENAME, (SYS_FS_FILE_OPEN_APPEND_PLUS));
+//            if(usbObj.fileHandle == SYS_FS_HANDLE_INVALID)
+//            {
+//                /* Could not open the file. Error out*/
+//                usbObj.state = STATE_ERROR;
+//                
+//            }
+//            else
+//            {
+//                /* File opened successfully. Write to file */
+//                usbObj.state = STATE_WRITE_FILE_HEADER;
+//            }
+//            break; 
 
-            /* Try opening the file for append */
-            usbObj.fileHandle = SYS_FS_FileOpen(FILENAME, (SYS_FS_FILE_OPEN_APPEND_PLUS));
+        case STATE_WRITE_FILE_HEADER:
+            usbObj.fileHandle = SYS_FS_FileOpen(FILENAME, (SYS_FS_FILE_OPEN_APPEND_PLUS)); //open for header write
             if(usbObj.fileHandle == SYS_FS_HANDLE_INVALID)
             {
                 /* Could not open the file. Error out*/
                 usbObj.state = STATE_ERROR;
                 
             }
-            else
-            {
-                /* File opened successfully. Write to file */
-                usbObj.state = STATE_WRITE_FILE_HEADER;
+            else{
+                /* write the file header */
+                if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) FILEHEADER, FILEHEADERCHARS) == -1){ usbObj.state = STATE_ERROR; }
+                else{
+//                    SYS_FS_FileClose(usbObj.fileHandle);
+                    usbObj.state = STATE_WAIT_FOR_TEST; 
+                }
+                BSP_LEDOn( BSP_RGB_LED_BLUE );
+                BSP_LEDOn( BSP_RGB_LED_RED );
             }
-            break; 
-
-        case STATE_WRITE_FILE_HEADER:
-            /* write the file header */
-            //if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) FILEHEADER, 21) == -1){ usbObj.state = STATE_ERROR; }
-            //else{
-            //    SYS_FS_FileClose(usbObj.fileHandle);
-                usbObj.state = STATE_WAIT_FOR_TEST; 
-            //}
-            BSP_LEDOn( BSP_RGB_LED_BLUE );
-            BSP_LEDOn( BSP_RGB_LED_RED );
             break;
             
         case STATE_WAIT_FOR_TEST:
@@ -277,6 +288,7 @@ void APP_Tasks ( void )
                 usbObj.state = STATE_IDLE_TESTING;
                 debounceTime = 0;
                 BSP_LEDOff( BSP_RGB_LED_RED );
+                timer5ON();
             }
             break;
             
@@ -287,7 +299,6 @@ void APP_Tasks ( void )
                 debounceTime = 0;
             }
             else{
-                timer5ON();
                 if(currInBuff == 1 && currOutBuff == 2){
                     if(bufferindex == BUFFERSIZE){
                         currInBuff = 2; currOutBuff = 1;
@@ -307,18 +318,18 @@ void APP_Tasks ( void )
             break;
             
         case STATE_WRITE_TO_FILE:
-            usbObj.fileHandle = SYS_FS_FileOpen(FILENAME, (SYS_FS_FILE_OPEN_APPEND_PLUS)); //reopen for datawrite
-            if(usbObj.fileHandle == SYS_FS_HANDLE_INVALID)
-            {
-                /* Could not open the file. Error out*/
-                usbObj.state = STATE_ERROR;
-                
-            }
+//            usbObj.fileHandle = SYS_FS_FileOpen(FILENAME, (SYS_FS_FILE_OPEN_APPEND_PLUS)); //reopen for datawrite
+//            if(usbObj.fileHandle == SYS_FS_HANDLE_INVALID)
+//            {
+//                /* Could not open the file. Error out*/
+//                usbObj.state = STATE_ERROR;
+//                
+//            }
             if(currInBuff == 1 && currOutBuff == 2){
                 convertValues(textBuff, radarDataBuffer2);
                 if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) textBuff, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
                 else{ 
-                    SYS_FS_FileClose(usbObj.fileHandle);
+//                    SYS_FS_FileClose(usbObj.fileHandle);
                     usbObj.state = STATE_IDLE_TESTING; 
                 }
             }
@@ -326,7 +337,7 @@ void APP_Tasks ( void )
                 convertValues(textBuff, radarDataBuffer1);
                 if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) textBuff, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
                 else{ 
-                    SYS_FS_FileClose(usbObj.fileHandle);
+//                    SYS_FS_FileClose(usbObj.fileHandle);
                     usbObj.state = STATE_IDLE_TESTING; 
                 }
             }

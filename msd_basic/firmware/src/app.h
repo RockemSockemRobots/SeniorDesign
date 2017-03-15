@@ -68,7 +68,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 // *****************************************************************************
 #define FILENAME "/mnt/myDrive1/test.txt"
-#define FILEHEADER "Timestamp\t\tRadarData\n"
+#define FILEHEADER "Samp\tCH1\t\tCH2\t\tCH3\t\tCH4\n"
+#define FILEHEADERCHARS 24
 
 #define BUFFERSIZE 128
 #define USBBYTES (BUFFERSIZE*27)
