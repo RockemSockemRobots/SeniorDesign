@@ -68,12 +68,12 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 // *****************************************************************************
 #define FILENAME "/mnt/myDrive1/test.txt"
-#define FILEHEADER "Samp\tCH1\t\tCH2\t\tCH3\t\tCH4\n"
-#define FILEHEADERCHARS 24
+#define FILEHEADER "Samp\t\t\tCH1\t\tCH2\n"
+#define FILEHEADERCHARS 16
 
 #define BUFFERSIZE 128
 #define USBBYTES (BUFFERSIZE*27)
-#define NUM_RX_CHANNELS 2
+#define NUM_RX_CHANNELS 1
 // *****************************************************************************
 /* Application States
 
@@ -189,9 +189,10 @@ typedef struct
 
 void APP_Initialize ( void );
 
-void addDebounceTime();
+void setDebounced();
 void incTimeStamp();
 void addSample();
+void addSampleFromFIFO();
 void togglePress();
 void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_CHANNELS*2)]);
 void error();

@@ -89,12 +89,13 @@ void __ISR ( _USB_DMA_VECTOR, IPL4AUTO)  _IntHandlerUSBInstance0_USBDMA ( void )
 void __ISR( _TIMER_3_VECTOR, IPL6AUTO) _IntHandlerDebounceTimer(void) { //debouncetimer
     IFS0bits.T3IF = 0;
     timer3OFF();
-    addDebounceTime();
+    setDebounced();
     togglePress();
     TMR3 = 0x0000;
 }
 
 void __ISR(_CHANGE_NOTICE_G_VECTOR, IPL1AUTO) _CNInterrupt(void) {
+    int dummy = PORTG;
     IFS3bits.CNGIF = 0;
     timer3ON(); //delay for debounce
 }
@@ -111,12 +112,20 @@ void __ISR( _TIMER_4_VECTOR, IPL1AUTO) _IntHandlerTmr4(void) { //older test
 //    TMR5 = 0x0000;
 //}
 
+//void __ISR( _ADC_FIFO_VECTOR, IPL7AUTO) _IntHandlerADCFIFO(void){
+//    addSampleFromFIFO();
+//}
+
 void __ISR( _ADC_VECTOR, IPL7AUTO) _IntHandlerADCGlobal(void){
-    if(ADCDSTAT1bits.ARDY1 && ADCDSTAT1bits.ARDY2 && ADCDSTAT1bits.ARDY3 && ADCDSTAT1bits.ARDY4){ //these probably won't be ready at the same time...
+    if(ADCDSTAT1bits.ARDY2 && ADCDSTAT1bits.ARDY3){ //these probably won't be ready at the same time...
         addSample();
         IFS1 = 0; //flags CANNOT be cleared until after data has been read
     }
 }
+
+//void __attribute__ ((interrupt(IPL4SRS))) _DefaultInterrupt(void){
+//    
+//}
 
 //void __ISR( _ADC_DATA1_VECTOR, IPL6AUTO) _IntHandlerADCData1(void){
 //    IFS1bits.ADCD1IF = 0; //pull global adc flag down

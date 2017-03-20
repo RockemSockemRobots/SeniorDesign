@@ -79,11 +79,13 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 USB_OBJ usbObj;
 
 volatile int transmits = 0;
-volatile long double debounceTime = 0;
+volatile bool debounced = false;
 volatile uint32_t n = 0;
 volatile uint32_t radarDataBuffer1[BUFFERSIZE][1+(NUM_RX_CHANNELS*2)]; //"000000.000000\t000000000000\n"
 volatile uint32_t radarDataBuffer2[BUFFERSIZE][1+(NUM_RX_CHANNELS*2)];
 volatile int bufferindex = 0;
+volatile int bufferindex2 = 0;
+volatile int bufferindex3 = 0;
 volatile int currInBuff = 1;
 volatile int currOutBuff = 2;
 volatile bool currentlyPressed = false;
@@ -102,8 +104,8 @@ volatile bool currentlyPressed = false;
 // *****************************************************************************
 // *****************************************************************************
 
-void addDebounceTime(){
-    debounceTime += .005;
+void setDebounced(){
+    debounced = true;
 }
 void addSample(){
     BSP_LEDOn( BSP_RGB_LED_RED );
@@ -112,19 +114,44 @@ void addSample(){
     n++;
     if(currInBuff == 1 && currOutBuff == 2){
         radarDataBuffer1[bufferindex][0] = n;
-        radarDataBuffer1[bufferindex][1] = ADCDATA1; //ADCDATA1bits.DATA; <- what is this BS??
-        radarDataBuffer1[bufferindex][2] = ADCDATA2;
-        radarDataBuffer1[bufferindex][3] = ADCDATA3;
-        radarDataBuffer1[bufferindex][4] = ADCDATA4;
+        radarDataBuffer1[bufferindex][1] = ADCDATA2; //ADCDATA1bits.DATA; <- what is this BS??
+        radarDataBuffer1[bufferindex][2] = ADCDATA3;
+        //radarDataBuffer1[bufferindex][3] = ADCDATA4;
         bufferindex++;
     }
     else if(currInBuff == 2 && currOutBuff == 1){
         radarDataBuffer2[bufferindex][0] = n;
-        radarDataBuffer2[bufferindex][1] = ADCDATA1;
-        radarDataBuffer2[bufferindex][2] = ADCDATA2;
-        radarDataBuffer2[bufferindex][3] = ADCDATA3;
-        radarDataBuffer2[bufferindex][4] = ADCDATA4;
+        radarDataBuffer2[bufferindex][1] = ADCDATA2;
+        radarDataBuffer2[bufferindex][2] = ADCDATA3;
+        //radarDataBuffer2[bufferindex][3] = ADCDATA4;
         bufferindex++;
+    }
+    else{ usbObj.state = STATE_ERROR; }
+}
+void addSampleFromFIFO(){
+    BSP_LEDOn( BSP_RGB_LED_RED );
+    BSP_LEDOff( BSP_RGB_LED_GREEN );
+    BSP_LEDOff( BSP_RGB_LED_BLUE );
+    int ID = ADCFSTATbits.ADCID;
+    if(currInBuff == 1 && currOutBuff == 2){
+        if(ID == 2){
+            radarDataBuffer1[bufferindex2][1] = ADCFIFO; //ADCDATA1bits.DATA; <- what is this BS??
+            bufferindex2++;
+        }
+        else if(ID == 3){
+            radarDataBuffer1[bufferindex3][2] = ADCFIFO;
+            bufferindex3++;
+        }
+    }
+    else if(currInBuff == 2 && currOutBuff == 1){
+        if(ID == 2){
+            radarDataBuffer2[bufferindex2][1] = ADCFIFO; //ADCDATA1bits.DATA; <- what is this BS??
+            bufferindex2++;
+        }
+        else if(ID == 3){
+            radarDataBuffer2[bufferindex3][2] = ADCFIFO;
+            bufferindex3++;
+        }
     }
     else{ usbObj.state = STATE_ERROR; }
 }
@@ -135,7 +162,7 @@ void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_
     char temp[27] = "";
     int row = 0;
     for(row = 0; row < BUFFERSIZE; row++){
-        sprintf(temp, "%06d\t%04d\t%04d\t%04d\t%04d\n", buffer2Conv[row][0], buffer2Conv[row][1], buffer2Conv[row][2], buffer2Conv[row][3], buffer2Conv[row][4]);
+        sprintf(temp, "%010d\t%07d\t%07d\n", buffer2Conv[row][0], buffer2Conv[row][1], buffer2Conv[row][2]);
         strcat(usbCharBuff, temp);
     }
 }
@@ -210,6 +237,7 @@ void APP_SYSFSEventHandler(SYS_FS_EVENT event, void * eventData, uintptr_t conte
 void APP_Tasks ( void )
 {
     char textBuff[USBBYTES] = "";
+    //int tempcount = 2;
     switch(usbObj.state)
     {
         case STATE_BUS_ENABLE:
@@ -284,19 +312,19 @@ void APP_Tasks ( void )
             break;
             
         case STATE_WAIT_FOR_TEST:
-            if(debounceTime >= .005 && !currentlyPressed){ //for debouncing the switch
+            if(debounced == true && !currentlyPressed){ //for debouncing the switch
                 usbObj.state = STATE_IDLE_TESTING;
-                debounceTime = 0;
+                debounced = false;
                 BSP_LEDOff( BSP_RGB_LED_RED );
                 timer5ON();
             }
             break;
             
         case STATE_IDLE_TESTING:
-            if(debounceTime >= .005 && !currentlyPressed){
+            if(debounced == true && !currentlyPressed){
                 timer5OFF();
                 usbObj.state = STATE_CLOSE_FILE;
-                debounceTime = 0;
+                debounced = false;
             }
             else{
                 if(currInBuff == 1 && currOutBuff == 2){
@@ -313,6 +341,25 @@ void APP_Tasks ( void )
                         usbObj.state = STATE_WRITE_TO_FILE;
                     }
                 }
+//                else if(ADCFSTATbits.FRDY && ADCFSTATbits.FCNT >= 2){
+//                    if(ADCFSTATbits.FWROVERR){
+//                        BSP_LEDOn( APP_USB_LED_1 ); //crap
+//                    }
+//                    else{
+//                        n++;
+//                        if(currInBuff == 1 && currOutBuff == 2){
+//                            radarDataBuffer1[bufferindex][0] = n;
+//                        }
+//                        else if(currInBuff == 2 && currOutBuff == 1){
+//                            radarDataBuffer2[bufferindex][0] = n;
+//                        }
+//                        else{ usbObj.state = STATE_ERROR; }
+//                        bufferindex++;
+//                        while(tempcount > 0){
+//                            addSampleFromFIFO();
+//                        }
+//                    }
+//                }
                 else{ usbObj.state = STATE_ERROR; }
             }
             break;
@@ -336,9 +383,9 @@ void APP_Tasks ( void )
             else if(currInBuff == 2 && currOutBuff == 1){
                 convertValues(textBuff, radarDataBuffer1);
                 if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) textBuff, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
-                else{ 
-//                    SYS_FS_FileClose(usbObj.fileHandle);
-                    usbObj.state = STATE_IDLE_TESTING; 
+                else{
+                    //SYS_FS_FileClose(usbObj.fileHandle);
+                    usbObj.state = STATE_CLOSE_FILE;
                 }
             }
             else{ usbObj.state = STATE_ERROR; }
@@ -357,6 +404,7 @@ void APP_Tasks ( void )
             BSP_LEDOff( APP_USB_LED_3);
             BSP_LEDOn( APP_USB_LED_2 );
             BSP_LEDOff(BSP_RGB_LED_BLUE);
+            BSP_LEDOff(BSP_RGB_LED_RED);
             BSP_LEDOn(BSP_RGB_LED_GREEN);
             if(usbObj.deviceIsConnected == false)
             {
@@ -374,6 +422,7 @@ void APP_Tasks ( void )
              * has failed. Provide LED indication .*/
 
             BSP_LEDOn( APP_USB_LED_1 );
+            while(1);
             if(SYS_FS_Unmount("/mnt/myDrive") != 0)
             {
                 /* The disk could not be un mounted. Try

@@ -20,6 +20,8 @@ void timer3ON();
 void timer3OFF();
 void timer4ON();
 void timer4OFF();
+void timer5ON();
+void timer5OFF();
 void delay5ms();
 void testTimer3();
 
