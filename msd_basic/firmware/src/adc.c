@@ -4,7 +4,7 @@ void configureADCs(){
     IFS1bits.ADCIF = 0;
     IPC11bits.ADCIP = 7;
     IPC11bits.ADCIS = 0;
-    IEC1bits.ADCIE = 1;
+    IEC1bits.ADCIE = 0;
     
 //    jumpTable[0] = &ADC0Handler; // Set up jump table
 //    jumpTable[2] = &ADC1Handler;
@@ -25,6 +25,7 @@ void configureADCs(){
     /* Configure ADCCON1 */
     ADCCON1 = 0;
     CFGCONbits.IOANCPEN = 0;
+    ADCCON1bits.AICPMPEN = 0;
     ADCCON1bits.SELRES = 3; //12-bit resolution
     ADCCON1bits.STRGSRC = 0;
     ADCCON1bits.STRGLVL = 0;
@@ -91,8 +92,8 @@ void configureADCs(){
     ADCGIRQEN2 = 0;
 //    ADCGIRQEN1bits.AGIEN0 = 1; // Enable data ready interrupt for AN0
     //ADCGIRQEN1bits.AGIEN1 = 1; // Enable data ready interrupt for AN1
-    ADCGIRQEN1bits.AGIEN2 = 1; // Enable data ready interrupt for AN2
-    ADCGIRQEN1bits.AGIEN3 = 1; // Enable data ready interrupt for AN3
+    //ADCGIRQEN1bits.AGIEN2 = 1; // Enable data ready interrupt for AN2
+    //ADCGIRQEN1bits.AGIEN3 = 1; // Enable data ready interrupt for AN3
     //ADCGIRQEN1bits.AGIEN4 = 1; // Enable data ready interrupt for AN4
     
     /* Configure ADBASE */ //need to look into this
@@ -128,9 +129,9 @@ void configureADCs(){
     //ADCTRGSNSbits.LVL10 = 0;
     //ADCTRG1bits.TRGSRC0 = 0b00111; // Set AN0 to trigger from Timer5.
 //    ADCTRG1bits.TRGSRC1 = 0b00111; // Set AN1 to trigger from Timer5.
-    ADCTRG1bits.TRGSRC2 = 0b00111; // Set AN2 to trigger from Timer5.
+    ADCTRG1bits.TRGSRC2 = 1;//0b00111; // Set AN2 to trigger from Timer5.
     ADCTRG1bits.TRGSRC3 = 0b00111; // Set AN3 to trigger from Timer5.
-    ADCTRG2bits.TRGSRC4 = 1; // Set AN4 to trigger from software
+    ADCTRG2bits.TRGSRC4 = 0b00111;//1; // Set AN4 to trigger from software
     //ADCTRG3bits.TRGSRC10 = 1; // Set AN10 to trigger in software.
     
     /* Early interrupt */
@@ -139,11 +140,16 @@ void configureADCs(){
     //ADCCON2bits.ADCEIOVR = 1; // Override early interrupt //do we need this line? -> what is this doing exactly?
     
 //    /*Config ADC FIFO*/
-//    ADCFSTAT = 0; // Clear all bits
-//    ADCFSTATbits.ADC2EN = 1; // Select ADC2
-//    ADCFSTATbits.ADC3EN = 1;
-//    ADCFSTATbits.FIEN = 1;
-//    ADCFSTATbits.FEN = 1; // Enable FIFO
+    ADCFSTAT = 0; // Clear all bits
+    //ADCFSTATbits.ADC2EN = 1; // Select ADC2
+    ADCFSTATbits.ADC3EN = 1;
+    ADCFSTATbits.ADC4EN = 1;
+    IFS1bits.ADCFIFOIF = 0;
+    IPC11bits.ADCFIFOIP = 7;
+    IPC11bits.ADCFIFOIS = 0;
+    ADCFSTATbits.FIEN = 0;
+    IEC1bits.ADCFIFOIE = 0;
+    ADCFSTATbits.FEN = 1; // Enable FIFO
     
     /* Turn the ADC on */
     ADCCON1bits.ON = 1;
@@ -154,14 +160,15 @@ void configureADCs(){
 //    ADCANCONbits.ANEN0 = 1; // Enable the clock to analog bias and digital control
 //    ADCANCONbits.ANEN1 = 1; // Enable the clock to analog bias and digital control
     ADCANCONbits.ANEN2 = 1; // Enable the clock to analog bias and digital control
+    while(!ADCANCONbits.WKRDY2); // Wait until ADC2 is ready
     ADCANCONbits.ANEN3 = 1; // Enable the clock to analog bias and digital control
+    while(!ADCANCONbits.WKRDY3); // Wait until ADC3 is ready
     ADCANCONbits.ANEN4 = 1; // Enable the clock to analog bias and digital control
     //ADCANCONbits.ANEN7 = 1; // Enable the clock to analog bias and digital control
     /* Wait for ADC to be ready */
 //    while(!ADCANCONbits.WKRDY0); // Wait until ADC0 is ready
 //    while(!ADCANCONbits.WKRDY1); // Wait until ADC1 is ready
-    while(!ADCANCONbits.WKRDY2); // Wait until ADC2 is ready
-    while(!ADCANCONbits.WKRDY3); // Wait until ADC3 is ready
+    
     while(!ADCANCONbits.WKRDY4); // Wait until ADC4 is ready
     //while(!ADCANCONbits.WKRDY7); // Wait until ADC7 is ready
     /* Enable the ADC module */
