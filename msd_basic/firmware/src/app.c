@@ -84,12 +84,12 @@ volatile uint32_t n = 0;
 volatile uint32_t radarDataBuffer1[BUFFERSIZE][1+(NUM_RX_CHANNELS*2)]; //"000000.000000\t000000000000\n"
 volatile uint32_t radarDataBuffer2[BUFFERSIZE][1+(NUM_RX_CHANNELS*2)];
 volatile int bufferindex = 0;
-volatile int bufferindex2 = 0;
 volatile int bufferindex3 = 0;
+volatile int bufferindex4 = 0;
 volatile int currInBuff = 1;
 volatile int currOutBuff = 2;
 volatile bool currentlyPressed = false;
-volatile int result[2][2] = {0};
+int tempFIFOdata[16][2] = {0};
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -135,23 +135,23 @@ void addSampleFromFIFO(){
     BSP_LEDOff( BSP_RGB_LED_BLUE );
     int ID = ADCFSTATbits.ADCID;
     if(currInBuff == 1 && currOutBuff == 2){
-        if(ID == 4){
-            radarDataBuffer1[bufferindex2][1] = ADCFIFO; //ADCDATA1bits.DATA; <- what is this BS??
-            bufferindex2++;
-        }
-        else if(ID == 3){
-            radarDataBuffer1[bufferindex3][2] = ADCFIFO;
+        if(ID == 3){
+            radarDataBuffer1[bufferindex3][1] = ADCFIFO; //ADCDATA1bits.DATA; <- what is this BS??
             bufferindex3++;
+        }
+        else if(ID == 4){
+            radarDataBuffer1[bufferindex4][2] = ADCFIFO;
+            bufferindex4++;
         }
     }
     else if(currInBuff == 2 && currOutBuff == 1){
-        if(ID == 4){
-            radarDataBuffer2[bufferindex2][1] = ADCFIFO; //ADCDATA1bits.DATA; <- what is this BS??
-            bufferindex2++;
-        }
-        else if(ID == 3){
-            radarDataBuffer2[bufferindex3][2] = ADCFIFO;
+        if(ID == 3){
+            radarDataBuffer2[bufferindex3][1] = ADCFIFO; //ADCDATA1bits.DATA; <- what is this BS??
             bufferindex3++;
+        }
+        else if(ID == 4){
+            radarDataBuffer2[bufferindex4][2] = ADCFIFO;
+            bufferindex4++;
         }
     }
     else{ usbObj.state = STATE_ERROR; }
@@ -174,33 +174,46 @@ void doNothing(){
     
 }
 void readFIFO(){
-    int FIFOstatus = ADCFSTATbits.FRDY;
-    unsigned int FIFOcount = ADCFSTATbits.FCNT;
-    int tempcount = 0;
-    if(FIFOstatus == 1 && FIFOcount >= 2){
-        BSP_LEDOn( APP_USB_LED_2 );
-        if(ADCFSTATbits.FWROVERR){
-            BSP_LEDOn( APP_USB_LED_1 ); //crap(overflow)
-        }
-        else{
-            for(tempcount = 0; tempcount < (FIFOcount/2); tempcount++){
+    int i = 0;
+    memset(tempFIFOdata, -1, sizeof(tempFIFOdata[0][0]) * 16 * 2);
+    while(ADCFSTATbits.FRDY){
+        BSP_LEDOn( BSP_RGB_LED_RED );
+        BSP_LEDOff( BSP_RGB_LED_GREEN );
+        BSP_LEDOff( BSP_RGB_LED_BLUE );
+        tempFIFOdata[i][0] = ADCFSTATbits.ADCID;
+        tempFIFOdata[i][1] = ADCFIFO;
+        i++;
+    }
+}
+void convertTempFIFOdata(){
+    int i = 0;
+    while(tempFIFOdata[i][1] != -1){
+        if(currInBuff == 1 && currOutBuff == 2){
+            if(tempFIFOdata[i][0] == 3){
+                radarDataBuffer1[bufferindex3][1] = tempFIFOdata[i][1]; //ADCDATA1bits.DATA; <- what is this BS??
+                bufferindex3++;
+            }
+            else if(tempFIFOdata[i][0] == 4){
                 n++;
-                if(currInBuff == 1 && currOutBuff == 2){
-                    radarDataBuffer1[bufferindex][0] = n;
-                }
-                else if(currInBuff == 2 && currOutBuff == 1){
-                    radarDataBuffer2[bufferindex][0] = n;
-                }
-                else{ usbObj.state = STATE_ERROR; }
-                bufferindex++;
-                addSampleFromFIFO();
-                addSampleFromFIFO();
+                radarDataBuffer1[bufferindex][0] = n;
+                radarDataBuffer1[bufferindex4][2] = tempFIFOdata[i][1];
+                bufferindex4++; bufferindex++;
             }
         }
-    }
-    else if(!FIFOstatus){
-        timer5OFF();
-        timer5ON();
+        else if(currInBuff == 2 && currOutBuff == 1){
+            if(tempFIFOdata[i][0] == 3){
+                radarDataBuffer2[bufferindex3][1] = tempFIFOdata[i][1];
+                bufferindex3++; 
+            }
+            else if(tempFIFOdata[i][0] == 4){
+                n++;
+                radarDataBuffer2[bufferindex][0] = n;
+                radarDataBuffer2[bufferindex4][2] = tempFIFOdata[i][1];
+                bufferindex4++; bufferindex++;
+            }
+        }
+        else{ usbObj.state = STATE_ERROR; }
+        i++;
     }
 }
 // *****************************************************************************
@@ -227,7 +240,7 @@ void APP_Initialize ( void )
     initTimer4();
     initTimer5();
     initTimer6();
-    //configureADCs();
+    configureADCs();
     initOnBoardSwitch();
 }
 
@@ -272,10 +285,6 @@ void APP_SYSFSEventHandler(SYS_FS_EVENT event, void * eventData, uintptr_t conte
 void APP_Tasks ( void )
 {
     char textBuff[USBBYTES] = "";
-    int tempcount = 0;
-    int FIFOstatus = 0;
-    unsigned int FIFOcount = 0;
-    int tempresult = 0;
     switch(usbObj.state)
     {
         case STATE_BUS_ENABLE:
@@ -355,57 +364,48 @@ void APP_Tasks ( void )
                 debounced = false;
                 BSP_LEDOff( BSP_RGB_LED_RED );
                 n = 0;
+//                while(!ADCFSTATbits.FRDY){
+//                    timer5OFF();
+//                    timer5ON();
+//                }
+                //timer6ON();
                 timer5ON();
-                timer6ON();
             }
             break;
             
         case STATE_IDLE_TESTING:
             if(debounced == true && !currentlyPressed){
                 timer5OFF();
-                timer6OFF();
+                //timer6OFF();
                 usbObj.state = STATE_CLOSE_FILE;
                 debounced = false;
             }
             else{
-//                FIFOstatus = ADCFSTATbits.FRDY;
-//                FIFOcount = ADCFSTATbits.FCNT;
-                if(bufferindex == BUFFERSIZE){
+                if(bufferindex == BUFFERSIZE){ //this causing probs? probs.
                     if(currInBuff == 1 && currOutBuff == 2){
                             currInBuff = 2; currOutBuff = 1;
-                            bufferindex = 0; bufferindex2 = 0; bufferindex3 = 0;
+                            bufferindex = 0; bufferindex3 = 0; bufferindex4 = 0;
                             usbObj.state = STATE_WRITE_TO_FILE;
                     }
                     else if(currInBuff == 2 && currOutBuff == 1){
                             currInBuff = 1; currOutBuff = 2;
-                            bufferindex = 0; bufferindex2 = 0; bufferindex3 = 0;
+                            bufferindex = 0; bufferindex3 = 0; bufferindex4 = 0;
                             usbObj.state = STATE_WRITE_TO_FILE;
                     }
                 }
-//                else if(FIFOstatus == 1 && FIFOcount >= 2){
-//                    BSP_LEDOn( APP_USB_LED_2 );
-//                    if(ADCFSTATbits.FWROVERR){
-//                        BSP_LEDOn( APP_USB_LED_1 ); //crap(overflow)
-//                    }
-//                    else{
-//                        for(tempcount = 0; tempcount < (FIFOcount/2); tempcount++){
-//                            n++;
-//                            if(currInBuff == 1 && currOutBuff == 2){
-//                                radarDataBuffer1[bufferindex][0] = n;
-//                            }
-//                            else if(currInBuff == 2 && currOutBuff == 1){
-//                                radarDataBuffer2[bufferindex][0] = n;
-//                            }
-//                            else{ usbObj.state = STATE_ERROR; }
-//                            bufferindex++;
-//                            addSampleFromFIFO();
-//                            addSampleFromFIFO();
-//                        }
-//                    }
-//                }
-//                else if(ADCFSTATbits.FWROVERR){
-//                    BSP_LEDOn( APP_USB_LED_1 ); //crap(overflow)
-//                }
+                else if(ADCFSTATbits.FRDY == 1){
+                    BSP_LEDOn( APP_USB_LED_2 );
+                    if(ADCFSTATbits.FWROVERR){
+                        BSP_LEDOn( APP_USB_LED_1 ); //crap(overflow)
+                    }
+                    else{
+                        readFIFO();
+                        convertTempFIFOdata();
+                    }
+                }
+                else if(ADCFSTATbits.FWROVERR){
+                    BSP_LEDOn( APP_USB_LED_1 ); //crap(overflow)
+                }
             }
             break;
             

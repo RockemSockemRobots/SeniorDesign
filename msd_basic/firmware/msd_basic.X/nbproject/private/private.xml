@@ -4,22 +4,26 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/timer.c</file>
-            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/system/fs/src/dynamic/sys_fs.c</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/app.c</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/system_init.c</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/app.h</file>
-            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/switch.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/driver/usb/usbhs/src/drv_usbhs_local.h</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/system/common/sys_module.h</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/system/fs/src/dynamic/sys_fs_media_manager.c</file>
-            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/system/tmr/src/sys_tmr.c</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/adc.h</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/adc.c</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/usb/src/dynamic/usb_host.c</file>
-            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/peripheral/usbhs/templates/usbhs_ModuleControl_Default.h</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/system/int/src/sys_int_pic32.c</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/driver/usb/usbhs/src/dynamic/drv_usbhs_host.c</file>
-            <file>file:/C:/Program%20Files%20(x86)/Microchip/xc32/v1.42/pic32mx/include/lega-c/proc/p32mz2048efm100.h</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/main.c</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/peripheral/int/processor/int_p32mz2048efm100.h</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/system/fs/sys_fs.h</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/driver/usb/usbhs/src/dynamic/drv_usbhs.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/system/fs/src/dynamic/sys_fs.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/switch.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/system/tmr/src/sys_tmr.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/peripheral/usbhs/templates/usbhs_ModuleControl_Default.h</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/driver/usb/usbhs/drv_usbhs.h</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/system_tasks.c</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/system_interrupt.c</file>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/timer.h</file>

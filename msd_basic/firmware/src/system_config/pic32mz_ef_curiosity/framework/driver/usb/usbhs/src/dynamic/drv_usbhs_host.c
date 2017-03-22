@@ -54,7 +54,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
  * functions. It is provided to the host and device layer
  * as the interface to the driver.
  * *******************************************************/
-
 DRV_USB_HOST_INTERFACE gDrvUSBHSHostInterface =
 {
     .open = DRV_USBHS_Open,

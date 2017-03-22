@@ -39,7 +39,7 @@ void initTimer6(){
     PR6 = 11200;
     T6CONbits.TCKPS = 1;
     IFS0bits.T6IF = 0;
-    IEC0bits.T6IE = 1;
+    IEC0bits.T6IE = 0;
 }
 
 void timer3ON(){

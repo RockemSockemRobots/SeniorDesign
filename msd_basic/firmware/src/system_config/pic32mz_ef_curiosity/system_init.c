@@ -300,7 +300,7 @@ void SYS_Initialize ( void* data )
 
     /* Initialize Drivers */
     
-    configureADCs();
+    //configureADCs();
 
     sysObj.drvTmr0 = DRV_TMR_Initialize(DRV_TMR_INDEX_0, (SYS_MODULE_INIT *)&drvTmr0InitData);
 
@@ -373,6 +373,10 @@ void SYS_Initialize ( void* data )
 
     /* Enable Global Interrupts */
     SYS_INT_Enable();
+    
+    
+    /* Initialize the Application */
+    APP_Initialize();
 }
 
 
