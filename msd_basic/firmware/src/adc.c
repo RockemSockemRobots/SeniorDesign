@@ -60,8 +60,8 @@ void configureADCs(){
     ADC3TIMEbits.ADCDIV = 1; // ADC3 clock frequency is half of control clock = TAD3 -> 100ns
     ADC3TIMEbits.SAMC = 555; // ADC3 sampling time = 555 * TAD3 -> 55.5us
     ADC3TIMEbits.SELRES = 3; // ADC3 resolution is 12 bits
-    ADC4TIMEbits.ADCDIV = 1; // ADC4 clock frequency is half of control clock = TAD4 -> 100ns
-    ADC4TIMEbits.SAMC = 555; // ADC4 sampling time = 555 * TAD4 -> 55.5us
+    ADC4TIMEbits.ADCDIV = 2; // ADC4 clock frequency is fourth of control clock = TAD4 -> 200ns
+    ADC4TIMEbits.SAMC = 277; // ADC4 sampling time = 277 * TAD4 -> 55.4us
     ADC4TIMEbits.SELRES = 3; // ADC4 resolution is 12 bits
     
     /* Select analog input for ADC modules, no presync trigger, not sync sampling */
@@ -71,9 +71,9 @@ void configureADCs(){
     ADCTRGMODEbits.SH3ALT = 0; // ADC3 = AN3
     ADCTRGMODEbits.SH4ALT = 0; // ADC4 = AN4
     //ADCTRGMODEbits.STRGEN1 = 1; //presync triggers
-    ADCTRGMODEbits.STRGEN2 = 1;
+    //ADCTRGMODEbits.STRGEN2 = 1;
     ADCTRGMODEbits.STRGEN3 = 1;
-    //ADCTRGMODEbits.STRGEN4 = 1;
+    ADCTRGMODEbits.STRGEN4 = 1;
     
     /* Select ADC input mode */
     //ADCIMCON1bits.SIGN1 = 0; // unsigned data format

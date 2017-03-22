@@ -33,6 +33,15 @@ void initTimer5(){ //ADC trigger timer (sample timer): 55.55us
     IEC0bits.T5IE = 0;
 }
 
+void initTimer6(){
+    T6CONbits.TON = 0;
+    TMR6 = 0x0000;
+    PR6 = 11200;
+    T6CONbits.TCKPS = 1;
+    IFS0bits.T6IF = 0;
+    IEC0bits.T6IE = 1;
+}
+
 void timer3ON(){
     T3CONbits.TON = 1;
 }
@@ -50,6 +59,12 @@ void timer5ON(){
 }
 void timer5OFF(){
     T5CONbits.TON = 0;
+}
+void timer6ON(){
+    T6CONbits.TON = 1;
+}
+void timer6OFF(){
+    T6CONbits.TON = 0;
 }
 
 void delay5ms(){
