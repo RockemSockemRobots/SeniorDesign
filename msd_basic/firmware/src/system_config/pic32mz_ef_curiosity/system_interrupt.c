@@ -107,11 +107,11 @@ void __ISR( _TIMER_4_VECTOR, IPL1AUTO) _IntHandlerTmr4(void) { //older test
     TMR4 = 0x0000;
 }
 
-void __ISR( _TIMER_6_VECTOR, IPL7AUTO) _IntHandlerTmr6(void) {
-    IFS0bits.T6IF = 0;
-    TMR6 = 0x0000;
-    readFIFO();
-}
+//void __ISR( _TIMER_6_VECTOR, IPL7AUTO) _IntHandlerTmr6(void) {
+//    IFS0bits.T6IF = 0;
+//    TMR6 = 0x0000;
+//    readFIFO();
+//}
 
 //void __ISR( _TIMER_5_VECTOR, IPL1AUTO) _IntHandlerTmr5(void) {
 //    IFS0bits.T5IF = 0;

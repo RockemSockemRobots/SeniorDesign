@@ -1558,6 +1558,7 @@ void _USB_HOST_MSD_InterfaceTasks
 
             case USB_HOST_MSD_STATE_ERROR_HOLDING:
                 /* Device is in an error state. It must be unplugged. */
+                doNothing();
                 break;
 
             default:
