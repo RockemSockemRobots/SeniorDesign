@@ -89,7 +89,7 @@ volatile int bufferindex4 = 0;
 volatile int currInBuff = 1;
 volatile int currOutBuff = 2;
 volatile bool currentlyPressed = false;
-int tempFIFOdata[16][2] = {0};
+volatile int tempFIFOdata[16][2] = {0};
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -175,7 +175,7 @@ void doNothing(){
 }
 void readFIFO(){
     int i = 0;
-    memset(tempFIFOdata, -1, sizeof(tempFIFOdata[0][0]) * 16 * 2);
+    //memset(tempFIFOdata, -1, sizeof(tempFIFOdata[0][0]) * 16 * 2);
     while(ADCFSTATbits.FRDY){
         BSP_LEDOn( BSP_RGB_LED_RED );
         BSP_LEDOff( BSP_RGB_LED_GREEN );
@@ -187,7 +187,7 @@ void readFIFO(){
 }
 void convertTempFIFOdata(){
     int i = 0;
-    while(tempFIFOdata[i][1] != -1){
+    while(tempFIFOdata[i][1] != -1 && i!=16){
         if(currInBuff == 1 && currOutBuff == 2){
             if(tempFIFOdata[i][0] == 3){
                 radarDataBuffer1[bufferindex3][1] = tempFIFOdata[i][1]; //ADCDATA1bits.DATA; <- what is this BS??
@@ -388,11 +388,14 @@ void APP_Tasks ( void )
                 debounced = false;
                 BSP_LEDOff( BSP_RGB_LED_RED );
                 n = 0;
-                while(!ADCFSTATbits.FRDY){
-                    timer5OFF();
+//                while(!ADCFSTATbits.FRDY){
+//                    timer5OFF();
                     timer5ON();
-                }
+//                }
                 //timer6ON();
+            }
+            else if(debounced && currentlyPressed){
+                debounced = false;
             }
             break;
             
@@ -404,6 +407,9 @@ void APP_Tasks ( void )
                 debounced = false;
             }
             else{
+                if(debounced && currentlyPressed){
+                    debounced = false;
+                }
                 if(ADCFSTATbits.FRDY == 1){
                     BSP_LEDOn( APP_USB_LED_2 );
                     if(ADCFSTATbits.FWROVERR){

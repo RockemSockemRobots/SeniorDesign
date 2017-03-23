@@ -89,8 +89,8 @@ void __ISR ( _USB_DMA_VECTOR, IPL4AUTO)  _IntHandlerUSBInstance0_USBDMA ( void )
 void __ISR( _TIMER_3_VECTOR, IPL6AUTO) _IntHandlerDebounceTimer(void) { //debouncetimer
     IFS0bits.T3IF = 0;
     timer3OFF();
-    setDebounced();
     togglePress();
+    setDebounced();    
     TMR3 = 0x0000;
 }
 

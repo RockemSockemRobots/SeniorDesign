@@ -71,7 +71,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define FILEHEADER "Samp\t\t\tCH3\t\tCH4\n"
 #define FILEHEADERCHARS 16
 
-#define BUFFERSIZE 2
+#define BUFFERSIZE 1
 #define USBBYTES (BUFFERSIZE*27)
 #define NUM_RX_CHANNELS 1
 // *****************************************************************************
