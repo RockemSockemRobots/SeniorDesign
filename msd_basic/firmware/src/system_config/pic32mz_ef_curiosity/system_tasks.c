@@ -83,16 +83,13 @@ void SYS_Tasks ( void )
     /* Maintain Middleware & Other Libraries */
 
  
-    /* USBHS Driver Task Routine */ 
-     DRV_USBHS_Tasks(sysObj.drvUSBObject);
+        /* USBHS Driver Task Routine */ 
+         DRV_USBHS_Tasks(sysObj.drvUSBObject);
+         
+ 
+        /* USB Host layer task routine.*/
+        USB_HOST_Tasks(sysObj.usbHostObject0);
 
-
-    /* USB Host layer task routine.*/
-    USB_HOST_Tasks(sysObj.usbHostObject0);
-
-
-    /* Maintain the application's state machine. */
-    APP_Tasks();
 }
 
 

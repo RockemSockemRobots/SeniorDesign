@@ -89,8 +89,8 @@ void __ISR ( _USB_DMA_VECTOR, IPL4AUTO)  _IntHandlerUSBInstance0_USBDMA ( void )
 void __ISR( _TIMER_3_VECTOR, IPL6AUTO) _IntHandlerDebounceTimer(void) { //debouncetimer
     IFS0bits.T3IF = 0;
     timer3OFF();
+    setDebounced();
     togglePress();
-    setDebounced();    
     TMR3 = 0x0000;
 }
 
@@ -106,12 +106,6 @@ void __ISR( _TIMER_4_VECTOR, IPL1AUTO) _IntHandlerTmr4(void) { //older test
     //addSample();
     TMR4 = 0x0000;
 }
-
-//void __ISR( _TIMER_6_VECTOR, IPL7AUTO) _IntHandlerTmr6(void) {
-//    IFS0bits.T6IF = 0;
-//    TMR6 = 0x0000;
-//    readFIFO();
-//}
 
 //void __ISR( _TIMER_5_VECTOR, IPL1AUTO) _IntHandlerTmr5(void) {
 //    IFS0bits.T5IF = 0;

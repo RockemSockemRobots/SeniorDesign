@@ -300,7 +300,7 @@ void SYS_Initialize ( void* data )
 
     /* Initialize Drivers */
     
-    //configureADCs();
+    configureADCs();
 
     sysObj.drvTmr0 = DRV_TMR_Initialize(DRV_TMR_INDEX_0, (SYS_MODULE_INIT *)&drvTmr0InitData);
 
@@ -316,16 +316,13 @@ void SYS_Initialize ( void* data )
     SYS_INT_VectorPrioritySet(INT_VECTOR_T4, INT_PRIORITY_LEVEL1);
     SYS_INT_VectorSubprioritySet(INT_VECTOR_T4, INT_SUBPRIORITY_LEVEL0);
     
-//    SYS_INT_VectorPrioritySet(INT_VECTOR_T6, INT_PRIORITY_LEVEL7);
-//    SYS_INT_VectorSubprioritySet(INT_VECTOR_T6, INT_SUBPRIORITY_LEVEL0);
-    
 //    SYS_INT_VectorPrioritySet(INT_VECTOR_T5, INT_PRIORITY_LEVEL1);
 //    SYS_INT_VectorSubprioritySet(INT_VECTOR_T5, INT_SUBPRIORITY_LEVEL0);
     
 //    SYS_INT_VectorPrioritySet(_ADC_FIFO_VECTOR, INT_PRIORITY_LEVEL7);
 //    SYS_INT_VectorSubprioritySet(_ADC_FIFO_VECTOR, INT_SUBPRIORITY_LEVEL0);
     
-//    SYS_INT_VectorPrioritySet(INT_VECTOR_ADC1, INT_PRIORITY_LEVEL7);
+//    SYS_INT_VectorPrioritySet(INT_VECTOR_ADC1, INT_PRIORITY_LEVEL6);
 //    SYS_INT_VectorSubprioritySet(INT_VECTOR_ADC1, INT_SUBPRIORITY_LEVEL0);
     
 //    SYS_INT_VectorPrioritySet(INT_VECTOR_ADC1_DATA1, INT_PRIORITY_LEVEL6);
@@ -373,10 +370,6 @@ void SYS_Initialize ( void* data )
 
     /* Enable Global Interrupts */
     SYS_INT_Enable();
-    
-    
-    /* Initialize the Application */
-    APP_Initialize();
 }
 
 
