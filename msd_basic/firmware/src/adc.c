@@ -57,11 +57,11 @@ void configureADCs(){
     ADC2TIMEbits.ADCDIV = 1; // ADC2 clock frequency is half of control clock = TAD2 -> 100ns
     ADC2TIMEbits.SAMC = 555; // ADC2 sampling time = 555 * TAD2 -> 55.5us
     ADC2TIMEbits.SELRES = 3; // ADC2 resolution is 12 bits
-    ADC3TIMEbits.ADCDIV = 2; // ADC3 clock frequency is 1/4 of control clock = TAD3 -> 200ns
-    ADC3TIMEbits.SAMC = 277; // ADC3 sampling time = 277 * TAD3 -> 55.4us
+    ADC3TIMEbits.ADCDIV = 1; // ADC3 clock frequency is 1/2 of control clock = TAD3 -> 100ns
+    ADC3TIMEbits.SAMC = 10; // ADC3 sampling time = 555 * TAD3 -> 55.5us
     ADC3TIMEbits.SELRES = 3; // ADC3 resolution is 12 bits
-    ADC4TIMEbits.ADCDIV = 3; // ADC4 clock frequency is 1/6 of control clock = TAD4 -> 300ns
-    ADC4TIMEbits.SAMC = 185; // ADC4 sampling time = 185 * TAD4 -> 55.5us
+    ADC4TIMEbits.ADCDIV = 2; // ADC4 clock frequency is 1/4 of control clock = TAD4 -> 200ns
+    ADC4TIMEbits.SAMC = 5; // ADC4 sampling time = 277 * TAD4 -> 55.4us
     ADC4TIMEbits.SELRES = 3; // ADC4 resolution is 12 bits
     
     /* Select analog input for ADC modules, no presync trigger, not sync sampling */

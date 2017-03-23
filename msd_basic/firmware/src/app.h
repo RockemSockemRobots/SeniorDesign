@@ -68,11 +68,11 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 // *****************************************************************************
 #define FILENAME "/mnt/myDrive1/test.txt"
-#define FILEHEADER "Samp\t\t\tCH3\t\tCH4\n"
-#define FILEHEADERCHARS 16
+#define FILEHEADER "Samp\tCH3\t\tCH4\n"
+#define FILEHEADERCHARS 14
 
-#define BUFFERSIZE 48
-#define USBBYTES (BUFFERSIZE*27)
+#define BUFFERSIZE 2048
+#define USBBYTES (BUFFERSIZE*18)
 #define NUM_RX_CHANNELS 1
 // *****************************************************************************
 /* Application States

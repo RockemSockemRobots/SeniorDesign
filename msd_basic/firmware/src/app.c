@@ -160,10 +160,10 @@ void togglePress(){
     currentlyPressed = !currentlyPressed;
 }
 void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_CHANNELS*2)]){
-    char temp[27] = "";
+    char temp[18] = "";
     int row = 0;
     for(row = 0; row < BUFFERSIZE; row++){
-        sprintf(temp, "%010d\t%07d\t%07d\n", buffer2Conv[row][0], buffer2Conv[row][1], buffer2Conv[row][2]);
+        sprintf(temp, "%07d\t%04d\t%04d\n", buffer2Conv[row][0], buffer2Conv[row][1], buffer2Conv[row][2]);
         strcat(usbCharBuff, temp);
     }
 }
@@ -196,7 +196,7 @@ void APP_Initialize ( void )
     initTimer3();
     initTimer4();
     initTimer5();
-    //configureADCs();
+    configureADCs();
     initOnBoardSwitch();
 }
 
