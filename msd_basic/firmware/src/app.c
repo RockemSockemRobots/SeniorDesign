@@ -242,7 +242,7 @@ void APP_Tasks ( void )
 {
     char textBuff[USBBYTES] = "";
     int tempFIFOdata[16][2];
-    int tempCount = 0;
+    //int tempCount = 0;
     int FIFOstatus = 0;
     int FIFOcount = 0;
     int i = 0;
@@ -357,7 +357,7 @@ void APP_Tasks ( void )
                 if(FIFOstatus == 1 && FIFOcount >= 2){
                     BSP_LEDOn( APP_USB_LED_2 );
                     if(ADCFSTATbits.FWROVERR){
-                        BSP_LEDOn( APP_USB_LED_1 ); //crap
+                        BSP_LEDOn( APP_USB_LED_1 ); //overflow
                     }
                     else{
                         i = 0;
@@ -374,7 +374,7 @@ void APP_Tasks ( void )
                         while(tempFIFOdata[i][1] != -1 && i!=16){
                             if(currInBuff == 1 && currOutBuff == 2){
                                 if(tempFIFOdata[i][0] == 3){
-                                    radarDataBuffer1[bufferindex3][1] = tempFIFOdata[i][1]; //ADCDATA1bits.DATA; <- what is this BS??
+                                    radarDataBuffer1[bufferindex3][1] = tempFIFOdata[i][1];
                                     bufferindex3++;
                                 }
                                 else if(tempFIFOdata[i][0] == 4){
@@ -382,7 +382,7 @@ void APP_Tasks ( void )
                                     radarDataBuffer1[bufferindex][0] = n;
                                     radarDataBuffer1[bufferindex4][2] = tempFIFOdata[i][1];
                                     bufferindex4++; bufferindex++;
-                                    if(bufferindex == BUFFERSIZE){ //this causing probs? probs.
+                                    if(bufferindex == BUFFERSIZE){
                                         if(currInBuff == 1 && currOutBuff == 2){
                                                 currInBuff = 2; currOutBuff = 1;
                                                 bufferindex = 0; bufferindex3 = 0; bufferindex4 = 0;
@@ -407,7 +407,7 @@ void APP_Tasks ( void )
                                     radarDataBuffer2[bufferindex4][2] = tempFIFOdata[i][1];
                                     bufferindex4++; bufferindex++;
                                 }
-                                if(bufferindex == BUFFERSIZE){ //this causing probs? probs.
+                                if(bufferindex == BUFFERSIZE){
                                         if(currInBuff == 1 && currOutBuff == 2){
                                                 currInBuff = 2; currOutBuff = 1;
                                                 bufferindex = 0; bufferindex3 = 0; bufferindex4 = 0;

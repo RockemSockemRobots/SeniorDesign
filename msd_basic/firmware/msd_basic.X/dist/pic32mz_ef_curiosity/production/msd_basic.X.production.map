@@ -81,8 +81,8 @@ mutexFileSystemObj  0x1               build/pic32mz_ef_curiosity/production/_ext
 gDrvUSBEndpoints    0x20              build/pic32mz_ef_curiosity/production/_ext/276079137/drv_usbhs.o
 sysObj              0x14              build/pic32mz_ef_curiosity/production/_ext/1488941123/system_init.o
 gDrvUSBObj          0x17c             build/pic32mz_ef_curiosity/production/_ext/276079137/drv_usbhs.o
-radarDataBuffer1    0x6000            build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
-radarDataBuffer2    0x6000            build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
+radarDataBuffer1    0x9000            build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
+radarDataBuffer2    0x9000            build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
 gSYSFSFileObj       0x110             build/pic32mz_ef_curiosity/production/_ext/1876606571/sys_fs.o
 gUSBHostSCSIAttachListener
                     0x0               build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_scsi.o
@@ -462,34 +462,34 @@ section                    address  length [bytes]      (dec)  Description
 -------                 ----------  -------------------------  -----------
 .sdata                  0x80000000           0x3c          60  Small init data 
 .sbss                   0x8000003c           0x6c         108  Small uninit data 
-.bss                    0x800000a8         0xca9c       51868  Uninitialized data 
-.bss                    0x8000d350          0x710        1808  Uninitialized data 
-.data                   0x8000da60          0x410        1040  Initialized data 
-.bss                    0x8000e0b0          0x234         564  Uninitialized data 
-.data                   0x8000e820           0xd4         212  Initialized data 
-.bss                    0x8000e8f4          0x118         280  Uninitialized data 
-.data                   0x8000ea0c           0x50          80  Initialized data 
-.bss                    0x8000ea5c           0x70         112  Uninitialized data 
-.data                   0x8000eacc           0xb8         184  Initialized data 
-.bss                    0x8000eb84           0x24          36  Uninitialized data 
-.bss.gSYSFSMediaBlockBu 0x8000cb50          0x800        2048   
-.bss.FAFFSVolume.FAFFSV 0x8000de70          0x240         576   
-.bss.FATFSFileObject.FA 0x8000e2f0          0x230         560   
-.bss.gSYSFSMediaBuffer. 0x8000e520          0x200         512   
-.bss.gUSBSCSIBuffer.gUS 0x8000e720          0x100         256   
-.bss.gUSBHostMSDCBW.gUS 0x8000ebb0           0x20          32   
-.bss.gUSBHostMSDCSW.gUS 0x8000ebd0           0x10          16   
-         Total kseg0_data_mem used  :      0xebc0       60352  11.5% of 0x80000
+.bss                    0x800000a8        0x12a9c       76444  Uninitialized data 
+.bss                    0x80013350          0x710        1808  Uninitialized data 
+.data                   0x80013a60          0x410        1040  Initialized data 
+.bss                    0x800140b0          0x234         564  Uninitialized data 
+.data                   0x80014820           0xd4         212  Initialized data 
+.bss                    0x800148f4          0x118         280  Uninitialized data 
+.data                   0x80014a0c           0x50          80  Initialized data 
+.bss                    0x80014a5c           0x70         112  Uninitialized data 
+.data                   0x80014acc           0xb8         184  Initialized data 
+.bss                    0x80014b84           0x24          36  Uninitialized data 
+.bss.gSYSFSMediaBlockBu 0x80012b50          0x800        2048   
+.bss.FAFFSVolume.FAFFSV 0x80013e70          0x240         576   
+.bss.FATFSFileObject.FA 0x800142f0          0x230         560   
+.bss.gSYSFSMediaBuffer. 0x80014520          0x200         512   
+.bss.gUSBSCSIBuffer.gUS 0x80014720          0x100         256   
+.bss.gUSBHostMSDCBW.gUS 0x80014bb0           0x20          32   
+.bss.gUSBHostMSDCSW.gUS 0x80014bd0           0x10          16   
+         Total kseg0_data_mem used  :     0x14bc0       84928  16.2% of 0x80000
         --------------------------------------------------------------------------
-            Total Data Memory used  :      0xebc0       60352  11.5% of 0x80000
+            Total Data Memory used  :     0x14bc0       84928  16.2% of 0x80000
         --------------------------------------------------------------------------
 
 
 Dynamic Data-Memory Reservation
 section                    address  length [bytes]      (dec)  Description
 -------                 ----------  -------------------------  -----------
-heap                    0x8000ebe8          0x1f0         496  Reserved for heap 
-stack                   0x8000edf0        0x71208      463368  Reserved for stack 
+heap                    0x80014be8          0x1f0         496  Reserved for heap 
+stack                   0x80014df0        0x6b208      438792  Reserved for stack 
 
         --------------------------------------------------------------------------
 
@@ -2572,7 +2572,7 @@ END GROUP
                 0x800000a8                _sbss_end = .
                 0x800000a8                . = ALIGN (0x4)
 
-.bss            0x800000a8     0xca9c
+.bss            0x800000a8    0x12a9c
  *(.dynbss)
  *(COMMON)
  COMMON         0x800000a8      0x19c build/pic32mz_ef_curiosity/production/_ext/276079137/drv_usbhs.o
@@ -2593,14 +2593,14 @@ END GROUP
                 0x8000063c                gUSBHostSCSIObj
  COMMON         0x8000071c       0x14 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_init.o
                 0x8000071c                sysObj
- COMMON         0x80000730     0xc414 build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
+ COMMON         0x80000730    0x12414 build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
                 0x80000730                radarDataBuffer1
-                0x80006730                radarDataBuffer2
-                0x8000c730                usbObj
-                0x8000cb44                . = ALIGN ((. != 0x0)?0x4:0x1)
-                0x8000cb44                . = ALIGN (0x4)
-                0x8000cb44                _end = .
-                0x8000cb44                _bss_end = .
+                0x80009730                radarDataBuffer2
+                0x80012730                usbObj
+                0x80012b44                . = ALIGN ((. != 0x0)?0x4:0x1)
+                0x80012b44                . = ALIGN (0x4)
+                0x80012b44                _end = .
+                0x80012b44                _bss_end = .
                 0x00080000                _bmxdudba_address = 0x80000
                 0x00080000                _bmxdupba_address = 0x80000
 
@@ -2621,59 +2621,59 @@ END GROUP
  *(.gptab.bss)
  *(.gptab.sbss)
 
-.mdebug.abi32   0x8000cb44        0x0
+.mdebug.abi32   0x80012b44        0x0
  *(.mdebug.abi32)
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/256799347/bsp.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1698122060/drv_tmr.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/276079137/drv_usbhs.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/276079137/drv_usbhs_host.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1850345323/drv_adc_static.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/464737300/sys_clk_static.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1637942171/sys_devcon.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1637942171/sys_devcon_pic32mz.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1876606571/sys_fs.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1876606571/sys_fs_media_manager.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/106150384/ff.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/106150384/diskio.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1560362081/sys_int_pic32.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1556635708/sys_ports_static.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1592475509/sys_tmr.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_msd.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_scsi.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_init.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_interrupt.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_exceptions.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_tasks.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1360937237/main.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1360937237/timer.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1360937237/switch.o
- .mdebug.abi32  0x8000cb44        0x0 build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-cache-err-exception-handler.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-simple-tlb-refill-exception-handler.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(strcat.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(strncmp.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(strncpy.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(malloc.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(errno.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(sprintf_cdnopuxX.eo)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(_doprnt_cdnopuxX.eo)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(_iobdata.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(_iobfuncs.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(_iobstring.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(fputc.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_getc.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_write.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(xc32_uart.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_putc.o)
- .mdebug.abi32  0x8000cb44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/256799347/bsp.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1698122060/drv_tmr.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/276079137/drv_usbhs.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/276079137/drv_usbhs_host.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1850345323/drv_adc_static.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/464737300/sys_clk_static.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1637942171/sys_devcon.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1637942171/sys_devcon_pic32mz.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1876606571/sys_fs.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1876606571/sys_fs_media_manager.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/106150384/ff.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/106150384/diskio.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1560362081/sys_int_pic32.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1556635708/sys_ports_static.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1592475509/sys_tmr.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_msd.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_scsi.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_init.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_interrupt.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_exceptions.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_tasks.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1360937237/main.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1360937237/timer.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1360937237/switch.o
+ .mdebug.abi32  0x80012b44        0x0 build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-cache-err-exception-handler.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-simple-tlb-refill-exception-handler.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(strcat.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(strncmp.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(strncpy.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(malloc.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(errno.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(sprintf_cdnopuxX.eo)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(_doprnt_cdnopuxX.eo)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(_iobdata.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(_iobfuncs.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(_iobstring.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(fputc.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_getc.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_write.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(xc32_uart.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_putc.o)
+ .mdebug.abi32  0x80012b44        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
 
 .mdebug.abiN32
  *(.mdebug.abiN32)
@@ -2886,7 +2886,7 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000    0x5e555
+.debug_info     0x00000000    0x5e543
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000     0x156d build/pic32mz_ef_curiosity/production/_ext/256799347/bsp.o
  .debug_info    0x0000156d     0x6247 build/pic32mz_ef_curiosity/production/_ext/1698122060/drv_tmr.o
@@ -2910,25 +2910,25 @@ END GROUP
  .debug_info    0x00054311     0x125d build/pic32mz_ef_curiosity/production/_ext/1488941123/system_interrupt.o
  .debug_info    0x0005556e      0xd4f build/pic32mz_ef_curiosity/production/_ext/1488941123/system_exceptions.o
  .debug_info    0x000562bd      0xbd5 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_tasks.o
- .debug_info    0x00056e92     0x20ae build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
- .debug_info    0x00058f40      0x22e build/pic32mz_ef_curiosity/production/_ext/1360937237/main.o
- .debug_info    0x0005916e     0x1007 build/pic32mz_ef_curiosity/production/_ext/1360937237/timer.o
- .debug_info    0x0005a175      0xa07 build/pic32mz_ef_curiosity/production/_ext/1360937237/switch.o
- .debug_info    0x0005ab7c     0x21a6 build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o
- .debug_info    0x0005cd22      0x779 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
- .debug_info    0x0005d49b       0xf5 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
- .debug_info    0x0005d590       0xcf c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
- .debug_info    0x0005d65f       0xd7 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
- .debug_info    0x0005d736       0xe9 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
- .debug_info    0x0005d81f       0xf5 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-cache-err-exception-handler.o)
- .debug_info    0x0005d914      0x105 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-simple-tlb-refill-exception-handler.o)
- .debug_info    0x0005da19      0x12c c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
- .debug_info    0x0005db45       0xc8 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_getc.o)
- .debug_info    0x0005dc0d       0xca c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_write.o)
- .debug_info    0x0005dcd7       0xc8 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_putc.o)
- .debug_info    0x0005dd9f      0x7b6 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .debug_info    0x00056e92     0x209c build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
+ .debug_info    0x00058f2e      0x22e build/pic32mz_ef_curiosity/production/_ext/1360937237/main.o
+ .debug_info    0x0005915c     0x1007 build/pic32mz_ef_curiosity/production/_ext/1360937237/timer.o
+ .debug_info    0x0005a163      0xa07 build/pic32mz_ef_curiosity/production/_ext/1360937237/switch.o
+ .debug_info    0x0005ab6a     0x21a6 build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o
+ .debug_info    0x0005cd10      0x779 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .debug_info    0x0005d489       0xf5 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_info    0x0005d57e       0xcf c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_info    0x0005d64d       0xd7 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_info    0x0005d724       0xe9 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_info    0x0005d80d       0xf5 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-cache-err-exception-handler.o)
+ .debug_info    0x0005d902      0x105 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-simple-tlb-refill-exception-handler.o)
+ .debug_info    0x0005da07      0x12c c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
+ .debug_info    0x0005db33       0xc8 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_getc.o)
+ .debug_info    0x0005dbfb       0xca c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_write.o)
+ .debug_info    0x0005dcc5       0xc8 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_putc.o)
+ .debug_info    0x0005dd8d      0x7b6 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
 
-.debug_abbrev   0x00000000     0x51bb
+.debug_abbrev   0x00000000     0x51ac
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x280 build/pic32mz_ef_curiosity/production/_ext/256799347/bsp.o
  .debug_abbrev  0x00000280      0x4b5 build/pic32mz_ef_curiosity/production/_ext/1698122060/drv_tmr.o
@@ -2952,23 +2952,23 @@ END GROUP
  .debug_abbrev  0x000043fa      0x153 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_interrupt.o
  .debug_abbrev  0x0000454d       0xef build/pic32mz_ef_curiosity/production/_ext/1488941123/system_exceptions.o
  .debug_abbrev  0x0000463c      0x12b build/pic32mz_ef_curiosity/production/_ext/1488941123/system_tasks.o
- .debug_abbrev  0x00004767      0x2af build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
- .debug_abbrev  0x00004a16       0xc7 build/pic32mz_ef_curiosity/production/_ext/1360937237/main.o
- .debug_abbrev  0x00004add       0xde build/pic32mz_ef_curiosity/production/_ext/1360937237/timer.o
- .debug_abbrev  0x00004bbb       0x95 build/pic32mz_ef_curiosity/production/_ext/1360937237/switch.o
- .debug_abbrev  0x00004c50      0x130 build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o
- .debug_abbrev  0x00004d80      0x138 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
- .debug_abbrev  0x00004eb8       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
- .debug_abbrev  0x00004ee0       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
- .debug_abbrev  0x00004f08       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
- .debug_abbrev  0x00004f30       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
- .debug_abbrev  0x00004f58       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-cache-err-exception-handler.o)
- .debug_abbrev  0x00004f80       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-simple-tlb-refill-exception-handler.o)
- .debug_abbrev  0x00004fa8       0x54 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
- .debug_abbrev  0x00004ffc       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_getc.o)
- .debug_abbrev  0x00005024       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_write.o)
- .debug_abbrev  0x0000504c       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_putc.o)
- .debug_abbrev  0x00005074      0x147 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .debug_abbrev  0x00004767      0x2a0 build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
+ .debug_abbrev  0x00004a07       0xc7 build/pic32mz_ef_curiosity/production/_ext/1360937237/main.o
+ .debug_abbrev  0x00004ace       0xde build/pic32mz_ef_curiosity/production/_ext/1360937237/timer.o
+ .debug_abbrev  0x00004bac       0x95 build/pic32mz_ef_curiosity/production/_ext/1360937237/switch.o
+ .debug_abbrev  0x00004c41      0x130 build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o
+ .debug_abbrev  0x00004d71      0x138 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .debug_abbrev  0x00004ea9       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_abbrev  0x00004ed1       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_abbrev  0x00004ef9       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_abbrev  0x00004f21       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_abbrev  0x00004f49       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-cache-err-exception-handler.o)
+ .debug_abbrev  0x00004f71       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-simple-tlb-refill-exception-handler.o)
+ .debug_abbrev  0x00004f99       0x54 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
+ .debug_abbrev  0x00004fed       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_getc.o)
+ .debug_abbrev  0x00005015       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_write.o)
+ .debug_abbrev  0x0000503d       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_putc.o)
+ .debug_abbrev  0x00005065      0x147 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
 
 .debug_line     0x00000000     0xfa9e
  *(.debug_line)
@@ -3379,8 +3379,8 @@ LOAD data_init
 .reginfo        0x00000000       0x18
  .reginfo       0x00000000       0x18 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MZ2048EFM100/crt0_mips32r2.o
 
-.stack          0x8000edf0      0x400
- .stack         0x8000edf0      0x400 stack
+.stack          0x80014df0      0x400
+ .stack         0x80014df0      0x400 stack
 
 .__vector_offset_BF810540_data
                 0xbf810540      0x178
@@ -3428,91 +3428,91 @@ LOAD data_init
                 0xbf810894        0x4 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/./proc/32MZ2048EFM100\vector_offset_init.o
 
 .bss.gSYSFSMediaBlockBuffer.gSYSFSMediaBlockBuffer
-                0xa000cb50      0x800
+                0xa0012b50      0x800
  .bss.gSYSFSMediaBlockBuffer.gSYSFSMediaBlockBuffer
-                0xa000cb50      0x800 build/pic32mz_ef_curiosity/production/_ext/1876606571/sys_fs_media_manager.o
-                0xa000cb50                gSYSFSMediaBlockBuffer
+                0xa0012b50      0x800 build/pic32mz_ef_curiosity/production/_ext/1876606571/sys_fs_media_manager.o
+                0xa0012b50                gSYSFSMediaBlockBuffer
 
-.bss            0x8000d350      0x710
- .bss           0x8000d350      0x710 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host.o
+.bss            0x80013350      0x710
+ .bss           0x80013350      0x710 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host.o
 
-.data           0x8000da60      0x410
- .data          0x8000da60      0x410 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(malloc.o)
-                0x8000da60                malloc_sbrk_base
-                0x8000da64                malloc_trim_threshold
-                0x8000da68                malloc_av_
+.data           0x80013a60      0x410
+ .data          0x80013a60      0x410 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(malloc.o)
+                0x80013a60                malloc_sbrk_base
+                0x80013a64                malloc_trim_threshold
+                0x80013a68                malloc_av_
 
 .bss.FAFFSVolume.FAFFSVolume
-                0xa000de70      0x240
+                0xa0013e70      0x240
  .bss.FAFFSVolume.FAFFSVolume
-                0xa000de70      0x240 build/pic32mz_ef_curiosity/production/_ext/106150384/ff.o
+                0xa0013e70      0x240 build/pic32mz_ef_curiosity/production/_ext/106150384/ff.o
 
-.bss            0x8000e0b0      0x234
- .bss           0x8000e0b0      0x234 build/pic32mz_ef_curiosity/production/_ext/106150384/ff.o
+.bss            0x800140b0      0x234
+ .bss           0x800140b0      0x234 build/pic32mz_ef_curiosity/production/_ext/106150384/ff.o
 
 .bss.FATFSFileObject.FATFSFileObject
-                0xa000e2f0      0x230
+                0xa00142f0      0x230
  .bss.FATFSFileObject.FATFSFileObject
-                0xa000e2f0      0x230 build/pic32mz_ef_curiosity/production/_ext/106150384/ff.o
+                0xa00142f0      0x230 build/pic32mz_ef_curiosity/production/_ext/106150384/ff.o
 
 .bss.gSYSFSMediaBuffer.gSYSFSMediaBuffer
-                0xa000e520      0x200
+                0xa0014520      0x200
  .bss.gSYSFSMediaBuffer.gSYSFSMediaBuffer
-                0xa000e520      0x200 build/pic32mz_ef_curiosity/production/_ext/1876606571/sys_fs_media_manager.o
-                0xa000e520                gSYSFSMediaBuffer
+                0xa0014520      0x200 build/pic32mz_ef_curiosity/production/_ext/1876606571/sys_fs_media_manager.o
+                0xa0014520                gSYSFSMediaBuffer
 
 .bss.gUSBSCSIBuffer.gUSBSCSIBuffer
-                0xa000e720      0x100
+                0xa0014720      0x100
  .bss.gUSBSCSIBuffer.gUSBSCSIBuffer
-                0xa000e720      0x100 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_scsi.o
-                0xa000e720                gUSBSCSIBuffer
+                0xa0014720      0x100 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_scsi.o
+                0xa0014720                gUSBSCSIBuffer
 
-.data           0x8000e820       0xd4
- .data          0x8000e820       0xd4 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(_iobdata.o)
+.data           0x80014820       0xd4
+ .data          0x80014820       0xd4 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(_iobdata.o)
 
-.bss            0x8000e8f4      0x118
- .bss           0x8000e8f4       0x90 build/pic32mz_ef_curiosity/production/_ext/1592475509/sys_tmr.o
- .bss           0x8000e984       0x88 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(_iobdata.o)
+.bss            0x800148f4      0x118
+ .bss           0x800148f4       0x90 build/pic32mz_ef_curiosity/production/_ext/1592475509/sys_tmr.o
+ .bss           0x80014984       0x88 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(_iobdata.o)
 
-.data           0x8000ea0c       0x50
- .data          0x8000ea0c       0x50 build/pic32mz_ef_curiosity/production/_ext/276079137/drv_usbhs_host.o
-                0x8000ea0c                gDrvUSBHSHostInterface
+.data           0x80014a0c       0x50
+ .data          0x80014a0c       0x50 build/pic32mz_ef_curiosity/production/_ext/276079137/drv_usbhs_host.o
+                0x80014a0c                gDrvUSBHSHostInterface
 
-.bss            0x8000ea5c       0x70
- .bss           0x8000ea5c       0x3c build/pic32mz_ef_curiosity/production/_ext/1698122060/drv_tmr.o
- .bss           0x8000ea98       0x34 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(malloc.o)
-                0x8000ea98                malloc_current_mallinfo
-                0x8000eac0                malloc_max_total_mem
-                0x8000eac4                malloc_max_sbrked_mem
-                0x8000eac8                malloc_top_pad
+.bss            0x80014a5c       0x70
+ .bss           0x80014a5c       0x3c build/pic32mz_ef_curiosity/production/_ext/1698122060/drv_tmr.o
+ .bss           0x80014a98       0x34 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\liblega-c.a(malloc.o)
+                0x80014a98                malloc_current_mallinfo
+                0x80014ac0                malloc_max_total_mem
+                0x80014ac4                malloc_max_sbrked_mem
+                0x80014ac8                malloc_top_pad
 
-.data           0x8000eacc       0xb8
- .data          0x8000eacc       0x30 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_scsi.o
-                0x8000eacc                gUSBHostMSDSCSIMediaFunctions
- .data          0x8000eafc       0x30 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_init.o
-                0x8000eafc                drvUSBHSInit
- .data          0x8000eb2c       0x2c build/pic32mz_ef_curiosity/production/_ext/1876606571/sys_fs_media_manager.o
-                0x8000eb2c                gSYSFSMediaManagerObj
-                0x8000eb44                gSYSFSVolumeName
- .data          0x8000eb58       0x2c build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_msd.o
-                0x8000eb58                gUSBHostMSDClientDriver
+.data           0x80014acc       0xb8
+ .data          0x80014acc       0x30 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_scsi.o
+                0x80014acc                gUSBHostMSDSCSIMediaFunctions
+ .data          0x80014afc       0x30 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_init.o
+                0x80014afc                drvUSBHSInit
+ .data          0x80014b2c       0x2c build/pic32mz_ef_curiosity/production/_ext/1876606571/sys_fs_media_manager.o
+                0x80014b2c                gSYSFSMediaManagerObj
+                0x80014b44                gSYSFSVolumeName
+ .data          0x80014b58       0x2c build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_msd.o
+                0x80014b58                gUSBHostMSDClientDriver
 
-.bss            0x8000eb84       0x24
- .bss           0x8000eb84       0x24 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
-                0x8000eba0                _maxbrk
-                0x8000eba4                _minbrk
+.bss            0x80014b84       0x24
+ .bss           0x80014b84       0x24 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
+                0x80014ba0                _maxbrk
+                0x80014ba4                _minbrk
 
 .bss.gUSBHostMSDCBW.gUSBHostMSDCBW
-                0xa000ebb0       0x20
+                0xa0014bb0       0x20
  .bss.gUSBHostMSDCBW.gUSBHostMSDCBW
-                0xa000ebb0       0x20 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_msd.o
-                0xa000ebb0                gUSBHostMSDCBW
+                0xa0014bb0       0x20 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_msd.o
+                0xa0014bb0                gUSBHostMSDCBW
 
 .bss.gUSBHostMSDCSW.gUSBHostMSDCSW
-                0xa000ebd0       0x10
+                0xa0014bd0       0x10
  .bss.gUSBHostMSDCSW.gUSBHostMSDCSW
-                0xa000ebd0       0x10 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_msd.o
-                0xa000ebd0                gUSBHostMSDCSW
+                0xa0014bd0       0x10 build/pic32mz_ef_curiosity/production/_ext/1004681772/usb_host_msd.o
+                0xa0014bd0                gUSBHostMSDCSW
 
 ._debug_exception
                 0xbfc00480       0x2c
