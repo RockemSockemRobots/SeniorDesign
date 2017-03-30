@@ -138,6 +138,25 @@ void _general_exception_handler ( void )
     }
 }
 
+
+void _simple_tlb_refill_exception_handler(void){
+    while (1)
+    {
+        SYS_DEBUG_BreakPoint();
+    }
+}
+void _cache_err_exception_handler(void){
+    while (1)
+    {
+        SYS_DEBUG_BreakPoint();
+    }
+}
+void _nmi_handler (void){
+    while (1)
+    {
+        SYS_DEBUG_BreakPoint();
+    }
+}
 /*******************************************************************************
  End of File
 */

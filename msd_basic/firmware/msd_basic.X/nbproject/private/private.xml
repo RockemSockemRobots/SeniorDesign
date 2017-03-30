@@ -4,6 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/app.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/main.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/system_tasks.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/driver/usb/usbhs/src/dynamic/drv_usbhs.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/system_interrupt.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/system_exceptions.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/system_init.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/usb/src/dynamic/usb_host.c</file>
+            <file>file:/C:/Users/jsiek/Documents/Spring_2017/ENGR498/capture/SeniorDesign/msd_basic/firmware/src/system_config/pic32mz_ef_curiosity/framework/system/fs/src/dynamic/sys_fs_media_manager.c</file>
         </group>
     </open-files>
 </project-private>

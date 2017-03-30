@@ -116,8 +116,8 @@ void __ISR( _TIMER_4_VECTOR, IPL1AUTO) _IntHandlerTmr4(void) { //older test
 //    //addSampleFromFIFO();
 //}
 
-//void __ISR( _ADC_VECTOR, IPL6AUTO) _IntHandlerADCGlobal(void){
-//    if(ADCDSTAT1bits.ARDY2 && ADCDSTAT1bits.ARDY3){ //these probably won't be ready at the same time...
+//void __ISR( _ADC_VECTOR, IPL7AUTO) _IntHandlerADCGlobal(void){
+//    if(ADCDSTAT1bits.ARDY3 && ADCDSTAT1bits.ARDY4){ //these probably won't be ready at the same time...
 //        addSample();
 //        IFS1 = 0; //flags CANNOT be cleared until after data has been read
 //    }
@@ -144,18 +144,15 @@ void __ISR( _TIMER_4_VECTOR, IPL1AUTO) _IntHandlerTmr4(void) { //older test
 //}
 //
 //void __ISR( _ADC_DATA3_VECTOR, IPL6AUTO) _IntHandlerADCData3(void){
-//    if(ADCDSTAT1bits.ARDY2 && ADCDSTAT1bits.ARDY3){ //these probably won't be ready at the same time...
+//    if(ADCDSTAT1bits.ARDY3 && ADCDSTAT1bits.ARDY4){ //these probably won't be ready at the same time...
 //        addSample();
 //        IFS1 = 0; //flags CANNOT be cleared until after data has been read
 //    }
 //}
 //void __ISR( _ADC_DATA4_VECTOR, IPL6AUTO) _IntHandlerADCData4(void){
-//    IFS1bits.ADCD4IF = 0; //pull global adc flag down
-//    if(ADCDSTAT1bits.ARDY1 && ADCDSTAT1bits.ARDY2 && ADCDSTAT1bits.ARDY3 && ADCDSTAT1bits.ARDY4){ //these probably won't be ready at the same time...
+//    if(ADCDSTAT1bits.ARDY3 && ADCDSTAT1bits.ARDY4){ //these probably won't be ready at the same time...
 //        addSample();
-//    }
-//    else{
-//        error();
+//        IFS1 = 0; //flags CANNOT be cleared until after data has been read
 //    }
 //}
 /*******************************************************************************

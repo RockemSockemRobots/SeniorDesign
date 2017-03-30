@@ -115,15 +115,15 @@ void addSample(){
     n++;
     if(currInBuff == 1 && currOutBuff == 2){
         radarDataBuffer1[bufferindex][0] = n;
-        radarDataBuffer1[bufferindex][1] = ADCDATA2; //ADCDATA1bits.DATA; <- what is this BS??
-        radarDataBuffer1[bufferindex][2] = ADCDATA3;
+        radarDataBuffer1[bufferindex][1] = ADCDATA3; //ADCDATA1bits.DATA; <- what is this BS??
+        radarDataBuffer1[bufferindex][2] = ADCDATA4;
         //radarDataBuffer1[bufferindex][3] = ADCDATA4;
         bufferindex++;
     }
     else if(currInBuff == 2 && currOutBuff == 1){
         radarDataBuffer2[bufferindex][0] = n;
-        radarDataBuffer2[bufferindex][1] = ADCDATA2;
-        radarDataBuffer2[bufferindex][2] = ADCDATA3;
+        radarDataBuffer2[bufferindex][1] = ADCDATA3;
+        radarDataBuffer2[bufferindex][2] = ADCDATA4;
         //radarDataBuffer2[bufferindex][3] = ADCDATA4;
         bufferindex++;
     }
