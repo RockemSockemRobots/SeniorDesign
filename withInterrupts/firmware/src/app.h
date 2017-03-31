@@ -67,12 +67,12 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // Section: Type Definitions
 // *****************************************************************************
 // *****************************************************************************
-#define FILENAME "/mnt/myDrive1/test.txt"
+#define FILENAME "/mnt/myDrive1/test.bin"
 #define FILEHEADER "Samp\tCH3\t\tCH4\n"
 #define FILEHEADERCHARS 14
 
-#define BUFFERSIZE 256
-#define USBBYTES (BUFFERSIZE*18)
+#define BUFFERSIZE 63000 //3.5sec buffer length
+#define USBBYTES (BUFFERSIZE*4)
 #define NUM_RX_CHANNELS 1
 // *****************************************************************************
 /* Application States
