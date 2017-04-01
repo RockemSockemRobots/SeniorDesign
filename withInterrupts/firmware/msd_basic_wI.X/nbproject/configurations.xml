@@ -1228,6 +1228,7 @@
         <itemPath>../src/timer.h</itemPath>
         <itemPath>../src/switch.h</itemPath>
         <itemPath>../src/adc.h</itemPath>
+        <itemPath>../src/pll_ref.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
@@ -1327,6 +1328,7 @@
         <itemPath>../src/timer.c</itemPath>
         <itemPath>../src/switch.c</itemPath>
         <itemPath>../src/adc.c</itemPath>
+        <itemPath>../src/pll_ref.c</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"

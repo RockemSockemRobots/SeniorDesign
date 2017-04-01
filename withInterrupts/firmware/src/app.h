@@ -61,6 +61,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 #include "timer.h"
 #include "switch.h"
+#include "adc.h"
+#include "pll_ref.h"
 
 // *****************************************************************************
 // *****************************************************************************
