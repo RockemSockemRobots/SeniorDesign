@@ -182,4 +182,5 @@ build/pic32mz_ef_curiosity/debug/_ext/1488941123/system_tasks.o:  \
  ../src/timer.h  \
 ../src/switch.h  \
 ../src/adc.h  \
-../src/pll_ref.h 
+../src/pll_ref.h  \
+ ../src/SPI.h 

@@ -8,13 +8,14 @@
 #define	SPI_H
 
 #include <xc.h>
+#include <stdint.h>
 
 #ifdef	__cplusplus
 extern "C" {
 #endif
 
-void spiInit();
-
+void initSPI();
+void sendWordSPI(uint16_t word);
 
 #ifdef	__cplusplus
 }

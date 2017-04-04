@@ -81,9 +81,11 @@ int main ( void )
     while ( true )
     {
         /* Maintain state machines of all polled MPLAB Harmony modules. */
-        SYS_Tasks();
+        //SYS_Tasks();
         /* Maintain the application's state machine. */
-        APP_Tasks();
+        //APP_Tasks();
+        sendWordSPI(0x0180);
+        delay5ms();
     }
 
     /* Execution should not come here during normal operation */

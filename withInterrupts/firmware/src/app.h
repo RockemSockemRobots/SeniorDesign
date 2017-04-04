@@ -63,6 +63,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "switch.h"
 #include "adc.h"
 #include "pll_ref.h"
+#include "SPI.h"
 
 // *****************************************************************************
 // *****************************************************************************

@@ -209,6 +209,7 @@ void APP_Initialize ( void )
     configureADCs();
     initOnBoardSwitch();
     init1MHzPLL_REF();
+    initSPI();
 }
 
 USB_HOST_EVENT_RESPONSE APP_USBHostEventHandler (USB_HOST_EVENT event, void * eventData, uintptr_t context)

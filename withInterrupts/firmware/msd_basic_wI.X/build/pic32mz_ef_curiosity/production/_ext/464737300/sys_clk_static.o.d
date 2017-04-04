@@ -180,4 +180,5 @@ build/pic32mz_ef_curiosity/production/_ext/464737300/sys_clk_static.o:  \
 ../src/timer.h  \
 ../src/switch.h  \
 ../src/adc.h  \
- ../src/pll_ref.h 
+ ../src/pll_ref.h  \
+../src/SPI.h 
