@@ -9,13 +9,16 @@ void init1MHzPLL_REF(){
     REFO1CONbits.RODIV = 100; //Fig. 8-1 divider is 2*N where N is RODIV
     REFO1TRIMbits.ROTRIM = 0;
     /*200MHz -> div by 2*100 = 1MHz*/
+    //REFO1CONbits.OE = 1;
     REFO1CONbits.ON = 1;
 }
 
 void enablePLL_REF(){
     REFO1CONbits.OE = 1;
+    //REFO1CONbits.ON = 1;
 }
 
 void disablePPL_REF(){
+    //REFO1CONbits.ON = 0;
     REFO1CONbits.OE = 0;
 }

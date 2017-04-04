@@ -179,4 +179,6 @@ build/pic32mz_ef_curiosity/debug/_ext/1488941123/system_interrupt.o:  \
  ../src/system_config/pic32mz_ef_curiosity/framework/usb/usb_host_scsi.h  \
  ../src/timer.h  \
 ../src/switch.h  \
+../src/adc.h  \
+../src/pll_ref.h  \
  ../src/system_config/pic32mz_ef_curiosity/system_definitions.h 

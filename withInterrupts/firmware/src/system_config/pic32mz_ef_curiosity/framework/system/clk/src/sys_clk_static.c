@@ -98,7 +98,7 @@ void SYS_CLK_Initialize( const SYS_CLK_INIT const * clkInit )
     //PB1DIVbits.ON = 1; //<- not a real instruction because PB1 is always on
 
     /* Enable Peripheral Bus 2 */ //For SPI
-    PB2DIVbits.PBDIV = 0b0000001;
+    PB2DIVbits.PBDIV = 0b0000000; //200MHz
     PB2DIVbits.ON = 1;
     /* Enable Peripheral Bus 3 */ //For Timers
     PB3DIVbits.PBDIV = 0b0000001;

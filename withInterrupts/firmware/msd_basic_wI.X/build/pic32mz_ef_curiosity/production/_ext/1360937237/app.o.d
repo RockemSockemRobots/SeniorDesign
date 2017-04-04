@@ -179,4 +179,6 @@ build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o:  \
  ../src/system_config/pic32mz_ef_curiosity/framework/usb/usb_host_scsi.h  \
  ../src/app.h  \
 ../src/timer.h  \
-../src/switch.h 
+../src/switch.h  \
+../src/adc.h  \
+ ../src/pll_ref.h 

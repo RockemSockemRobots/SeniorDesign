@@ -1,5 +1,5 @@
 clear;
-filename = 'test_500hz';
+filename = 'test_10hz';
 
 fileID = fopen(strcat(filename,'.bin'),'r');
 A = fread(fileID,'uint16');
