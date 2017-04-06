@@ -115,8 +115,8 @@ void addSample(){
     n++;
     if(currInBuff == 1 && currOutBuff == 2){
 //        radarDataBuffer1[bufferindex][0] = n;
-        radarDataBuffer1[bufferindex][0] = ADCDATA3; //ADCDATA1bits.DATA; <- what is this BS??
-        radarDataBuffer1[bufferindex][1] = ADCDATA4;
+        radarDataBuffer1[bufferindex][0] = ADCDATA2; //ADCDATA1bits.DATA; <- what is this BS??
+        radarDataBuffer1[bufferindex][1] = ADCDATA3;
         //radarDataBuffer1[bufferindex][3] = ADCDATA4;
         bufferindex++;
         if(bufferindex == BUFFERSIZE){
@@ -127,8 +127,8 @@ void addSample(){
     }
     else if(currInBuff == 2 && currOutBuff == 1){
 //        radarDataBuffer2[bufferindex][0] = n;
-        radarDataBuffer2[bufferindex][0] = ADCDATA3;
-        radarDataBuffer2[bufferindex][1] = ADCDATA4;
+        radarDataBuffer2[bufferindex][0] = ADCDATA2;
+        radarDataBuffer2[bufferindex][1] = ADCDATA3;
         //radarDataBuffer2[bufferindex][3] = ADCDATA4;
         bufferindex++;
         if(bufferindex == BUFFERSIZE){
@@ -139,7 +139,7 @@ void addSample(){
     }
     else{ usbObj.state = STATE_ERROR; }
 }
-void addSampleFromFIFO(){
+void addSampleFromFIFO(){ //this does not jive with current version of adc...will remove later
     BSP_LEDOn( BSP_RGB_LED_RED );
     BSP_LEDOff( BSP_RGB_LED_GREEN );
     BSP_LEDOff( BSP_RGB_LED_BLUE );
@@ -181,7 +181,7 @@ void error(){
     usbObj.state = STATE_ERROR;
 }
 void doNothing(){
-    
+    //very important function
 }
 // *****************************************************************************
 // *****************************************************************************
@@ -499,7 +499,7 @@ void APP_Tasks ( void )
             remainingBytes = bufferindex*4;
             /* Finish writing collected data */
             if(currInBuff == 1 && currOutBuff == 2){
-                if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) radarDataBuffer1, remainingBytes) == -1){ usbObj.state = STATE_ERROR; } //send in buffer
+                if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) radarDataBuffer1, remainingBytes) == -1){ usbObj.state = STATE_ERROR; } //send remaining data from currInBuff
                 else{
                     /* Close the file */
                     SYS_FS_FileClose(usbObj.fileHandle);
@@ -507,7 +507,7 @@ void APP_Tasks ( void )
                 }
             }
             else if(currInBuff == 2 && currOutBuff == 1){
-                if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) radarDataBuffer2, remainingBytes) == -1){ usbObj.state = STATE_ERROR; } //send in buffer
+                if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) radarDataBuffer2, remainingBytes) == -1){ usbObj.state = STATE_ERROR; } //send remaining data from currInBuff
                 else{
                     /* Close the file */
                     SYS_FS_FileClose(usbObj.fileHandle);
