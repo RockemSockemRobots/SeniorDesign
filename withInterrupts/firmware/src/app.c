@@ -65,10 +65,10 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 /* Application Data
 
   Summary:
-    Holds application data
+    Holds usb data
 
   Description:
-    This structure holds the application's data.
+    This structure holds the usb's data.
 
   Remarks:
     This structure should be initialized by the APP_Initialize function.
@@ -81,7 +81,7 @@ USB_OBJ usbObj;
 volatile int transmits = 0;
 volatile bool debounced = false;
 volatile uint32_t n = 0;
-volatile uint16_t radarDataBuffer1[BUFFERSIZE][(NUM_RX_CHANNELS*2)]; //"000000.000000\t000000000000\n"
+volatile uint16_t radarDataBuffer1[BUFFERSIZE][(NUM_RX_CHANNELS*2)];
 volatile uint16_t radarDataBuffer2[BUFFERSIZE][(NUM_RX_CHANNELS*2)];
 volatile int bufferindex = 0;
 volatile int bufferindex2 = 0;
@@ -114,54 +114,23 @@ void addSample(){
     BSP_LEDOff( BSP_RGB_LED_BLUE );
     n++;
     if(currInBuff == 1 && currOutBuff == 2){
-//        radarDataBuffer1[bufferindex][0] = n;
-        radarDataBuffer1[bufferindex][0] = ADCDATA2; //ADCDATA1bits.DATA; <- what is this BS??
+        radarDataBuffer1[bufferindex][0] = ADCDATA2;
         radarDataBuffer1[bufferindex][1] = ADCDATA3;
-        //radarDataBuffer1[bufferindex][3] = ADCDATA4;
         bufferindex++;
         if(bufferindex == BUFFERSIZE){
             currInBuff = 2; currOutBuff = 1;
-            bufferindex = 0; //bufferindex4 = 0; bufferindex3 = 0;
+            bufferindex = 0;
             usbObj.state = STATE_WRITE_TO_FILE;
         }
     }
     else if(currInBuff == 2 && currOutBuff == 1){
-//        radarDataBuffer2[bufferindex][0] = n;
         radarDataBuffer2[bufferindex][0] = ADCDATA2;
         radarDataBuffer2[bufferindex][1] = ADCDATA3;
-        //radarDataBuffer2[bufferindex][3] = ADCDATA4;
         bufferindex++;
         if(bufferindex == BUFFERSIZE){
             currInBuff = 1; currOutBuff = 2;
-            bufferindex = 0; //bufferindex4 = 0; bufferindex3 = 0;
+            bufferindex = 0;
             usbObj.state = STATE_WRITE_TO_FILE;
-        }
-    }
-    else{ usbObj.state = STATE_ERROR; }
-}
-void addSampleFromFIFO(){ //this does not jive with current version of adc...will remove later
-    BSP_LEDOn( BSP_RGB_LED_RED );
-    BSP_LEDOff( BSP_RGB_LED_GREEN );
-    BSP_LEDOff( BSP_RGB_LED_BLUE );
-    int ID = ADCFSTATbits.ADCID;
-    if(currInBuff == 1 && currOutBuff == 2){
-        if(ID == 4){
-            radarDataBuffer1[bufferindex2][1] = ADCFIFO; //ADCDATA1bits.DATA; <- what is this BS??
-            bufferindex2++;
-        }
-        else if(ID == 3){
-            radarDataBuffer1[bufferindex3][2] = ADCFIFO;
-            bufferindex3++;
-        }
-    }
-    else if(currInBuff == 2 && currOutBuff == 1){
-        if(ID == 4){
-//            radarDataBuffer2[bufferindex2][1] = ADCFIFO; //ADCDATA1bits.DATA; <- what is this BS??
-            bufferindex2++;
-        }
-        else if(ID == 3){
-//            radarDataBuffer2[bufferindex3][2] = ADCFIFO;
-            bufferindex3++;
         }
     }
     else{ usbObj.state = STATE_ERROR; }
@@ -169,19 +138,13 @@ void addSampleFromFIFO(){ //this does not jive with current version of adc...wil
 void togglePress(){
     currentlyPressed = !currentlyPressed;
 }
-void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_CHANNELS*2)]){
+void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_CHANNELS*2)]){ //sprintf takes way too long
     char temp[18] = "";
     int row = 0;
     for(row = 0; row < BUFFERSIZE; row++){
         sprintf(temp, "%07d\t%04d\t%04d\n", buffer2Conv[row][0], buffer2Conv[row][1], buffer2Conv[row][2]);
         strcat(usbCharBuff, temp);
     }
-}
-void error(){
-    usbObj.state = STATE_ERROR;
-}
-void doNothing(){
-    //very important function
 }
 // *****************************************************************************
 // *****************************************************************************
@@ -210,6 +173,8 @@ void APP_Initialize ( void )
     initOnBoardSwitch();
     init1MHzPLL_REF();
     initSPI();
+    //radar module initialization and frequency calibration
+    
 }
 
 USB_HOST_EVENT_RESPONSE APP_USBHostEventHandler (USB_HOST_EVENT event, void * eventData, uintptr_t context)
@@ -220,9 +185,7 @@ USB_HOST_EVENT_RESPONSE APP_USBHostEventHandler (USB_HOST_EVENT event, void * ev
             break;
         default:
             break;
-                    
     }
-    
     return(USB_HOST_EVENT_RESPONSE_NONE);
 }
 
@@ -233,11 +196,9 @@ void APP_SYSFSEventHandler(SYS_FS_EVENT event, void * eventData, uintptr_t conte
         case SYS_FS_EVENT_MOUNT:
             usbObj.deviceIsConnected = true;
             break;
-            
         case SYS_FS_EVENT_UNMOUNT:
             usbObj.deviceIsConnected = false;
             break;
-            
         default:
             break;
     }
@@ -252,17 +213,10 @@ void APP_SYSFSEventHandler(SYS_FS_EVENT event, void * eventData, uintptr_t conte
  */
 void APP_Tasks ( void )
 {
-//    char textBuff[USBBYTES] = "";
-    int tempFIFOdata[16][2];
-    //int tempCount = 0;
-    int FIFOstatus = 0;
-    int FIFOcount = 0;
-    int i = 0;
     int remainingBytes = 0;
     switch(usbObj.state)
     {
-        case STATE_BUS_ENABLE:
-                      
+        case STATE_BUS_ENABLE:   
            /* Set the event handler and enable the bus */
             SYS_FS_EventHandlerSet(APP_SYSFSEventHandler, (uintptr_t)NULL);
             USB_HOST_EventHandlerSet(APP_USBHostEventHandler, 0);
@@ -290,43 +244,24 @@ void APP_Tasks ( void )
             break;
 
         case STATE_DEVICE_CONNECTED:
-
             /* Device was connected. We can try mounting the disk */
             usbObj.state = STATE_WRITE_FILE_HEADER;
             break;
 
-//        case STATE_OPEN_FILE:
-//
-//            /* Try opening the file for append */
-//            usbObj.fileHandle = SYS_FS_FileOpen(FILENAME, (SYS_FS_FILE_OPEN_APPEND_PLUS));
-//            if(usbObj.fileHandle == SYS_FS_HANDLE_INVALID)
-//            {
-//                /* Could not open the file. Error out*/
-//                usbObj.state = STATE_ERROR;
-//                
-//            }
-//            else
-//            {
-//                /* File opened successfully. Write to file */
-//                usbObj.state = STATE_WRITE_FILE_HEADER;
-//            }
-//            break; 
-
-        case STATE_WRITE_FILE_HEADER:
-            usbObj.fileHandle = SYS_FS_FileOpen(FILENAME, (SYS_FS_FILE_OPEN_APPEND_PLUS)); //open for header write
+        case STATE_OPEN_FILE:
+            /* Try opening the file for append */
+            usbObj.fileHandle = SYS_FS_FileOpen(FILENAME, (SYS_FS_FILE_OPEN_APPEND_PLUS));
             if(usbObj.fileHandle == SYS_FS_HANDLE_INVALID)
             {
                 /* Could not open the file. Error out*/
                 usbObj.state = STATE_ERROR;
                 
             }
-            else{
-                /* write the file header */
-//                if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) FILEHEADER, FILEHEADERCHARS) == -1){ usbObj.state = STATE_ERROR; }
-//                else{
-//                    SYS_FS_FileClose(usbObj.fileHandle);
-                    usbObj.state = STATE_WAIT_FOR_TEST; 
-//                }
+            else
+            {
+                /* File opened successfully. Write to file */
+                usbObj.state = STATE_WAIT_FOR_TEST;
+                /* Turn on Purple LED */ //means ready to collect data
                 BSP_LEDOn( BSP_RGB_LED_BLUE );
                 BSP_LEDOn( BSP_RGB_LED_RED );
             }
@@ -355,126 +290,10 @@ void APP_Tasks ( void )
                 if(debounced == true && currentlyPressed){
                     debounced = false;
                 }
-//                if(currInBuff == 1 && currOutBuff == 2 && bufferindex == BUFFERSIZE){
-//                    //timer5OFF();
-////                    currInBuff = 2; currOutBuff = 1;
-//                    bufferindex = 0; bufferindex4 = 0; bufferindex3 = 0;
-//                    //convertValues(textBuff, radarDataBuffer1);
-//                    if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) radarDataBuffer1, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
-//                    else{ 
-//    //                    SYS_FS_FileClose(usbObj.fileHandle);
-//                        usbObj.state = STATE_IDLE_TESTING; 
-//                    }
-//                }
-//                if(currInBuff == 2 && currOutBuff == 1 && bufferindex == BUFFERSIZE){
-//                    currInBuff = 1; currOutBuff = 2;
-//                    bufferindex = 0; bufferindex4 = 0; bufferindex3 = 0;
-////                    convertValues(textBuff, radarDataBuffer2);
-////                    if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) textBuff, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
-////                    else{
-//                        //SYS_FS_FileClose(usbObj.fileHandle);
-//                        usbObj.state = STATE_IDLE_TESTING;
-////                    }
-//                }
-//                FIFOstatus = ADCFSTATbits.FRDY;
-//                FIFOcount = ADCFSTATbits.FCNT;
-//                if(FIFOstatus == 1 && FIFOcount >= 2){
-//                    BSP_LEDOn( APP_USB_LED_2 );
-//                    if(ADCFSTATbits.FWROVERR){
-//                        BSP_LEDOn( APP_USB_LED_1 ); //overflow
-//                    }
-//                    else{
-//                        i = 0;
-//                        memset(tempFIFOdata, -1, sizeof(tempFIFOdata[0][0]) * 16 * 2);
-//                        while(ADCFSTATbits.FRDY){
-//                            BSP_LEDOn( BSP_RGB_LED_RED );
-//                            BSP_LEDOff( BSP_RGB_LED_GREEN );
-//                            BSP_LEDOff( BSP_RGB_LED_BLUE );
-//                            tempFIFOdata[i][0] = ADCFSTATbits.ADCID;
-//                            tempFIFOdata[i][1] = ADCFIFO;
-//                            i++;
-//                        }
-//                        i = 0;
-//                        while(tempFIFOdata[i][1] != -1 && i!=16){
-//                            if(currInBuff == 1 && currOutBuff == 2){
-//                                if(tempFIFOdata[i][0] == 3){
-//                                    radarDataBuffer1[bufferindex3][1] = tempFIFOdata[i][1];
-//                                    bufferindex3++;
-//                                }
-//                                else if(tempFIFOdata[i][0] == 4){
-//                                    n++;
-//                                    radarDataBuffer1[bufferindex][0] = n;
-//                                    radarDataBuffer1[bufferindex4][2] = tempFIFOdata[i][1];
-//                                    bufferindex4++; bufferindex++;
-//                                    if(bufferindex == BUFFERSIZE){
-//                                        if(currInBuff == 1 && currOutBuff == 2){
-//                                                currInBuff = 2; currOutBuff = 1;
-//                                                bufferindex = 0; bufferindex3 = 0; bufferindex4 = 0;
-//                                                usbObj.state = STATE_WRITE_TO_FILE;
-//                                        }
-//                                        else if(currInBuff == 2 && currOutBuff == 1){
-//                                                currInBuff = 1; currOutBuff = 2;
-//                                                bufferindex = 0; bufferindex3 = 0; bufferindex4 = 0;
-//                                                usbObj.state = STATE_WRITE_TO_FILE;
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                            else if(currInBuff == 2 && currOutBuff == 1){
-//                                if(tempFIFOdata[i][0] == 3){
-//                                    radarDataBuffer2[bufferindex3][1] = tempFIFOdata[i][1];
-//                                    bufferindex3++; 
-//                                }
-//                                else if(tempFIFOdata[i][0] == 4){
-//                                    n++;
-//                                    radarDataBuffer2[bufferindex][0] = n;
-//                                    radarDataBuffer2[bufferindex4][2] = tempFIFOdata[i][1];
-//                                    bufferindex4++; bufferindex++;
-//                                }
-//                                if(bufferindex == BUFFERSIZE){
-//                                        if(currInBuff == 1 && currOutBuff == 2){
-//                                                currInBuff = 2; currOutBuff = 1;
-//                                                bufferindex = 0; bufferindex3 = 0; bufferindex4 = 0;
-//                                                usbObj.state = STATE_WRITE_TO_FILE;
-//                                        }
-//                                        else if(currInBuff == 2 && currOutBuff == 1){
-//                                                currInBuff = 1; currOutBuff = 2;
-//                                                bufferindex = 0; bufferindex3 = 0; bufferindex4 = 0;
-//                                                usbObj.state = STATE_WRITE_TO_FILE;
-//                                        }
-//                                    }
-//                            }
-//                            else{ usbObj.state = STATE_ERROR; }
-//                            i++;
-//                        }
-//                        //convertTempFIFOdata();
-////                        for(tempCount = 0; tempCount < FIFOcount/2; tempCount++){
-////                            n++;
-////                            if(currInBuff == 1 && currOutBuff == 2){
-////                                radarDataBuffer1[bufferindex][0] = n;
-////                            }
-////                            else if(currInBuff == 2 && currOutBuff == 1){
-////                                radarDataBuffer2[bufferindex][0] = n;
-////                            }
-////                            else{ usbObj.state = STATE_ERROR; }
-////                            bufferindex++;
-////
-////                            addSampleFromFIFO();
-////                            addSampleFromFIFO();
-////                        }
-//                    }
-//                }
             }
             break;
             
         case STATE_WRITE_TO_FILE:
-//            usbObj.fileHandle = SYS_FS_FileOpen(FILENAME, (SYS_FS_FILE_OPEN_APPEND_PLUS)); //reopen for datawrite
-//            if(usbObj.fileHandle == SYS_FS_HANDLE_INVALID)
-//            {
-//                /* Could not open the file. Error out*/
-//                usbObj.state = STATE_ERROR;
-//                
-//            }
             if(currInBuff == 1 && currOutBuff == 2){
 //                convertValues(textBuff, radarDataBuffer2);
                 if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) radarDataBuffer2, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
@@ -538,11 +357,7 @@ void APP_Tasks ( void )
 
             /* The application comes here when the demo
              * has failed. Provide LED indication .*/
-
             BSP_LEDOn( APP_USB_LED_1 );
-            while(1){
-                doNothing();
-            }
             if(SYS_FS_Unmount("/mnt/myDrive") != 0)
             {
                 /* The disk could not be un mounted. Try

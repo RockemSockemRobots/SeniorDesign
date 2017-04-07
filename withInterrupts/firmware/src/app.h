@@ -64,6 +64,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "adc.h"
 #include "pll_ref.h"
 #include "SPI.h"
+#include "radar.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -131,13 +132,13 @@ typedef struct
     STATES state;
 
     /* Application data buffer */
-    uint8_t data[1024];
+    //uint8_t data[1024];
 
     /* Number of bytes written */
-    uint32_t nBytesWritten;
+    uint32_t nBytesWritten; //is this used
 
     /* Number of bytes read */
-    uint32_t nBytesRead;
+    uint32_t nBytesRead; //is this used
 
     bool deviceIsConnected;
     
@@ -193,12 +194,9 @@ typedef struct
 void APP_Initialize ( void );
 
 void setDebounced();
-void incTimeStamp();
 void addSample();
-void addSampleFromFIFO();
 void togglePress();
 void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_CHANNELS*2)]);
-void error();
 /*******************************************************************************
   Function:
     void APP_Tasks ( void )

@@ -35,7 +35,7 @@ void initSPI()
 	SPI1CON = 0x10008620;// MSSEN=1, SPI ON, 16 bit transfer, SMP=1, Master mode
 }
 
-void sendWordSPI(uint16_t word){
+void send_spi_word(uint16_t word){
     SPI1BUF = word; //test word
     SPI1BUF;
 }

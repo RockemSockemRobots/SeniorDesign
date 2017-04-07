@@ -15,7 +15,7 @@ extern "C" {
 #endif
 
 void initSPI();
-void sendWordSPI(uint16_t word);
+void send_spi_word(uint16_t word);
 
 #ifdef	__cplusplus
 }

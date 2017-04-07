@@ -1230,6 +1230,7 @@
         <itemPath>../src/adc.h</itemPath>
         <itemPath>../src/pll_ref.h</itemPath>
         <itemPath>../src/SPI.h</itemPath>
+        <itemPath>../src/radar.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
@@ -1331,6 +1332,7 @@
         <itemPath>../src/adc.c</itemPath>
         <itemPath>../src/pll_ref.c</itemPath>
         <itemPath>../src/SPI.c</itemPath>
+        <itemPath>../src/radar.c</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
