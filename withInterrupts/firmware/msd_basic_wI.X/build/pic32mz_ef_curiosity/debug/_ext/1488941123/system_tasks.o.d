@@ -183,4 +183,5 @@ build/pic32mz_ef_curiosity/debug/_ext/1488941123/system_tasks.o:  \
 ../src/switch.h  \
 ../src/adc.h  \
 ../src/pll_ref.h  \
- ../src/SPI.h 
+ ../src/SPI.h  \
+../src/radar.h 

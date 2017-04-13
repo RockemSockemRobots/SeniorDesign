@@ -18,9 +18,22 @@ const unsigned int tx_enable = 0x0800;   	// Tx Enable bit
 volatile unsigned int BCT;
 volatile unsigned int BFT[6];
 
-void initRADAR(){
+unsigned char initRADAR(){
+    unsigned char FreqCalFlag;
     //BCT = 0x0040; //why not this?
     BCT = 0x004D; // Best coarse tune default value (this would be allocated in function statement and passed into function)
+    FreqCalFlag = Frequency_Cal();
+    
+    // If frequency calibration was okay, turn on transmitter
+    if(FreqCalFlag == 0)
+    {
+        send_spi_word(pll_word_1[1] & ~pll_enable);	// PLL Disable
+        send_spi_word(vco_word_2C | BCT);			// Vtune_Gain=1.2V/V, Vtune_Offset=1.5, CT= BCT from CT Discovery
+        send_spi_word(vco_word_1X | BFT[1]);     	// Set up vco frequency
+        send_spi_word(txrx_cntrl);					// Adjust Tx_gain and RX gain per RxCal results
+    }
+    
+    return FreqCalFlag; //return 0 good
 }
 
 unsigned char Frequency_Cal(void)
@@ -42,20 +55,20 @@ unsigned char Frequency_Cal(void)
 		send_spi_word(vco_word_2 | BCT);			// Vtune_Gain=1.2V/V, Vtune_Offset=0, CT=BCT
 
 		// Measure Voffsets
-		__delay_cycles(39);	//FIXME					// Wait 1x 2.47us SC3001.2 DAC to settle
-		Voffset00 = adc10_single(6, 0x40); //FIXME
+		delay2_47us();     					// Wait 1x 2.47us SC3001.2 DAC to settle
+		Voffset00 = sampleVTUNE();
 		send_spi_word(vco_word_2X | BCT);			// Vtune_Gain=20V/V, Vtune_Offset=1.5V, CT=BCT
-		__delay_cycles(39);	//FIXME					// Wait 1x 2.47us SC3001.2 DAC to settle
-		Voffset11 = adc10_single(6, 0x40); //FIXME
+		delay2_47us();     					// Wait 1x 2.47us SC3001.2 DAC to settle
+		Voffset11 = sampleVTUNE();
 
 		// Go find new BCT after turning on XO
 		enablePLL_REF();//P2OUT |= 0x20; // Set P2.5 - Ext Osc ON
-		__delay_cycles(480); //FIXME       			// Wait 1x 30us for internal reference to settle
+		delay32_11us();            			// Wait 1x 30us for internal reference to settle
 		CT_Discovery(Voffset11);
 		if ((BCT < 10) | (BCT > 120))
 		{
 			FreqCalFlag = 1;		// Check that BCT is in acceptable range
-			BCT = 0x0050;			// Set back to default value //huh? 0x0050?
+			BCT = 0x0050;			// Set back to default value //huh? 0x0050? not 0x0040? not 0x004D?
 		}
 		else
 		{
@@ -98,17 +111,17 @@ void CT_Discovery(unsigned int Voffset11){
     signed int Error;					//
 
     // Attempt PLL Lock at Major Discontinuity where CT = 63 & 64 and measure V_tune to determine which two linear segments possibly contain the BCT
-    send_spi_word(pll_word_1[3]);				// PLL enable, A_counter, R_counter
+    send_spi_word(pll_word_1[1]);				// PLL enable, A_counter, R_counter
    	send_spi_word(pll_word_2);					// B_counter
     send_spi_word(vco_word_1X);					// FT = 0
     send_spi_word(vco_word_2A);					// V_Tune_Gain=1.2V/V, V_Tune_Offset=0, CT=63
     send_spi_word(txrx_cntrl & ~tx_enable);					// Tx Off, Tx_gain=0, Core enable, Rx1 On, Rx2 On, RX gain high
-    __delay_cycles(6400); //FIXME      			// Wait .4ms for PLL to settle
+    delay5ms(); //FIXME      			// Wait .4ms for PLL to settle //datasheet says 5ms, Dave said change from .4ms to 2ms
 
-    V_Tune63 = adc10_single(6, 0x40); //FIXME
+    V_Tune63 = sampleVTUNE();
     send_spi_word(vco_word_2B);					// V_Tune_Gain=1.2V/V, V_Tune_Offset=0, CT=64
-    __delay_cycles(6400); //FIXME      			// Wait .4ms for PLL to settle
-    V_Tune64 = adc10_single(6, 0x40); //FIXME
+    delay5ms(); //FIXME      			// Wait .4ms for PLL to settle //datasheet says 5ms, Dave said change from .4ms to 2ms
+    V_Tune64 = sampleVTUNE();
     for (i = 0; i < 2; i++)						// Loop twice with index i over the two segments that can contain the BCT
     {
     	CT = 48;
@@ -125,15 +138,15 @@ void CT_Discovery(unsigned int Voffset11){
       	}
       	CT = CT + (i << 5);
       	CTstep = 8;
-      	for (j = 6; j != 0; j--)									// Use successive approximation to find BCT on this linear segment
+      	for (j = 3; j != 0; j--)									// Use successive approximation to find BCT on this linear segment
       	{
       		// Set CT and Measure V_Tune
       		send_spi_word(vco_word_2 | CT);							// V_Tune_Gain=1.2V/V, V_Tune_Offset=0, CT= variable CT
-      	    __delay_cycles(6400); //FIXME  						  	// Wait .4m for PLL transient to settle
-      	    V_Tune = adc10_single(6, 0x40); //FIXME
+      	    delay5ms(); //FIXME      			// Wait .4ms for PLL to settle //datasheet says 5ms, Dave said change from .4ms to 2ms
+      	    V_Tune = sampleVTUNE();
 
       		// Calculate Error and Sign Value if PLL is locked
-     		if ((P2IN & 0x80)==0x80) //FIXME									// If PLL_LOCK (P2.7) is high
+     		if (PORTEbits.RE0) //FIXME									// If PLL_LOCK (P2.7) is high
      		{
           		Error = V_Tune - Voffset11;
           		if (Error < 0)
@@ -186,8 +199,8 @@ void FT_Discovery(unsigned char j, unsigned int Voffset00, unsigned int Voffset1
 	FT = 0x4000;									// Set FT at mid value
 
 	send_spi_word(vco_word_2 | BCT);				// Vtune_Gain=1.2V/V, Vtune_Offset=0, CT= BCT from CT Discovery
-    __delay_cycles(6400);				    		// Wait .4ms for thermal stability after starting PLL
-	V_Tune = adc10_single(6, 0x40);	//FIXME			// Measure fine tune
+    delay5ms(); //FIXME      			// Wait .4ms for PLL to settle //datasheet says 5ms, Dave said change from .4ms to 2ms
+	V_Tune = sampleVTUNE(); 			// Measure fine tune
 	Error = V_Tune - Voffset00;						// Subtract Voffset00 to find error
 	FT = (Error << 5) + (Error << 2) + Error + (Error >> 2) + (Error >> 4) + (Error >> 6) + (Error >> 8) + (Error >> 10);
 	// Multiplying Error by (32+4+1+1/4+1/16+1/64+1/256+1/1024) is close (Vadc/2^10*3.5/1.2/2.5*2^15 ~ Vadc*37.33)
@@ -200,8 +213,8 @@ void FT_Discovery(unsigned char j, unsigned int Voffset00, unsigned int Voffset1
 	{
 		// Measure error
 		send_spi_word(vco_word_1X | FT);			// Set FT close to correct value
-		__delay_cycles(6400); //FIXME      			// Wait .4ms for PLL to settle
-		V_Tune = adc10_single(6, 0x40);	//FIXME		// Measure error voltage
+		delay5ms(); //FIXME      			// Wait .4ms for PLL to settle //datasheet says 5ms, Dave said change from .4ms to 2ms
+		V_Tune = sampleVTUNE();     		// Measure error voltage
 		Error = V_Tune - Voffset11;
 		if(Error < 0)
 		{

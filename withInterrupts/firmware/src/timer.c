@@ -27,10 +27,19 @@ void initTimer4(){ //msec
 void initTimer5(){ //ADC trigger timer (sample timer): 55.55us
     T5CONbits.TON = 0;
     TMR5 = 0x0000;
-    PR5 = 5554;
+    PR5 = 5554; //55.55us
     T5CONbits.TCKPS = 0; //100 MHz
     IFS0bits.T5IF = 0;
     IEC0bits.T5IE = 0;
+}
+
+void initTimer6(){
+    T6CONbits.TON = 0;
+    TMR6 = 0x0000;
+    PR6 = 246; //2.47us
+    T6CONbits.TCKPS = 0; //100 MHz
+    IFS0bits.T6IF = 0;
+    IEC0bits.T6IE = 0;
 }
 
 void timer3ON(){
@@ -51,6 +60,12 @@ void timer5ON(){
 void timer5OFF(){
     T5CONbits.TON = 0;
 }
+void timer6ON(){
+    T6CONbits.TON = 1;
+}
+void timer6OFF(){
+    T6CONbits.TON = 0;
+}
 
 void delay5ms(){
     T3CONbits.TON = 1;
@@ -58,6 +73,21 @@ void delay5ms(){
     T3CONbits.TON = 0;
     IFS0bits.T3IF = 0;
 }
+
+void delay2_47us(){
+    T6CONbits.TON = 1;
+    while(IFS0bits.T6IF == 0){}
+    T6CONbits.TON = 0;
+    IFS0bits.T6IF = 0;
+}
+
+void delay32_11us(){ //2.47us*13 = 32.11us
+    int i = 0;
+    for(i = 0; i < 13; i++){
+        delay2_47us();
+    }
+}
+
 
 void testTimer3(){
     LATESET = 0x0002;

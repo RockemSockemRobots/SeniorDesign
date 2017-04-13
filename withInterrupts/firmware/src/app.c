@@ -162,6 +162,8 @@ void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_
 
 void APP_Initialize ( void )
 {
+    unsigned char FreqCalFlag;
+    unsigned int samp;
     /* Place the App state machine in its initial state. */
     usbObj.state = STATE_BUS_ENABLE;
     usbObj.deviceIsConnected = false;
@@ -174,7 +176,10 @@ void APP_Initialize ( void )
     init1MHzPLL_REF();
     initSPI();
     //radar module initialization and frequency calibration
-    
+    FreqCalFlag = initRADAR();
+    if(FreqCalFlag != 0){
+        usbObj.state = STATE_ERROR;
+    }
 }
 
 USB_HOST_EVENT_RESPONSE APP_USBHostEventHandler (USB_HOST_EVENT event, void * eventData, uintptr_t context)

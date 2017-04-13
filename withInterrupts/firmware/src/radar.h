@@ -11,12 +11,13 @@
 #include <xc.h>
 #include "SPI.h"
 #include "pll_ref.h"
+#include "timer.h"
 
 #ifdef	__cplusplus
 extern "C" {
 #endif
 
-void initRADAR();
+unsigned char initRADAR();
 unsigned char Frequency_Cal();
 void CT_Discovery(unsigned int Voffset11);
 void FT_Discovery(unsigned char j, unsigned int Voffset00, unsigned int Voffset11);

@@ -1,6 +1,10 @@
 #include "pll_ref.h"
 
 void init1MHzPLL_REF(){
+    //PLL_LOCK
+    TRISEbits.TRISE0 = 1;
+    //CNPUEbits.CNPUE0 = 0;
+    
     //RPF5 -> RF5
     TRISFbits.TRISF5 = 0;
     RPF5R = 0b1111; //RF5 outputs REFCLKO1
@@ -18,7 +22,7 @@ void enablePLL_REF(){
     //REFO1CONbits.ON = 1;
 }
 
-void disablePPL_REF(){
+void disablePLL_REF(){
     //REFO1CONbits.ON = 0;
     REFO1CONbits.OE = 0;
 }

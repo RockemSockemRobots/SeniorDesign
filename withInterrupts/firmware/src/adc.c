@@ -155,3 +155,11 @@ void configureADCs(){
     ADCCON3bits.DIGEN3 = 1; // Enable ADC3
     ADCCON3bits.DIGEN4 = 1; // Enable ADC4
 }
+
+unsigned int sampleVTUNE(){
+    unsigned int result;
+    ADCCON3bits.GSWTRG = 1;
+    while(ADCDSTAT1bits.ARDY4 == 0){}
+    result = ADCDATA4;
+    return result;
+}

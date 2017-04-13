@@ -15,7 +15,7 @@ extern "C" {
 #endif
 
     void configureADCs();
-    void testADCs();
+    unsigned int sampleVTUNE();
 
 
 #ifdef	__cplusplus

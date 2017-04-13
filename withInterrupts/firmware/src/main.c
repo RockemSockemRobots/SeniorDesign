@@ -57,7 +57,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 #include <stddef.h>                     // Defines NULL
 #include <stdbool.h>                    // Defines true
-#include <stdlib.h>                     // Defines EXIT_FAILURE
+#include <stdlib.h>
+#include <proc/p32mz2048efm100.h>                     // Defines EXIT_FAILURE
 #include "system/common/sys_module.h"   // SYS function prototypes
 
 
@@ -81,9 +82,9 @@ int main ( void )
     while ( true )
     {
         /* Maintain state machines of all polled MPLAB Harmony modules. */
-        SYS_Tasks();
+        //SYS_Tasks();
         /* Maintain the application's state machine. */
-        APP_Tasks();
+        //APP_Tasks();
     }
 
     /* Execution should not come here during normal operation */

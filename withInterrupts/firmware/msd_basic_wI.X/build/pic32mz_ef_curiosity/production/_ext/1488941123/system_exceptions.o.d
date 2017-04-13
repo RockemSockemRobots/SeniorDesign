@@ -184,4 +184,5 @@ build/pic32mz_ef_curiosity/production/_ext/1488941123/system_exceptions.o:  \
 ../src/adc.h  \
 ../src/pll_ref.h  \
  ../src/SPI.h  \
+../src/radar.h  \
  ../src/system_config/pic32mz_ef_curiosity/framework/system/debug/sys_debug.h 

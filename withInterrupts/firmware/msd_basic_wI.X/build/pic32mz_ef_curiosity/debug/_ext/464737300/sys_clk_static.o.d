@@ -181,4 +181,5 @@ build/pic32mz_ef_curiosity/debug/_ext/464737300/sys_clk_static.o:  \
 ../src/switch.h  \
 ../src/adc.h  \
  ../src/pll_ref.h  \
-../src/SPI.h 
+../src/SPI.h  \
+../src/radar.h 
