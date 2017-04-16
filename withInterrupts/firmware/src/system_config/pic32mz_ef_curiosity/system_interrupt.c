@@ -94,26 +94,21 @@ void __ISR( _TIMER_3_VECTOR, IPL6AUTO) _IntHandlerDebounceTimer(void) { //deboun
     TMR3 = 0x0000;
 }
 
-void __ISR(_CHANGE_NOTICE_G_VECTOR, IPL1AUTO) _CNInterrupt(void) {
+void __ISR(_CHANGE_NOTICE_G_VECTOR, IPL1AUTO) _CNGInterrupt(void) {
     int dummy = PORTG;
     IFS3bits.CNGIF = 0;
     timer3ON(); //delay for debounce
 }
 
-void __ISR( _TIMER_4_VECTOR, IPL1AUTO) _IntHandlerTmr4(void) { //older test
-    IFS0bits.T4IF = 0;
-    //incTimeStamp(); 
-    //addSample();
-    TMR4 = 0x0000;
+void __ISR(_CHANGE_NOTICE_A_VECTOR, IPL1AUTO) _CNAInterrupt(void) {
+    int dummy = PORTA;
+    IFS3bits.CNAIF = 0;
+    timer3ON(); //delay for debounce
 }
 
 //void __ISR( _TIMER_5_VECTOR, IPL1AUTO) _IntHandlerTmr5(void) {
 //    IFS0bits.T5IF = 0;
 //    TMR5 = 0x0000;
-//}
-
-//void __ISR( _ADC_FIFO_VECTOR, IPL7AUTO) _IntHandlerADCFIFO(void){
-//    //addSampleFromFIFO();
 //}
 
 void __ISR( _ADC_VECTOR, IPL7AUTO) _IntHandlerADCGlobal(void){
@@ -123,38 +118,6 @@ void __ISR( _ADC_VECTOR, IPL7AUTO) _IntHandlerADCGlobal(void){
     }
 }
 
-//void __attribute__ ((interrupt(IPL4SRS))) _DefaultInterrupt(void){
-//    
-//}
-
-//void __ISR( _ADC_DATA1_VECTOR, IPL6AUTO) _IntHandlerADCData1(void){
-//    IFS1bits.ADCD1IF = 0; //pull global adc flag down
-//    if(ADCDSTAT1bits.ARDY1 && ADCDSTAT1bits.ARDY2 && ADCDSTAT1bits.ARDY3 && ADCDSTAT1bits.ARDY4){ //these probably won't be ready at the same time...
-//        addSample();
-//    }
-//    else{
-//        error();
-//    }
-//}
-//void __ISR( _ADC_DATA2_VECTOR, IPL6AUTO) _IntHandlerADCData2(void){
-//    if(ADCDSTAT1bits.ARDY2 && ADCDSTAT1bits.ARDY3){ //these probably won't be ready at the same time...
-//        addSample();
-//        IFS1 = 0; //flags CANNOT be cleared until after data has been read
-//    }
-//}
-//
-//void __ISR( _ADC_DATA3_VECTOR, IPL6AUTO) _IntHandlerADCData3(void){
-//    if(ADCDSTAT1bits.ARDY2 && ADCDSTAT1bits.ARDY3){ //these probably won't be ready at the same time...
-//        addSample();
-//        IFS1 = 0; //flags CANNOT be cleared until after data has been read
-//    }
-//}
-//void __ISR( _ADC_DATA4_VECTOR, IPL6AUTO) _IntHandlerADCData4(void){
-//    if(ADCDSTAT1bits.ARDY3 && ADCDSTAT1bits.ARDY4){ //these probably won't be ready at the same time...
-//        addSample();
-//        IFS1 = 0; //flags CANNOT be cleared until after data has been read
-//    }
-//}
 /*******************************************************************************
  End of File
 */

@@ -10,3 +10,14 @@ void initOnBoardSwitch(){
     IEC3bits.CNGIE = 1; //Enable Interrupts
     /*Interrupt Priority and Subpriority for this interrupt vector is set within system_init.c*/
 }
+
+void initIRSwitch(){
+    TRISAbits.TRISA4 = 1;
+    //CNPUAbits.CNPUA4 = 1;
+    
+    CNCONAbits.ON = 1;
+    CNENAbits.CNIEA4 = 1; //Enables CN for RA4
+    IFS3bits.CNAIF = 0; //Set flag to lowered
+    IEC3bits.CNAIE = 1; //Enable Interrupts
+    /*Interrupt Priority and Subpriority for this interrupt vector is set within system_init.c*/
+}

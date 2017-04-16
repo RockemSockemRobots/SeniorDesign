@@ -15,6 +15,7 @@ extern "C" {
 #endif
 
 void initOnBoardSwitch();
+void initIRSwitch();
 
 
 #ifdef	__cplusplus

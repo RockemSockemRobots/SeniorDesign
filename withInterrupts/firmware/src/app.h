@@ -71,9 +71,9 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // Section: Type Definitions
 // *****************************************************************************
 // *****************************************************************************
-#define FILENAME "/mnt/myDrive1/test.bin"
-#define FILEHEADER "Samp\tCH3\t\tCH4\n"
-#define FILEHEADERCHARS 14
+#define FILEPATH "/mnt/myDrive1/"
+#define FILEEXT ".bin"
+#define FULLFILENAMECHARLIM 25
 
 #define BUFFERSIZE 63000 //3.5sec buffer length
 #define USBBYTES (BUFFERSIZE*4)
@@ -192,7 +192,6 @@ typedef struct
 */
 
 void APP_Initialize ( void );
-
 void setDebounced();
 void addSample();
 void togglePress();

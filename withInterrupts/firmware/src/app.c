@@ -90,6 +90,8 @@ volatile int bufferindex4 = 0;
 volatile int currInBuff = 1;
 volatile int currOutBuff = 2;
 volatile bool currentlyPressed = false;
+volatile unsigned int testNumber = 0;
+volatile bool adcActive = false;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -109,6 +111,7 @@ void setDebounced(){
     debounced = true;
 }
 void addSample(){
+    adcActive = true;
     BSP_LEDOn( BSP_RGB_LED_RED );
     BSP_LEDOff( BSP_RGB_LED_GREEN );
     BSP_LEDOff( BSP_RGB_LED_BLUE );
@@ -173,13 +176,14 @@ void APP_Initialize ( void )
     initTimer5();
     configureADCs();
     initOnBoardSwitch();
+    initIRSwitch();
     init1MHzPLL_REF();
     initSPI();
     //radar module initialization and frequency calibration
-    FreqCalFlag = initRADAR();
-    if(FreqCalFlag != 0){
-        usbObj.state = STATE_ERROR;
-    }
+//    FreqCalFlag = initRADAR();
+//    if(FreqCalFlag != 0){
+//        usbObj.state = STATE_ERROR;
+//    }
 }
 
 USB_HOST_EVENT_RESPONSE APP_USBHostEventHandler (USB_HOST_EVENT event, void * eventData, uintptr_t context)
@@ -219,6 +223,8 @@ void APP_SYSFSEventHandler(SYS_FS_EVENT event, void * eventData, uintptr_t conte
 void APP_Tasks ( void )
 {
     int remainingBytes = 0;
+    char fullFilename[FULLFILENAMECHARLIM] = "\0";
+    char testNumberStr[FULLFILENAMECHARLIM] = "\0";
     switch(usbObj.state)
     {
         case STATE_BUS_ENABLE:   
@@ -250,12 +256,16 @@ void APP_Tasks ( void )
 
         case STATE_DEVICE_CONNECTED:
             /* Device was connected. We can try mounting the disk */
-            usbObj.state = STATE_WRITE_FILE_HEADER;
+            usbObj.state = STATE_OPEN_FILE;
             break;
 
         case STATE_OPEN_FILE:
             /* Try opening the file for append */
-            usbObj.fileHandle = SYS_FS_FileOpen(FILENAME, (SYS_FS_FILE_OPEN_APPEND_PLUS));
+            strcat(fullFilename, FILEPATH);
+            sprintf(testNumberStr, "%d", testNumber);
+            strcat(fullFilename, testNumberStr);
+            strcat(fullFilename, FILEEXT);
+            usbObj.fileHandle = SYS_FS_FileOpen(fullFilename, (SYS_FS_FILE_OPEN_APPEND_PLUS));
             if(usbObj.fileHandle == SYS_FS_HANDLE_INVALID)
             {
                 /* Could not open the file. Error out*/
@@ -278,7 +288,11 @@ void APP_Tasks ( void )
                 debounced = false;
                 BSP_LEDOff( BSP_RGB_LED_RED );
                 n = 0;
-                timer5ON();
+                while(!adcActive){
+                    timer5OFF();
+                    timer5ON();
+                    while(!IFS0bits.T5IF){}
+                }
             }
             else if(debounced == true && currentlyPressed){
                 debounced = false;
@@ -302,8 +316,7 @@ void APP_Tasks ( void )
             if(currInBuff == 1 && currOutBuff == 2){
 //                convertValues(textBuff, radarDataBuffer2);
                 if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) radarDataBuffer2, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
-                else{ 
-//                    SYS_FS_FileClose(usbObj.fileHandle);
+                else{
                     usbObj.state = STATE_IDLE_TESTING; 
                 }
             }
@@ -311,7 +324,6 @@ void APP_Tasks ( void )
 //                convertValues(textBuff, radarDataBuffer1);
                 if(SYS_FS_FileWrite( usbObj.fileHandle, (const void *) radarDataBuffer1, USBBYTES) == -1){ usbObj.state = STATE_ERROR; }
                 else{
-                    //SYS_FS_FileClose(usbObj.fileHandle);
                     usbObj.state = STATE_IDLE_TESTING;
                 }
             }
@@ -342,7 +354,10 @@ void APP_Tasks ( void )
             break;
 
         case STATE_TEST_COMPLETE:
-
+            currInBuff = 1; currOutBuff = 2;
+            bufferindex = 0;
+            adcActive = false;
+            testNumber++;
             BSP_LEDOff( APP_USB_LED_3);
             BSP_LEDOn( APP_USB_LED_2 );
             BSP_LEDOff(BSP_RGB_LED_BLUE);
@@ -351,6 +366,13 @@ void APP_Tasks ( void )
             if(usbObj.deviceIsConnected == false)
             {
                 usbObj.state = STATE_WAIT_FOR_DEVICE_ATTACH;
+                BSP_LEDOff(APP_USB_LED_2);
+                BSP_LEDOff(BSP_RGB_LED_GREEN);
+                BSP_LEDOff(BSP_RGB_LED_RED);
+                BSP_LEDOff(BSP_RGB_LED_BLUE);
+            }
+            else{
+                usbObj.state = STATE_OPEN_FILE;
                 BSP_LEDOff(APP_USB_LED_2);
                 BSP_LEDOff(BSP_RGB_LED_GREEN);
                 BSP_LEDOff(BSP_RGB_LED_RED);
