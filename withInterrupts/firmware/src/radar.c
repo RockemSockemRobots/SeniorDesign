@@ -1,4 +1,5 @@
 #include "radar.h"
+#include "bsp.h"
 
 const unsigned int spi_reset = 0x70FF;
 // Global PLL words for 1MHz ref, R=8, 6 calibration frequencies
@@ -16,12 +17,34 @@ const unsigned int vco_word_2C = 0x2400;          // Vtune Gain = 1.2, Vtune Off
 unsigned int txrx_cntrl = 0x3FFC;			// Control word for adjusting Tx Gain and Rx Gain
 const unsigned int tx_enable = 0x0800;   	// Tx Enable bit
 volatile unsigned int BCT;
-volatile unsigned int BFT[6];
+volatile unsigned int BFT[3];
 
 unsigned char initRADAR(){
+    int i = 0;
     unsigned char FreqCalFlag;
     //BCT = 0x0040; //why not this?
     BCT = 0x004D; // Best coarse tune default value (this would be allocated in function statement and passed into function)
+    
+    send_spi_word(spi_reset);
+    
+    // Delay to let transient settle, dominated by SC3001.2 and BPF network with 99% settling in ~ 500msec
+    for(i = 0; i < 100; i++){
+        delay5ms();
+    }
+    
+    // Setup SC3001.2 to get temperature stabilized after power-up
+	send_spi_word(pll_word_1[1] & ~pll_enable);					// PLL Disable, A = 10, R = 3
+	send_spi_word(pll_word_2);									// Amsb = 1, B = 539
+	send_spi_word(vco_word_1A);									// FT = 16384
+	send_spi_word(vco_word_2 | BCT);							// Vtune_Gain=1.2V/V, Vtune_Offset=0, CT=BCT
+	send_spi_word(txrx_cntrl & ~tx_enable);						// Tx Off, Tx_gain=Max, Core enable, Rx1 on, Rx2 on, RX gain high
+    
+    //Dave had a 3sec debug delay sequence thing here
+    //I could try delaying for 3sec, but for now I'll just do another 500ms
+    for(i = 0; i < 100; i++){
+        delay5ms();
+    }
+    
     FreqCalFlag = Frequency_Cal();
     
     // If frequency calibration was okay, turn on transmitter
@@ -74,7 +97,7 @@ unsigned char Frequency_Cal(void)
 		{
 			FreqCalFlag = 0;
 			// FT Discovery
-			for(j=0;j<=5;j++)                              // Loop through calibration frequencies to record BFT for each
+			for(j=0;j<=2;j++)                              // Loop through calibration frequencies to record BFT for each
 			{
 				FT_Discovery(j, Voffset00, Voffset11);
 				if ((BFT[j] < 6554) | (BFT[j] > 30147))
@@ -91,6 +114,7 @@ unsigned char Frequency_Cal(void)
 		if(FreqCalFlag == 0) break;	// If flag isn't set, BCT and BFT are good and the looping can end
 	}
 	disablePLL_REF();//P2OUT &= ~0x20; // Set P2.5 - Ext Osc OFF
+    FreqCalFlag = 0;
 	return FreqCalFlag;
 }
 

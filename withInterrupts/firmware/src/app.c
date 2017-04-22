@@ -92,6 +92,8 @@ volatile int currOutBuff = 2;
 volatile bool currentlyPressed = false;
 volatile unsigned int testNumber = 0;
 volatile bool adcActive = false;
+volatile bool initializing = true;
+volatile int garbage = 0;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Functions
@@ -111,32 +113,38 @@ void setDebounced(){
     debounced = true;
 }
 void addSample(){
-    adcActive = true;
-    BSP_LEDOn( BSP_RGB_LED_RED );
-    BSP_LEDOff( BSP_RGB_LED_GREEN );
-    BSP_LEDOff( BSP_RGB_LED_BLUE );
-    n++;
-    if(currInBuff == 1 && currOutBuff == 2){
-        radarDataBuffer1[bufferindex][0] = ADCDATA2;
-        radarDataBuffer1[bufferindex][1] = ADCDATA3;
-        bufferindex++;
-        if(bufferindex == BUFFERSIZE){
-            currInBuff = 2; currOutBuff = 1;
-            bufferindex = 0;
-            usbObj.state = STATE_WRITE_TO_FILE;
+    if(!initializing){
+        adcActive = true;
+        BSP_LEDOn( BSP_RGB_LED_RED );
+        BSP_LEDOff( BSP_RGB_LED_GREEN );
+        BSP_LEDOff( BSP_RGB_LED_BLUE );
+        n++;
+        if(currInBuff == 1 && currOutBuff == 2){
+            radarDataBuffer1[bufferindex][0] = ADCDATA2;
+            radarDataBuffer1[bufferindex][1] = ADCDATA3;
+            bufferindex++;
+            if(bufferindex == BUFFERSIZE){
+                currInBuff = 2; currOutBuff = 1;
+                bufferindex = 0;
+                usbObj.state = STATE_WRITE_TO_FILE;
+            }
         }
-    }
-    else if(currInBuff == 2 && currOutBuff == 1){
-        radarDataBuffer2[bufferindex][0] = ADCDATA2;
-        radarDataBuffer2[bufferindex][1] = ADCDATA3;
-        bufferindex++;
-        if(bufferindex == BUFFERSIZE){
-            currInBuff = 1; currOutBuff = 2;
-            bufferindex = 0;
-            usbObj.state = STATE_WRITE_TO_FILE;
+        else if(currInBuff == 2 && currOutBuff == 1){
+            radarDataBuffer2[bufferindex][0] = ADCDATA2;
+            radarDataBuffer2[bufferindex][1] = ADCDATA3;
+            bufferindex++;
+            if(bufferindex == BUFFERSIZE){
+                currInBuff = 1; currOutBuff = 2;
+                bufferindex = 0;
+                usbObj.state = STATE_WRITE_TO_FILE;
+            }
         }
+        else{ usbObj.state = STATE_ERROR; }
     }
-    else{ usbObj.state = STATE_ERROR; }
+    else{
+        garbage = ADCDATA2;
+        garbage = ADCDATA3;
+    }
 }
 void togglePress(){
     currentlyPressed = !currentlyPressed;
@@ -165,6 +173,7 @@ void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_
 
 void APP_Initialize ( void )
 {
+    int i = 0;
     unsigned char FreqCalFlag;
     unsigned int samp;
     /* Place the App state machine in its initial state. */
@@ -175,15 +184,27 @@ void APP_Initialize ( void )
     initTimer4();
     initTimer5();
     configureADCs();
+//    for(i = 0; i < 10; i++){
+//        delay5ms();
+//    }
     initOnBoardSwitch();
     initIRSwitch();
     init1MHzPLL_REF();
     initSPI();
-    //radar module initialization and frequency calibration
-//    FreqCalFlag = initRADAR();
-//    if(FreqCalFlag != 0){
-//        usbObj.state = STATE_ERROR;
+//    while(1){
+//        enablePLL_REF();
 //    }
+    //radar module initialization and frequency calibration
+    FreqCalFlag = initRADAR();
+    if(FreqCalFlag != 0){
+        usbObj.state = STATE_ERROR;
+    }
+    else{
+        BSP_LEDOff(BSP_RGB_LED_BLUE);
+        BSP_LEDOff(BSP_RGB_LED_RED);
+        BSP_LEDOn(BSP_RGB_LED_GREEN);
+        initializing = false;
+    }
 }
 
 USB_HOST_EVENT_RESPONSE APP_USBHostEventHandler (USB_HOST_EVENT event, void * eventData, uintptr_t context)
