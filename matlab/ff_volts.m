@@ -1,7 +1,7 @@
 clear;
-for fileNum = 0:2
+for fileNum = 0:4
     fileNum_char = sprintf('%d', fileNum);
-    filename = strcat('tests/',fileNum_char);
+    filename = strcat('tests/Radar_1_428_set2/',fileNum_char);
 
     fileID = fopen(strcat(filename,'.bin'),'r');
     A = fread(fileID,'uint16');

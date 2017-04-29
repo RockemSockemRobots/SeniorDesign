@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <project>                                  
-  <executable name="dist/pic32mz_ef_curiosity/debug/msd_basic_wI.X.debug.elf">                 
+  <executable name="dist/pic32mz_ef_curiosity/debug/oneWrite7secs.X.debug.elf">                 
     <memory name="program">                 
       <units>bytes</units>                 
       <length>2098304</length>                 

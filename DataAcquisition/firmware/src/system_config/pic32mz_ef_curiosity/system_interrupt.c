@@ -106,6 +106,12 @@ void __ISR(_CHANGE_NOTICE_A_VECTOR, IPL1AUTO) _CNAInterrupt(void) {
     timer3ON(); //delay for debounce
 }
 
+void __ISR(_CHANGE_NOTICE_C_VECTOR, IPL1AUTO) _CNCInterrupt(void) {
+    int dummy = PORTC;
+    IFS3bits.CNCIF = 0;
+    timer3ON(); //delay for debounce
+}
+
 //void __ISR( _TIMER_5_VECTOR, IPL1AUTO) _IntHandlerTmr5(void) {
 //    IFS0bits.T5IF = 0;
 //    TMR5 = 0x0000;

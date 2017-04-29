@@ -38,4 +38,5 @@ void initSPI()
 void send_spi_word(uint16_t word){
     SPI1BUF = word; //test word
     SPI1BUF;
+    while(SPI1STATbits.SPIBUSY);
 }

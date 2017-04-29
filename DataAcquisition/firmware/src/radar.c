@@ -3,7 +3,7 @@
 
 const unsigned int spi_reset = 0x70FF;
 // Global PLL words for 1MHz ref, R=8, 6 calibration frequencies
-// PLL words for 24.140, 24.150, and 24.160 GHz (Gives Fc = 24.150 GHz)
+// PLL words for 24.150, 24.155, and 24.160 GHz (Gives Fc = 24.150 GHz)
 const unsigned int pll_word_1[3] = {0x0D38, 0x0AB8, 0x0838};  // Acount = 20, 10 , and 0, Rcount = 56
 const unsigned int pll_word_2 = 0x1A1B;              // Amsb = 1, Bcount = 539
 const unsigned int pll_enable = 0x0800;                 // PLL Enable bit
@@ -27,8 +27,8 @@ unsigned char initRADAR(){
     
     
     send_spi_word(spi_reset);
-    delay5ms();
-    send_spi_word(spi_reset);
+    //delay5ms();
+    //send_spi_word(spi_reset);
     
     
     // Delay to let transient settle, dominated by SC3001.2 and BPF network with 99% settling in ~ 500msec
@@ -41,7 +41,8 @@ unsigned char initRADAR(){
 	send_spi_word(pll_word_2);									// Amsb = 1, B = 539
 	send_spi_word(vco_word_1A);									// FT = 16384
 	send_spi_word(vco_word_2 | BCT);							// Vtune_Gain=1.2V/V, Vtune_Offset=0, CT=BCT
-	send_spi_word(txrx_cntrl & ~tx_enable);						// Tx Off, Tx_gain=Max, Core enable, Rx1 on, Rx2 on, RX gain high
+	//send_spi_word(txrx_cntrl & ~tx_enable);						// Tx Off, Tx_gain=Max, Core enable, Rx1 on, Rx2 on, RX gain high
+    send_spi_word(txrx_cntrl);
     
     //Dave had a 3sec debug delay sequence thing here
     //I could try delaying for 3sec, but for now I'll just do another 500ms
@@ -50,14 +51,22 @@ unsigned char initRADAR(){
     }
     
     FreqCalFlag = Frequency_Cal();
+    FreqCalFlag = 0;
+    //BCT = 78;
+    //BFT[0] = 12000;
+    //BFT[1] = 13392;
+    //BFT[2] = 16000;
     
     // If frequency calibration was okay, turn on transmitter
     if(FreqCalFlag == 0)
     {
         send_spi_word(pll_word_1[1] & ~pll_enable);	// PLL Disable
+        send_spi_word(txrx_cntrl);
         send_spi_word(vco_word_2C | BCT);			// Vtune_Gain=1.2V/V, Vtune_Offset=1.5, CT= BCT from CT Discovery
-        send_spi_word(vco_word_1X | BFT[1]);     	// Set up vco frequency
-        send_spi_word(txrx_cntrl);					// Adjust Tx_gain and RX gain per RxCal results
+        send_spi_word(vco_word_1X | BFT[0]);     	// Set up vco frequency
+//        send_spi_word(vco_word_1X | BFT[1]);
+//        send_spi_word(vco_word_1X | BFT[2]);
+        					// Adjust Tx_gain and RX gain per RxCal results
     }
     
     return FreqCalFlag; //return 0 good
@@ -76,7 +85,8 @@ unsigned char Frequency_Cal(void)
 	for(i=3;i!=0;i--)
 	{
 		// Setup SC3001.2 for Offset Voltage Measurement
-		send_spi_word(txrx_cntrl & ~tx_enable);		// Tx Off, Tx_gain=Min, Core enable, Rx1 on, Rx2 on, RX gain high
+		//send_spi_word(txrx_cntrl & ~tx_enable);		// Tx Off, Tx_gain=Min, Core enable, Rx1 on, Rx2 on, RX gain high
+        send_spi_word(txrx_cntrl);
 		send_spi_word(pll_word_2);					// Amsb = 1, B = 28
 		send_spi_word(vco_word_1A);					// FT = 16384
 		send_spi_word(vco_word_2 | BCT);			// Vtune_Gain=1.2V/V, Vtune_Offset=0, CT=BCT
@@ -123,6 +133,7 @@ unsigned char Frequency_Cal(void)
 }
 
 void CT_Discovery(unsigned int Voffset11){
+    unsigned int PLL_LOCK = 0;
     // Initialize variables
 	unsigned char D = 0;					// Variable used to store "distance" from discontinuity
     unsigned char D0 = 0;				// Previous D
@@ -132,7 +143,7 @@ void CT_Discovery(unsigned int Voffset11){
     unsigned char CT;					// Coarse tune value (initially set to 63, this will be adjusted in the code)
     unsigned char CT0;					// Prior CT
     unsigned int BCT0 = 0;				// Previous BCTBest coarse tune value (this would be allocated in function statement and returned in final code)
-    unsigned int Vmin = 0x01FF;			// Max voltage measurement divided by 2
+    unsigned int Vmin = 0x07FF;			// Max voltage measurement divided by 2
     unsigned int V_Tune63;				//
     unsigned int V_Tune64;				//
     unsigned int V_Tune;				//
@@ -143,7 +154,8 @@ void CT_Discovery(unsigned int Voffset11){
    	send_spi_word(pll_word_2);					// B_counter
     send_spi_word(vco_word_1X);					// FT = 0
     send_spi_word(vco_word_2A);					// V_Tune_Gain=1.2V/V, V_Tune_Offset=0, CT=63
-    send_spi_word(txrx_cntrl & ~tx_enable);					// Tx Off, Tx_gain=0, Core enable, Rx1 On, Rx2 On, RX gain high
+    //send_spi_word(txrx_cntrl & ~tx_enable);					// Tx Off, Tx_gain=0, Core enable, Rx1 On, Rx2 On, RX gain high
+    send_spi_word(txrx_cntrl);
     delay5ms(); //FIXME      			// Wait .4ms for PLL to settle //datasheet says 5ms, Dave said change from .4ms to 2ms
 
     V_Tune63 = sampleVTUNE();
@@ -166,7 +178,7 @@ void CT_Discovery(unsigned int Voffset11){
       	}
       	CT = CT + (i << 5);
       	CTstep = 8;
-      	for (j = 3; j != 0; j--)									// Use successive approximation to find BCT on this linear segment
+      	for (j = 6; j != 0; j--)									// Use successive approximation to find BCT on this linear segment
       	{
       		// Set CT and Measure V_Tune
       		send_spi_word(vco_word_2 | CT);							// V_Tune_Gain=1.2V/V, V_Tune_Offset=0, CT= variable CT
@@ -174,7 +186,8 @@ void CT_Discovery(unsigned int Voffset11){
       	    V_Tune = sampleVTUNE();
 
       		// Calculate Error and Sign Value if PLL is locked
-     		if (PORTEbits.RE0) //FIXME									// If PLL_LOCK (P2.7) is high
+            PLL_LOCK = PORTEbits.RE0;
+     		if (PLL_LOCK) //FIXME									// If PLL_LOCK (P2.7) is high
      		{
           		Error = V_Tune - Voffset11;
           		if (Error < 0)
@@ -199,7 +212,7 @@ void CT_Discovery(unsigned int Voffset11){
           	if (V_Tune >= Voffset11) CT = CT - CTstep;		// Calculate new CT
       		if (CTstep > 1) CTstep = CTstep >> 1;					// Calculate new CTstep
       	}
-      	Vmin = 0x01FF;												// Reset Vmin to 1/2 Vmax
+      	Vmin = 0x07FF;												// Reset Vmin to 1/2 Vmax
       	if(D0>D)
       	{
       		D=D0;
@@ -229,8 +242,8 @@ void FT_Discovery(unsigned char j, unsigned int Voffset00, unsigned int Voffset1
 	send_spi_word(vco_word_2 | BCT);				// Vtune_Gain=1.2V/V, Vtune_Offset=0, CT= BCT from CT Discovery
     delay5ms(); //FIXME      			// Wait .4ms for PLL to settle //datasheet says 5ms, Dave said change from .4ms to 2ms
 	V_Tune = sampleVTUNE(); 			// Measure fine tune
-	Error = V_Tune - Voffset00;						// Subtract Voffset00 to find error
-	FT = (Error << 5) + (Error << 2) + Error + (Error >> 2) + (Error >> 4) + (Error >> 6) + (Error >> 8) + (Error >> 10);
+	Error = (int)V_Tune - (int)Voffset00;						// Subtract Voffset00 to find error
+	FT = (Error << 3) + (Error >> 1) + (Error >> 2) + (Error >> 5) + (Error >> 6) + (Error >> 9) + (Error >> 10);
 	// Multiplying Error by (32+4+1+1/4+1/16+1/64+1/256+1/1024) is close (Vadc/2^10*3.5/1.2/2.5*2^15 ~ Vadc*37.33)
 
 	// Reduce error by switching to higher gain V_Tune measurement
@@ -243,7 +256,7 @@ void FT_Discovery(unsigned char j, unsigned int Voffset00, unsigned int Voffset1
 		send_spi_word(vco_word_1X | FT);			// Set FT close to correct value
 		delay5ms(); //FIXME      			// Wait .4ms for PLL to settle //datasheet says 5ms, Dave said change from .4ms to 2ms
 		V_Tune = sampleVTUNE();     		// Measure error voltage
-		Error = V_Tune - Voffset11;
+		Error = (int)V_Tune - (int)Voffset11;
 		if(Error < 0)
 		{
 			ErrorMag = -Error;
@@ -254,7 +267,7 @@ void FT_Discovery(unsigned char j, unsigned int Voffset00, unsigned int Voffset1
 			ErrorMag = Error;
 			ErrorSign = 0;
 		}
-		Error = (ErrorMag << 1) + (ErrorMag >> 3); 	// Error*7/5*32/20 = Error*2.24 is close to correct scaling, use Error*(2+0.25) underdamped
+		Error = (ErrorMag >> 1) + (ErrorMag >> 6) + (ErrorMag >> 7) + (ErrorMag >> 8); 	// Error*7/5*32/20 = Error*2.24 is close to correct scaling, use Error*(2+0.25) underdamped
 		if(ErrorSign==1)Error = -Error;
 
    		if(ErrorMag < MinError)

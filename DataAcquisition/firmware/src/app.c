@@ -184,10 +184,11 @@ void APP_Initialize ( void )
     initTimer4();
     initTimer5();
     configureADCs();
-//    for(i = 0; i < 10; i++){
-//        delay5ms();
-//    }
+    for(i = 0; i < 10; i++){
+        delay5ms();
+    }
     initOnBoardSwitch();
+    initOffBoardSwitch();
     initIRSwitch();
     init1MHzPLL_REF();
     initSPI();
@@ -254,9 +255,15 @@ void APP_Tasks ( void )
             break;
             
         case STATE_WAIT_FOR_BUS_ENABLE_COMPLETE:
+            BSP_LEDOff(BSP_RGB_LED_BLUE);
+            BSP_LEDOn(BSP_RGB_LED_RED);
+            BSP_LEDOff(BSP_RGB_LED_GREEN);
             if(USB_HOST_BusIsEnabled(0))
             {
                 usbObj.state = STATE_WAIT_FOR_DEVICE_ATTACH;
+                BSP_LEDOn(BSP_RGB_LED_BLUE);
+                BSP_LEDOff(BSP_RGB_LED_RED);
+                BSP_LEDOff(BSP_RGB_LED_GREEN);
             }
             break;
        

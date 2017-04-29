@@ -1,0 +1,6 @@
+../src/pic32mz_ef_curiosity
+../src
+../src/system_config/pic32mz_ef_curiosity
+../../../../../../framework
+../src/system_config/pic32mz_ef_curiosity/framework
+../src/system_config/pic32mz_ef_curiosity/bsp

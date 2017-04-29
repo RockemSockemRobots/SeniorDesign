@@ -1,21 +1,21 @@
-fileNum = sprintf('%d',1);
-path = 'tests/IQsim500/';
+fileNum = sprintf('%d',3);
+path = 'tests/Radar_1_428_set2/';
 filename = strcat(path, fileNum, '.txt');
 data = load(filename);
-length = 100;
+length = size(data);
 t = data(1:length,1);
 CH2 = data(1:length,2);
 CH3 = data(1:length,3);
-plot(t,CH2,'b.','Markersize',15);
+plot(t,CH2,'b-','Markersize',15);
 hold on
-plot(t,CH3,'g.','Markersize',15);
+plot(t,CH3,'g-','Markersize',15);
 title('Sampled Function Generated IQ Data');
 xlabel('n');
 ylabel('Voltage (V)');
 legend('I','Q');
 
 figure;
-plot3(t,CH2,CH3,'b.','Markersize',15);
+plot3(t,CH2,CH3,'b.');
 title('Sampled Function Generated IQ Data (Complex Form)');
 xlabel('n');
 ylabel('Voltage I');

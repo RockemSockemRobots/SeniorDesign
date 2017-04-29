@@ -42,6 +42,16 @@ void initTimer6(){
     IEC0bits.T6IE = 0;
 }
 
+void initTimer7(){ //5msec timer
+    T7CONbits.TON = 0;
+    TMR7 = 0x0000;
+    PR7 = 62499;
+    T7CONbits.TCKPS = 0b011; //divide 100Mhz -> 12.5MHz
+    IFS1bits.T7IF = 0;
+    IEC1bits.T7IE = 0; //enable interrupt
+    /*Interrupt Priority and Subpriority for this interrupt vector is set within system_init.c*/
+}
+
 void timer3ON(){
     T3CONbits.TON = 1;
 }
@@ -66,12 +76,18 @@ void timer6ON(){
 void timer6OFF(){
     T6CONbits.TON = 0;
 }
+void timer7ON(){
+    T7CONbits.TON = 1;
+}
+void timer7OFF(){
+    T7CONbits.TON = 0;
+}
 
 void delay5ms(){
-    T3CONbits.TON = 1;
-    while(IFS0bits.T3IF == 0){}
-    T3CONbits.TON = 0;
-    IFS0bits.T3IF = 0;
+    T7CONbits.TON = 1;
+    while(IFS1bits.T7IF == 0){}
+    T7CONbits.TON = 0;
+    IFS1bits.T7IF = 0;
 }
 
 void delay2_47us(){
