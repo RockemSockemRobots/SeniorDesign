@@ -1,19 +1,28 @@
+/*******************************************************************************
+	Viasat Radar Based Vehicle Location and Navagation System
+	University of Arizona ENGR498 Team 16060
+	
+	Data Acquisition Firmware
+	
+	Comment:
+		Team created c-code to configure dedicated ADCs
+		Based off code in PIC32MZEF Family Reference Manual ADC Section
+		Currently has a bug where ADC doesn't capture data correctly sometimes
+			(Might have something to do with ADC warm-up)
+		
+		File also has function to sample VTUNE
+
+********************************************************************************/
 #include "adc.h"
 
 void configureADCs(){
-    IFS1bits.ADCIF = 0;
-    IPC11bits.ADCIP = 7;
-    IPC11bits.ADCIS = 0;
-    IEC1bits.ADCIE = 1;
+    IFS1bits.ADCIF = 0; //clear general adc interrupt
+    IPC11bits.ADCIP = 7; //set int priority level 7
+    IPC11bits.ADCIS = 0; //subpriority level 0
+    IEC1bits.ADCIE = 1; //enable interrupt
     
-//    jumpTable[0] = &ADC0Handler; // Set up jump table
-//    jumpTable[2] = &ADC1Handler;
-//    jumpTable[4] = &ADC2Handler;
-    
-    ADCANCON = 0;
-//    TRISBbits.TRISB15 = 1;
-//    CNPUBbits.CNPUB15 = 0;
-//    ANSELBbits.ANSB15 = 1;
+    ADCANCON = 0; //clear adc analog warm-up reg
+	
     /* Copying values per datasheet spec */
     ADC0CFG = DEVADC0;
     ADC1CFG = DEVADC1;
@@ -32,9 +41,6 @@ void configureADCs(){
     
     /* Configure ADCCON2 */
     ADCCON2 = 0;
-    //ADCCON2bits.EOSIEN = 1; //Interrupt when scan finished -> what does this do exactly?
-    //ADCCON2bits.SAMC = 5; //ADC7 sampling time = 5 * TAD7 -> 500ns
-    //ADCCON2bits.ADCDIV = 1; //2*T_Q = T_AD7 -> 100ns
     
     /* Initialize warm up time register */
     ADCANCON = 0;
@@ -51,7 +57,7 @@ void configureADCs(){
     ADC2TIMEbits.ADCDIV = 1; // ADC2 clock frequency is half of control clock = TAD2 -> 100ns
     ADC2TIMEbits.SAMC = 555; // ADC2 sampling time = 555 * TAD2 -> 55.5us
     ADC2TIMEbits.SELRES = 3; // ADC2 resolution is 12 bits
-    ADC3TIMEbits.ADCDIV = 2; // ADC3 clock frequency is 1/4 of control clock = TAD3 -> 200ns
+    ADC3TIMEbits.ADCDIV = 2; // ADC3 clock frequency is 1/4 of control clock = TAD3 -> 200ns 
     ADC3TIMEbits.SAMC = 277; // ADC3 sampling time = 277 * TAD3 -> 55.4us
     ADC3TIMEbits.SELRES = 3; // ADC3 resolution is 12 bits
     ADC4TIMEbits.ADCDIV = 1; // ADC4 clock frequency is 1/2 of control clock = TAD4 -> 100ns
@@ -84,10 +90,6 @@ void configureADCs(){
     ADCGIRQEN1bits.AGIEN3 = 1; // Enable data ready interrupt for AN3
     //ADCGIRQEN1bits.AGIEN4 = 1; // Enable data ready interrupt for AN4
     
-    /* Configure ADBASE */ //need to look into this
-    //ADCBASE = (int)(&jumpTable[0]); // Initialize ADCBASE with starting address of jump table
-    //ADCCON1bits.IRQVS = 0; // No left shift of address
-    
     /* Configure ADCCSSx */
     ADCCSS1 = 0;
     ADCCSS2 = 0;
@@ -119,9 +121,8 @@ void configureADCs(){
     /* Early interrupt */
     ADCEIEN1 = 0; // No early interrupt
     ADCEIEN2 = 0;
-    //ADCCON2bits.ADCEIOVR = 1; // Override early interrupt //do we need this line? -> what is this doing exactly?
     
-//    /*Config ADC FIFO*/
+    /*Config ADC FIFO*/
     ADCFSTAT = 0; // Clear all bits
     ADCFSTATbits.ADC2EN = 1; // Select ADC2
     ADCFSTATbits.ADC3EN = 1;
@@ -131,7 +132,7 @@ void configureADCs(){
     IPC11bits.ADCFIFOIS = 0;
     ADCFSTATbits.FIEN = 0;
     IEC1bits.ADCFIFOIE = 0;
-    ADCFSTATbits.FEN = 0; // Enable FIFO
+    ADCFSTATbits.FEN = 0; // Enable FIFO (FIFO is disabled)
     
     /* Turn the ADC on */
     ADCCON1bits.ON = 1;

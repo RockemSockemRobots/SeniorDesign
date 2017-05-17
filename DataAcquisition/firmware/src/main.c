@@ -1,4 +1,20 @@
 /*******************************************************************************
+	Viasat Radar Based Vehicle Location and Navagation System
+	University of Arizona ENGR498 Team 16060
+	
+	Data Acquisition Firmware
+	
+	Comment:
+	MSD_BASIC example main file
+		This file is partially edited:
+		APP_Initialize and APP_Tasks have been pulled out of SYS_Initialize and
+		SYS_Tasks respectively and placed below. 
+		Functionality is the same.
+
+********************************************************************************/
+
+
+/*******************************************************************************
   MPLAB Harmony Project Main Source File
 
   Company:

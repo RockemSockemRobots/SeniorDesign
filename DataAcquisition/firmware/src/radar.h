@@ -1,3 +1,15 @@
+/*******************************************************************************
+	Viasat Radar Based Vehicle Location and Navagation System
+	University of Arizona ENGR498 Team 16060
+	
+	Data Acquisition Firmware
+	
+	Comment:
+		team created file
+		radar header file
+
+********************************************************************************/
+
 /* 
  * File:   radar.h
  * Author: jsiek
@@ -12,6 +24,7 @@
 #include "SPI.h"
 #include "pll_ref.h"
 #include "timer.h"
+#include "bsp.h"
 
 #ifdef	__cplusplus
 extern "C" {

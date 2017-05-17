@@ -1,5 +1,15 @@
+/*******************************************************************************
+	Viasat Radar Based Vehicle Location and Navagation System
+	University of Arizona ENGR498 Team 16060
+	
+	Data Acquisition Firmware
+	
+	Comment:
+		team created file
+		holds radar functionality code based off of Dave Saunders's supplied example code
+
+********************************************************************************/
 #include "radar.h"
-#include "bsp.h"
 
 const unsigned int spi_reset = 0x70FF;
 // Global PLL words for 1MHz ref, R=8, 6 calibration frequencies
@@ -63,9 +73,9 @@ unsigned char initRADAR(){
         send_spi_word(pll_word_1[1] & ~pll_enable);	// PLL Disable
         send_spi_word(txrx_cntrl);
         send_spi_word(vco_word_2C | BCT);			// Vtune_Gain=1.2V/V, Vtune_Offset=1.5, CT= BCT from CT Discovery
-        send_spi_word(vco_word_1X | BFT[0]);     	// Set up vco frequency
+        send_spi_word(vco_word_1X | BFT[0]);     	// Set up vco frequency //passenger programmed with this frequency 24.15GHz
 //        send_spi_word(vco_word_1X | BFT[1]);
-//        send_spi_word(vco_word_1X | BFT[2]);
+//        send_spi_word(vco_word_1X | BFT[2]);      //driver programmed with this frequency 24.16GHz
         					// Adjust Tx_gain and RX gain per RxCal results
     }
     

@@ -2927,7 +2927,7 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000    0x61903
+.debug_info     0x00000000    0x6190b
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000     0x1579 build/pic32mz_ef_curiosity/production/_ext/256799347/bsp.o
  .debug_info    0x00001579     0x6253 build/pic32mz_ef_curiosity/production/_ext/1698122060/drv_tmr.o
@@ -2951,26 +2951,26 @@ END GROUP
  .debug_info    0x00054589     0x1605 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_interrupt.o
  .debug_info    0x00055b8e      0xdda build/pic32mz_ef_curiosity/production/_ext/1488941123/system_exceptions.o
  .debug_info    0x00056968      0xbe1 build/pic32mz_ef_curiosity/production/_ext/1488941123/system_tasks.o
- .debug_info    0x00057549     0x236c build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
- .debug_info    0x000598b5      0x23a build/pic32mz_ef_curiosity/production/_ext/1360937237/main.o
- .debug_info    0x00059aef     0x19f1 build/pic32mz_ef_curiosity/production/_ext/1360937237/timer.o
- .debug_info    0x0005b4e0     0x1325 build/pic32mz_ef_curiosity/production/_ext/1360937237/switch.o
- .debug_info    0x0005c805     0x2294 build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o
- .debug_info    0x0005ea99      0x670 build/pic32mz_ef_curiosity/production/_ext/1360937237/pll_ref.o
- .debug_info    0x0005f109      0x53c build/pic32mz_ef_curiosity/production/_ext/1360937237/SPI.o
- .debug_info    0x0005f645      0xc85 build/pic32mz_ef_curiosity/production/_ext/1360937237/radar.o
- .debug_info    0x000602ca      0x779 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
- .debug_info    0x00060a43       0xf5 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
- .debug_info    0x00060b38       0xcf c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
- .debug_info    0x00060c07       0xd7 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
- .debug_info    0x00060cde       0xe9 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
- .debug_info    0x00060dc7      0x12c c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
- .debug_info    0x00060ef3       0xc8 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_getc.o)
- .debug_info    0x00060fbb       0xca c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_write.o)
- .debug_info    0x00061085       0xc8 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_putc.o)
- .debug_info    0x0006114d      0x7b6 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .debug_info    0x00057549     0x2374 build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
+ .debug_info    0x000598bd      0x23a build/pic32mz_ef_curiosity/production/_ext/1360937237/main.o
+ .debug_info    0x00059af7     0x19f1 build/pic32mz_ef_curiosity/production/_ext/1360937237/timer.o
+ .debug_info    0x0005b4e8     0x1325 build/pic32mz_ef_curiosity/production/_ext/1360937237/switch.o
+ .debug_info    0x0005c80d     0x2294 build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o
+ .debug_info    0x0005eaa1      0x670 build/pic32mz_ef_curiosity/production/_ext/1360937237/pll_ref.o
+ .debug_info    0x0005f111      0x53c build/pic32mz_ef_curiosity/production/_ext/1360937237/SPI.o
+ .debug_info    0x0005f64d      0xc85 build/pic32mz_ef_curiosity/production/_ext/1360937237/radar.o
+ .debug_info    0x000602d2      0x779 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .debug_info    0x00060a4b       0xf5 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_info    0x00060b40       0xcf c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_info    0x00060c0f       0xd7 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_info    0x00060ce6       0xe9 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_info    0x00060dcf      0x12c c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
+ .debug_info    0x00060efb       0xc8 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_getc.o)
+ .debug_info    0x00060fc3       0xca c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_write.o)
+ .debug_info    0x0006108d       0xc8 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_putc.o)
+ .debug_info    0x00061155      0x7b6 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
 
-.debug_abbrev   0x00000000     0x5549
+.debug_abbrev   0x00000000     0x559f
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x280 build/pic32mz_ef_curiosity/production/_ext/256799347/bsp.o
  .debug_abbrev  0x00000280      0x4b5 build/pic32mz_ef_curiosity/production/_ext/1698122060/drv_tmr.o
@@ -2994,26 +2994,26 @@ END GROUP
  .debug_abbrev  0x000043fa      0x13b build/pic32mz_ef_curiosity/production/_ext/1488941123/system_interrupt.o
  .debug_abbrev  0x00004535       0xef build/pic32mz_ef_curiosity/production/_ext/1488941123/system_exceptions.o
  .debug_abbrev  0x00004624      0x12b build/pic32mz_ef_curiosity/production/_ext/1488941123/system_tasks.o
- .debug_abbrev  0x0000474f      0x2b2 build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
- .debug_abbrev  0x00004a01       0xc7 build/pic32mz_ef_curiosity/production/_ext/1360937237/main.o
- .debug_abbrev  0x00004ac8       0xed build/pic32mz_ef_curiosity/production/_ext/1360937237/timer.o
- .debug_abbrev  0x00004bb5       0xaa build/pic32mz_ef_curiosity/production/_ext/1360937237/switch.o
- .debug_abbrev  0x00004c5f      0x159 build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o
- .debug_abbrev  0x00004db8       0xcb build/pic32mz_ef_curiosity/production/_ext/1360937237/pll_ref.o
- .debug_abbrev  0x00004e83       0xed build/pic32mz_ef_curiosity/production/_ext/1360937237/SPI.o
- .debug_abbrev  0x00004f70      0x1ee build/pic32mz_ef_curiosity/production/_ext/1360937237/radar.o
- .debug_abbrev  0x0000515e      0x138 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
- .debug_abbrev  0x00005296       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
- .debug_abbrev  0x000052be       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
- .debug_abbrev  0x000052e6       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
- .debug_abbrev  0x0000530e       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
- .debug_abbrev  0x00005336       0x54 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
- .debug_abbrev  0x0000538a       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_getc.o)
- .debug_abbrev  0x000053b2       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_write.o)
- .debug_abbrev  0x000053da       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_putc.o)
- .debug_abbrev  0x00005402      0x147 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .debug_abbrev  0x0000474f      0x308 build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
+ .debug_abbrev  0x00004a57       0xc7 build/pic32mz_ef_curiosity/production/_ext/1360937237/main.o
+ .debug_abbrev  0x00004b1e       0xed build/pic32mz_ef_curiosity/production/_ext/1360937237/timer.o
+ .debug_abbrev  0x00004c0b       0xaa build/pic32mz_ef_curiosity/production/_ext/1360937237/switch.o
+ .debug_abbrev  0x00004cb5      0x159 build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o
+ .debug_abbrev  0x00004e0e       0xcb build/pic32mz_ef_curiosity/production/_ext/1360937237/pll_ref.o
+ .debug_abbrev  0x00004ed9       0xed build/pic32mz_ef_curiosity/production/_ext/1360937237/SPI.o
+ .debug_abbrev  0x00004fc6      0x1ee build/pic32mz_ef_curiosity/production/_ext/1360937237/radar.o
+ .debug_abbrev  0x000051b4      0x138 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .debug_abbrev  0x000052ec       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_abbrev  0x00005314       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_abbrev  0x0000533c       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_abbrev  0x00005364       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_abbrev  0x0000538c       0x54 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
+ .debug_abbrev  0x000053e0       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_getc.o)
+ .debug_abbrev  0x00005408       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_write.o)
+ .debug_abbrev  0x00005430       0x28 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_putc.o)
+ .debug_abbrev  0x00005458      0x147 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
 
-.debug_line     0x00000000    0x103f9
+.debug_line     0x00000000    0x10407
  *(.debug_line)
  .debug_line    0x00000000      0x52b build/pic32mz_ef_curiosity/production/_ext/256799347/bsp.o
  .debug_line    0x0000052b     0x11de build/pic32mz_ef_curiosity/production/_ext/1698122060/drv_tmr.o
@@ -3039,23 +3039,23 @@ END GROUP
  .debug_line    0x0000e5c2      0x57a build/pic32mz_ef_curiosity/production/_ext/1488941123/system_tasks.o
  .debug_line    0x0000eb3c      0x6ff build/pic32mz_ef_curiosity/production/_ext/1360937237/app.o
  .debug_line    0x0000f23b      0x144 build/pic32mz_ef_curiosity/production/_ext/1360937237/main.o
- .debug_line    0x0000f37f      0x24a build/pic32mz_ef_curiosity/production/_ext/1360937237/timer.o
- .debug_line    0x0000f5c9      0x125 build/pic32mz_ef_curiosity/production/_ext/1360937237/switch.o
- .debug_line    0x0000f6ee      0x168 build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o
- .debug_line    0x0000f856      0x11e build/pic32mz_ef_curiosity/production/_ext/1360937237/pll_ref.o
- .debug_line    0x0000f974      0x16b build/pic32mz_ef_curiosity/production/_ext/1360937237/SPI.o
- .debug_line    0x0000fadf      0x251 build/pic32mz_ef_curiosity/production/_ext/1360937237/radar.o
- .debug_line    0x0000fd30       0xff c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
- .debug_line    0x0000fe2f       0xa9 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
- .debug_line    0x0000fed8       0x96 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
- .debug_line    0x0000ff6e       0x9a c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
- .debug_line    0x00010008       0xa8 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
- .debug_line    0x000100b0       0x8a c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
- .debug_line    0x0001013a       0x8f c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_getc.o)
- .debug_line    0x000101c9       0x90 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_write.o)
- .debug_line    0x00010259        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(xc32_uart.o)
- .debug_line    0x00010259       0x8f c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_putc.o)
- .debug_line    0x000102e8      0x111 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
+ .debug_line    0x0000f37f      0x250 build/pic32mz_ef_curiosity/production/_ext/1360937237/timer.o
+ .debug_line    0x0000f5cf      0x127 build/pic32mz_ef_curiosity/production/_ext/1360937237/switch.o
+ .debug_line    0x0000f6f6      0x16a build/pic32mz_ef_curiosity/production/_ext/1360937237/adc.o
+ .debug_line    0x0000f860      0x120 build/pic32mz_ef_curiosity/production/_ext/1360937237/pll_ref.o
+ .debug_line    0x0000f980      0x16d build/pic32mz_ef_curiosity/production/_ext/1360937237/SPI.o
+ .debug_line    0x0000faed      0x251 build/pic32mz_ef_curiosity/production/_ext/1360937237/radar.o
+ .debug_line    0x0000fd3e       0xff c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_udivdi3.o)
+ .debug_line    0x0000fe3d       0xa9 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_line    0x0000fee6       0x96 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-reset.o)
+ .debug_line    0x0000ff7c       0x9a c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(default-on-bootstrap.o)
+ .debug_line    0x00010016       0xa8 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(defaultinterrupt.o)
+ .debug_line    0x000100be       0x8a c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(sbrk.o)
+ .debug_line    0x00010148       0x8f c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_getc.o)
+ .debug_line    0x000101d7       0x90 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_write.o)
+ .debug_line    0x00010267        0x0 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(xc32_uart.o)
+ .debug_line    0x00010267       0x8f c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/../../../../pic32mx/lib/fpu64\libpic32.a(_mon_putc.o)
+ .debug_line    0x000102f6      0x111 c:/program files (x86)/microchip/xc32/v1.42/bin/bin/../../lib/gcc/pic32mx/4.8.3/fpu64\libgcc.a(_umoddi3.o)
 
 .debug_frame    0x00000000     0x33b8
  *(.debug_frame)

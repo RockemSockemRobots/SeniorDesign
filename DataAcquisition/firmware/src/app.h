@@ -1,4 +1,16 @@
 /*******************************************************************************
+	Viasat Radar Based Vehicle Location and Navagation System
+	University of Arizona ENGR498 Team 16060
+	
+	Data Acquisition Firmware
+	
+	Comment:
+		edited msd_basic file
+		Holds application parameters and states
+
+********************************************************************************/
+
+/*******************************************************************************
   MPLAB Harmony Application Header File
 
   Company:
@@ -75,7 +87,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define FILEEXT ".bin"
 #define FULLFILENAMECHARLIM 25
 
-#define BUFFERSIZE 63000 //3.5sec buffer length
+#define BUFFERSIZE 63000 //3.5sec buffer length (max buffer size due to memory constraint)
 #define USBBYTES (BUFFERSIZE*4)
 #define NUM_RX_CHANNELS 1
 // *****************************************************************************

@@ -1,3 +1,15 @@
+/*******************************************************************************
+	Viasat Radar Based Vehicle Location and Navagation System
+	University of Arizona ENGR498 Team 16060
+	
+	Data Acquisition Firmware
+	
+	Comment:
+		team created file
+		pll_ref header file
+
+********************************************************************************/
+
 /* 
  * File:   pll_ref.h
  * Author: jsiek

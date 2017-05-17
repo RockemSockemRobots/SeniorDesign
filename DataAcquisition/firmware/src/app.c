@@ -1,4 +1,41 @@
 /*******************************************************************************
+	Viasat Radar Based Vehicle Location and Navagation System
+	University of Arizona ENGR498 Team 16060
+	
+	Data Acquisition Firmware
+	
+	Comment:
+		This file is heavily edited from the original msd_basic file
+		Contains the data aquisition state machine
+			1. 	STATE_BUS_ENABLE:
+					enables usb bus
+			2. 	STATE_WAIT_FOR_BUS_ENABLE_COMPLETE:
+					waits for usb bus to be enabled
+			3. 	STATE_WAIT_FOR_DEVICE_ATTACH:
+					waits for usb device to be attached
+			4. 	STATE_OPEN_FILE:
+					opens/creates file (all writes to this file are appended to existing text)
+					filename starts with 0.bin after reset
+			5. 	STATE_WAIT_FOR_TEST:
+					waits until user input (button) begins data collection
+					the first file (0.bin generally is a dud due to adc bug)
+			6. 	STATE_IDLE_TESTING: 
+					idle for current readBuffer in the ping-pong buffer to fill
+					checks for user input to stop data collection
+			7.	STATE_WRITE_TO_FILE:
+					writes collected data (current output buffer) to usb
+					ping-pong dual buffer switching is handled during adc interrupt
+			8.	STATE_CLOSE_FILE:
+					writes the remaining collected data to the usb device then closes the file
+			9.	STATE_TEST_COMPLETE:
+					iterates file number returns to STATE_OPEN_FILE
+					
+		See app.h for defined parameters
+
+********************************************************************************/
+
+
+/*******************************************************************************
   MPLAB Harmony Application Source File
   
   Company:
@@ -81,8 +118,8 @@ USB_OBJ usbObj;
 volatile int transmits = 0;
 volatile bool debounced = false;
 volatile uint32_t n = 0;
-volatile uint16_t radarDataBuffer1[BUFFERSIZE][(NUM_RX_CHANNELS*2)];
-volatile uint16_t radarDataBuffer2[BUFFERSIZE][(NUM_RX_CHANNELS*2)];
+volatile uint16_t radarDataBuffer1[BUFFERSIZE][(NUM_RX_CHANNELS*2)]; //global buffers to store collected data
+volatile uint16_t radarDataBuffer2[BUFFERSIZE][(NUM_RX_CHANNELS*2)]; //
 volatile int bufferindex = 0;
 volatile int bufferindex2 = 0;
 volatile int bufferindex3 = 0;
@@ -94,14 +131,6 @@ volatile unsigned int testNumber = 0;
 volatile bool adcActive = false;
 volatile bool initializing = true;
 volatile int garbage = 0;
-// *****************************************************************************
-// *****************************************************************************
-// Section: Application Callback Functions
-// *****************************************************************************
-// *****************************************************************************
-
-/* TODO:  Add any necessary callback functions.
-*/
 
 // *****************************************************************************
 // *****************************************************************************
@@ -110,9 +139,12 @@ volatile int garbage = 0;
 // *****************************************************************************
 
 void setDebounced(){
+	//called by interrupt, sets debounce variable for button handling
     debounced = true;
 }
 void addSample(){
+	//adds IQ data from ADCDATA2(In-phase) and ADCDATA3(quad) to applicable local buffer
+	//for later bulk transfer to the usb drive
     if(!initializing){
         adcActive = true;
         BSP_LEDOn( BSP_RGB_LED_RED );
@@ -147,9 +179,12 @@ void addSample(){
     }
 }
 void togglePress(){
+	//called by interrupt, handles button state
     currentlyPressed = !currentlyPressed;
 }
 void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_CHANNELS*2)]){ //sprintf takes way too long
+	//converts int to txt for usb transfer
+	//unused function due to time constraint
     char temp[18] = "";
     int row = 0;
     for(row = 0; row < BUFFERSIZE; row++){
@@ -172,6 +207,7 @@ void convertValues(char usbCharBuff[],volatile uint32_t buffer2Conv[][1+(NUM_RX_
  */
 
 void APP_Initialize ( void )
+	//initializes required functionality
 {
     int i = 0;
     unsigned char FreqCalFlag;
@@ -206,6 +242,7 @@ void APP_Initialize ( void )
 }
 
 USB_HOST_EVENT_RESPONSE APP_USBHostEventHandler (USB_HOST_EVENT event, void * eventData, uintptr_t context)
+//msd_basic function (non-edited)
 {
     switch (event)
     {
@@ -218,6 +255,7 @@ USB_HOST_EVENT_RESPONSE APP_USBHostEventHandler (USB_HOST_EVENT event, void * ev
 }
 
 void APP_SYSFSEventHandler(SYS_FS_EVENT event, void * eventData, uintptr_t context)
+//msd_basic function (non-edited)
 {
     switch(event)
     {

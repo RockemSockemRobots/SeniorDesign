@@ -1,3 +1,15 @@
+/*******************************************************************************
+	Viasat Radar Based Vehicle Location and Navagation System
+	University of Arizona ENGR498 Team 16060
+	
+	Data Acquisition Firmware
+	
+	Comment:
+		team created file
+		timer header file
+
+********************************************************************************/
+
 /* 
  * File:   timer.h
  * Author: jsiek
